@@ -11,7 +11,22 @@ app = Flask(__name__)
 @app.route('/')
 def home_page():
     now = datetime.datetime.now()
-    return render_template('layout.html', current_time=now.ctime())
+    return render_template('main.html', current_time=now.ctime())
+
+@app.route('/explore')
+def explore_page():
+    now = datetime.datetime.now()
+    return render_template('explore.html', current_time=now.ctime())
+
+@app.route('/notifications')
+def notification_page():
+    now = datetime.datetime.now()
+    return render_template('notification.html', current_time=now.ctime())
+
+@app.route('/profile')
+def profile_page():
+    now = datetime.datetime.now()
+    return render_template('profile.html', current_time=now.ctime())
 
 
 if __name__ == '__main__':
