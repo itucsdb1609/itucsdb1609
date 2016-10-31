@@ -7,7 +7,7 @@ import re
 from flask import Flask
 from flask import redirect
 from flask import render_template
-# from werkzeug import redirect
+from werkzeug import redirect
 from flask.helpers import url_for
 
 
@@ -28,16 +28,16 @@ def get_elephantsql_dsn(vcap_services):
 def home_page():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-          
+
         query = """DROP TABLE IF EXISTS COUNTER"""
         cursor.execute(query)
-          
+
         query = """CREATE TABLE COUNTER (N INTEGER)"""
         cursor.execute(query)
-          
+
         query = """INSERT INTO COUNTER (N) VALUES (0)"""
         cursor.execute(query)
-          
+
         connection.commit()
     return render_template('main.html')
 
@@ -45,16 +45,16 @@ def home_page():
 def counter_page():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        
+
         query = "UPDATE COUNTER SET N = N + 1"
         cursor.execute(query)
         connection.commit()
-        
+
         query = "SELECT N FROM COUNTER"
         cursor.execute(query)
         count = cursor.fetchone()[0]
     return "This page was accessed %d times." % count
-        
+
 
 @app.route('/explore')
 def explore_page():
