@@ -9,7 +9,7 @@ from flask import redirect
 from flask import render_template
 from werkzeug import redirect
 from flask.helpers import url_for
-
+from initialize_db import initialize_db_func
 
 app = Flask(__name__)
 
@@ -26,20 +26,16 @@ def get_elephantsql_dsn(vcap_services):
 
 @app.route('/')
 def home_page():
+    
+    return render_template('main.html')
+
+@app.route('/initdb')
+def initialize_db():
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-
-        query = """DROP TABLE IF EXISTS COUNTER"""
-        cursor.execute(query)
-
-        query = """CREATE TABLE COUNTER (N INTEGER)"""
-        cursor.execute(query)
-
-        query = """INSERT INTO COUNTER (N) VALUES (0)"""
-        cursor.execute(query)
-
+        initialize_db_func(cursor)
         connection.commit()
-    return render_template('main.html')
+    return redirect(url_for('home_page'))
 
 @app.route('/count')
 def counter_page():
