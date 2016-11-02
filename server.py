@@ -29,15 +29,15 @@ def get_elephantsql_dsn(vcap_services):
 def home_page():
     posts = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+        cursor = connection.cursor()
+        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for post in cursor:
-                posts.append(post)
+        for post in cursor:
+            posts.append(post)
 
-            connection.commit()
+        connection.commit()
 
     return render_template('main.html', posts=posts)
 
@@ -45,15 +45,15 @@ def home_page():
 def add_post():
     posts = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+        cursor = connection.cursor()
+        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for post in cursor:
-                posts.append(post)
+        for post in cursor:
+            posts.append(post)
 
-            connection.commit()
+        connection.commit()
 
 
     if request.method =='POST':
@@ -73,15 +73,15 @@ def add_post():
 def delete_post():
     posts = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+        cursor = connection.cursor()
+        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for post in cursor:
-                posts.append(post)
+        for post in cursor:
+            posts.append(post)
 
-            connection.commit()
+        connection.commit()
     if request.method =='POST':
         fid = request.form['fid']
         postid = request.form['postid']
@@ -98,15 +98,15 @@ def delete_post():
 def update_post():
     posts = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+        cursor = connection.cursor()
+        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for post in cursor:
-                posts.append(post)
+        for post in cursor:
+            posts.append(post)
 
-            connection.commit()
+        connection.commit()
 
     if request.method =='POST':
         id = request.form['id']
