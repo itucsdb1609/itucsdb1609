@@ -19,4 +19,9 @@ div #datetime {
   text-align: right;
 }
 
-
+.editPostButton {
+	position: fixed;
+	top: 80px;
+	right: 10px;
+	background-color: #f3f3f3;
+}

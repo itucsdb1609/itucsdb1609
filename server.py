@@ -8,6 +8,7 @@ from flask import Flask
 from flask import redirect
 from flask import render_template
 from werkzeug import redirect
+from flask import request
 from flask.helpers import url_for
 from initialize_db import initialize_db_func
 
@@ -23,11 +24,105 @@ def get_elephantsql_dsn(vcap_services):
              dbname='{}'""".format(user, password, host, port, dbname)
     return dsn
 
-
+#Start of Ahmet Caglar Bayatli's space
 @app.route('/')
 def home_page():
-    
-    return render_template('main.html')
+    posts = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+
+            cursor.execute(query)
+
+            for post in cursor:
+                posts.append(post)
+
+            connection.commit()
+
+    return render_template('main.html', posts=posts)
+
+@app.route('/add_post', methods = ['GET','POST'])
+def add_post():
+    posts = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+
+            cursor.execute(query)
+
+            for post in cursor:
+                posts.append(post)
+
+            connection.commit()
+
+
+    if request.method =='POST':
+        id = request.form['id']
+        fid = request.form['fid']
+        postid = request.form['postid']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """INSERT INTO PostForView (ID, FID, POSTID ) VALUES (%s, %s, %s )"""
+            cursor.execute(query, (id, fid, postid))
+            connection.commit()
+
+    return render_template('add_post.html', posts=posts)
+
+@app.route('/delete_post', methods = ['GET','POST'])
+def delete_post():
+    posts = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+
+            cursor.execute(query)
+
+            for post in cursor:
+                posts.append(post)
+
+            connection.commit()
+    if request.method =='POST':
+        fid = request.form['fid']
+        postid = request.form['postid']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """DELETE FROM PostForView WHERE FID = '""" +fid + """' AND POSTID = '""" +postid + """'"""
+            cursor.execute(query)
+            connection.commit()
+
+    return render_template('add_post.html', posts=posts)
+
+@app.route('/update_post', methods = ['GET','POST'])
+def update_post():
+    posts = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
+
+            cursor.execute(query)
+
+            for post in cursor:
+                posts.append(post)
+
+            connection.commit()
+
+    if request.method =='POST':
+        id = request.form['id']
+        fid = request.form['fid']
+        new_post = request.form['new_postid']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """UPDATE PostForView SET (ID, FID, POSTID) = (%s,%s, %s) WHERE ID = '""" +id + """' AND FID = '""" +fid + """'"""
+
+            cursor.execute(query, (id, fid, new_post))
+            connection.commit()
+
+
+    return render_template('add_post.html', posts=posts)
+#End of Ahmet Caglar Bayatli's space
 
 @app.route('/initdb')
 def initialize_db():

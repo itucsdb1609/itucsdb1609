@@ -6,6 +6,7 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO COUNTER (N) VALUES (0)""")
     
     #Table for main
-    cursor.execute("""DROP TABLE IF EXISTS POSTLIST""")
-    cursor.execute("""CREATE TABLE POSTLIST (ID CHAR(10) NOT NULL, POSTID INTEGER, POST BYTEA)""")
-    cursor.execute("""INSERT INTO POSTLIST (ID,POSTID,POST) VALUES ('12',1,'./Users/ahmetcaglarbayatli/downloads/like.png')""")
+    cursor.execute("""DROP TABLE IF EXISTS PostForView""")
+    cursor.execute("""CREATE TABLE PostForView(ID CHAR(20) NOT NULL, FID CHAR(20), POSTID Char(10) )""")
+    cursor.execute("""INSERT INTO PostForView (ID, FID, POSTID) VALUES ('2', '5', '1' )""")
+    cursor.execute("""INSERT INTO PostForView (ID, FID, POSTID) VALUES ('2', '3', '4' )""")
