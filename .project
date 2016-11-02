@@ -3,6 +3,7 @@
 	<name>itucsdb15</name>
 	<comment></comment>
 	<projects>
+		<project>itucsdb docs</project>
 	</projects>
 	<buildSpec>
 		<buildCommand>
