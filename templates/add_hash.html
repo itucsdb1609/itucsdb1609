@@ -1,0 +1,43 @@
+<div style="justify-content: center;">
+    <table style="align-self: center;">
+        <tr>
+            <th> Hash Id </th>
+            <th > Grup Name</th>
+        </tr>
+        {% for hash, gname in hashs %}
+        <tr style="text-align: center;">
+            <td>{{ hash }} </td>
+            <td>{{ gname }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </br>
+    
+    <div id="add-form">
+        <form action="/add_hash" method="post" id="addhash">
+            Hash Id: <input type="text" name="hashid"><br>
+                Grup Name: <input type="text" name="grupname"><br>
+                        </form>
+        
+        <button type="submit" form="addhash" value="Submit" style="margin-bottom: 20px;">Add</button>
+    </div>
+    
+    <div id="delete-form">
+        <form action="/delete_hash" method="post" id="deletehash">
+            Hash Id: <input type="text" name="hashid"><br>
+                    </form>
+        
+        <button type="submit" form="deletehash" value="Submit" style="margin-bottom: 20px;">Delete</button>
+    </div>
+    
+    <div id="update-form">
+        <form action="/update_hash" method="post" id="updatehash">
+            Hash Id: <input type="text" name="hashid"><br>
+                New Grup Name: <input type="text" name="new_grupname"><br>
+                        </form>
+        
+        <button type="submit" form="updatehash" value="Submit" style="margin-bottom: 20px;">update</button>
+    </div>
+    
+    <button onclick="location.href = '{{ url_for('explore_page') }}'" style="margin-bottom: 30px;">Back to Home</button>
+    

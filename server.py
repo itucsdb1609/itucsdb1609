@@ -149,8 +149,98 @@ def counter_page():
 
 @app.route('/explore')
 def explore_page():
-    now = datetime.datetime.now()
-    return render_template('explore.html', current_time=now.ctime())
+    hashs = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+
+            cursor.execute(query)
+
+            for hash in cursor:
+                hashs.append(hash)
+
+            connection.commit()
+
+    return render_template('explore.html', hashs=hashs)
+
+@app.route('/add_hash', methods = ['GET','POST'])
+def add_hash():
+    hashs = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+
+            cursor.execute(query)
+
+            for hash in cursor:
+                hashs.append(hash)
+
+            connection.commit()
+
+
+    if request.method =='POST':
+        hashid = request.form['hashid']
+        grupname = request.form['grupname']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """INSERT INTO hashTag (HASHID, GRUPNAME ) VALUES (%s, %s )"""
+            cursor.execute(query, (hashid, grupname))
+            connection.commit()
+
+    return render_template('add_hash.html', hashs=hashs)
+
+@app.route('/delete_hash', methods = ['GET','POST'])
+def delete_hash():
+    hashs = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+
+            cursor.execute(query)
+
+            for hash in cursor:
+                hashs.append(hash)
+
+            connection.commit()
+    if request.method =='POST':
+        hashid = request.form['hashid']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """DELETE FROM hashTag WHERE HASHID = '""" +hashid + """'"""
+            cursor.execute(query)
+            connection.commit()
+
+    return render_template('add_hash.html', hashs=hashs)
+
+@app.route('/update_hash', methods = ['GET','POST'])
+def update_hash():
+    hashs = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+
+            cursor.execute(query)
+
+            for hash in cursor:
+                hashs.append(hash)
+
+            connection.commit()
+
+    if request.method =='POST':
+        hashid = request.form['hashid']
+        new_grupname = request.form['new_grupname']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """UPDATE hashTag SET (HASHID, GRUPNAME ) = (%s,%s ) WHERE HASHID = '""" +hashid + """'"""
+
+            cursor.execute(query, (hashid, new_grupname))
+            connection.commit()
+
+
+    return render_template('add_hash.html', hashs=hashs)
 
 @app.route('/notifications')
 def notification_page():
