@@ -23,6 +23,11 @@
           <img src="static/icon.png" alt="tempicon" style="width: 30px; height: 30px;"/>
         </div>
         <a class="navbar-brand" href="{{ url_for('home_page')}}" style="color: white;">Socialbum</a>
+        <ul class="nav navbar-nav navbar-left">
+          <li>
+            <a href="{{ url_for('initialize_db')}}"> Initialize Database</a>
+          </li>
+          </ul>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -31,13 +36,13 @@
           <li class="hidden">
             <a href="#page-top"></a>
           </li>
+
+          <li><a href="{{ url_for('home_page')}}" style="color: white;">Home</a></li>
           <li><a href="{{ url_for('profile_page')}}" style="color: white;">Profile</a></li>
 
           <li><a href="{{ url_for('explore_page')}}" style="color: white;">Explore</a></li>
 
           <li><a href="{{ url_for('notification_page')}}" style="color: white;">Notifications</a></li>
-
-          <li><a href="{{ url_for('home_page')}}" style="color: white;">Home</a></li>
         </ul>
         <form class="navbar-form navbar-right">
           <div class="form-group" style="align-self: center;">

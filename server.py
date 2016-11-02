@@ -151,15 +151,15 @@ def counter_page():
 def explore_page():
     hashs = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+        cursor = connection.cursor()
+        query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for hash in cursor:
-                hashs.append(hash)
+        for hash in cursor:
+            hashs.append(hash)
 
-            connection.commit()
+        connection.commit()
 
     return render_template('explore.html', hashs=hashs)
 
@@ -167,15 +167,15 @@ def explore_page():
 def add_hash():
     hashs = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+        cursor = connection.cursor()
+        query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for hash in cursor:
-                hashs.append(hash)
+        for hash in cursor:
+            hashs.append(hash)
 
-            connection.commit()
+        connection.commit()
 
 
     if request.method =='POST':
@@ -194,15 +194,15 @@ def add_hash():
 def delete_hash():
     hashs = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+        cursor = connection.cursor()
+        query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for hash in cursor:
-                hashs.append(hash)
+        for hash in cursor:
+            hashs.append(hash)
 
-            connection.commit()
+        connection.commit()
     if request.method =='POST':
         hashid = request.form['hashid']
 
@@ -218,15 +218,15 @@ def delete_hash():
 def update_hash():
     hashs = []
     with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+        cursor = connection.cursor()
+        query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
 
-            cursor.execute(query)
+        cursor.execute(query)
 
-            for hash in cursor:
-                hashs.append(hash)
+        for hash in cursor:
+            hashs.append(hash)
 
-            connection.commit()
+        connection.commit()
 
     if request.method =='POST':
         hashid = request.form['hashid']
