@@ -1,11 +1,31 @@
 {% extends "layout.html" %}
 {% block content %}
 
-  <div>
-    <h1>log_in</h1>
-  </div>
+ <div>
+            LOGIN PAGE
+        </div>
 
+<div>
 
+  <form method="post"  class="login">
+    <p>
+      <label for="login">Username:</label>
+      <input type="text" name="login" id="login" value="" placeholder="Username">
+    </p>
 
+    <p>
+      <label for="password">Password:</label>
+      <input type="password" name="password" id="password" value="" placeholder="*******">
+    </p>
+
+	<!--  p-->
+	<!--  label><input id="Admin" type="checkbox" name="checkbox" />Admin</label-->
+	<!-- /p -->
+
+    <p class="login-submit">
+      <button type="submit"  a href="#">Login</button>
+  </form>
+
+</div>
 
 {% endblock %}
