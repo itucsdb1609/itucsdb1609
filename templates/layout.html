@@ -23,7 +23,8 @@
           <img src="static/icon.png" alt="tempicon" style="width: 30px; height: 30px;"/>
         </div>
         <a class="navbar-brand" href="{{ url_for('home_page')}}" style="color: white;">Socialbum</a>
-
+        <li><a href="{{ url_for('login')}}" style="color: white;">Login</a></li>
+        <li><a href="{{ url_for('signUp')}}" style="color: black;">Sign Up</a></li>
       </div>
 
       <!-- Collect the nav links, forms, and other content for toggling -->
@@ -33,7 +34,6 @@
             <a href="#page-top"></a>
           </li>
           
-          <li><a href="{{ url_for('login')}}" style="color: white;">Login</a></li>
           <li><a href="{{ url_for('home_page')}}" style="color: white;">Home</a></li>
           <li><a href="{{ url_for('profile_page')}}" style="color: white;">Profile</a></li>
 
