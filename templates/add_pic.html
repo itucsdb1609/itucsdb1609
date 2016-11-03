@@ -1,43 +1,69 @@
-<div style="justify-content: center;">
-    <table style="align-self: center;">
-        <tr>
-            <th> Id </th>
-            <th > Description</th>
-        </tr>
-        {% for id, descriptor in pics %}
-        <tr style="text-align: center;">
-            <td>{{ id }} </td>
-            <td>{{ descriptor }} </td>
-        </tr>
-        {% endfor %}
-    </table>
-    </br>
+	<link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.css')}}" />
+    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css')}}" />
+    <!-- Fonts CSS -->
+    <link rel="stylesheet" href="{{ url_for('static',filename='fonts.css')}}" />
+	<link rel="stylesheet" href="{{ url_for('static',filename='theme.min.css')}}" />
 
-    <div id="add-form">
-        <form action="/add_pic" method="post" id="addpic">
-            Descriptor: <input type="text" name="D"><br>
-                        </form>
+<div class="panel widget">
+                  <div class="panel-heading vd_bg-grey">
+                    <h3 class="panel-title" align="center"> <span class="menu-icon">  </span> Basic Picture Table  </h3>
+                  </div>
+                  <div class="panel-body table-responsive">
+                    <table class="table table-hover">
+                      <thead>
+                        <tr>
+                          <th>#</th>
+                          <th>Description</th>
+<!--                           <th>Date registered</th> -->
+                        </tr>
+                      </thead>
+                      {% for id, descriptor in pics %}
+                      <tbody>
+                        <tr>
+                          <td>{{id}}</td>
+                          <td>{{descriptor}}</td>
+<!--                           <td class="center">2010/02/03</td> -->
+                          </tr>
+                        <tr>
+                         {% endfor %}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
 
-        <button type="submit" form="addpic" value="Submit" style="margin-bottom: 20px;">Add</button>
-    </div>
+
+				<div class="row">
+						<div class="col-md-2" id="add-form"></div>
+						<div class="col-md-2" id="add-form">
+                          <form action="/add_pic" method="post" id="addpic">Addition
+                          	<div class="controls">
+                           	 <input type="text" placeholder="Description" name="D">
+                        	  </div>
+                          </form>
+							 <button type="submit" form="addpic" value="Submit" style="margin-bottom: 20px;">Add</button>
+                        </div>
+						<div class="col-md-2" id="delete-form">
+                          <form action="/delete_pic" method="post" id="deletepic">Deletion
+	                          <div class="controls">
+	                            <input type="number" placeholder="Picture Id" name="ID">
+	                          </div>
+                          </form>
+                           <button type="submit" form="deletepic" value="Submit" style="margin-bottom: 20px;">Delete</button>
+                        </div>
+						<div class="col-md-2" id="update-form">
+                          <form action="/update_pic" method="post" id="updatepic">Update
+                         	 <div class="controls">
+                            	<input type="number" placeholder="Id" name="ID_update" style="margin-bottom: 10px;"">
+                            	<input type="text" placeholder="New Descriptor" name="Desc">
+                         	 </div>
+                          </form>
+                           <button type="submit" form="updatepic" value="Submit" style="margin-bottom: 20px;">update</button>
+                        </div>
+						<div class="col-md-2" id="add-form">
+							<button onclick="location.href = '{{ url_for('profile_page') }}'" style="margin-bottom: 30px;">Back to Profile</button>
+						</div>
+				</div>
 
 
- 	<div id="delete-form">
-        <form action="/delete_pic" method="post" id="deletepic">
-            Pic Id: <input type="number" name="ID"><br>
-                    </form>
 
-        <button type="submit" form="deletepic" value="Submit" style="margin-bottom: 20px;">Delete</button>
-    </div>
-
-	<div id="update-form">
-        <form action="/update_pic" method="post" id="updatepic">
-             Id: <input type="number" name="ID_update"><br>
-             New Descriptor: <input type="text" name="Desc"><br>
-                        </form>
-
-        <button type="submit" form="updatepic" value="Submit" style="margin-bottom: 20px;">update</button>
-    </div>
-
- <button onclick="location.href = '{{ url_for('profile_page') }}'" style="margin-bottom: 30px;">Back to Profile</button>
 
