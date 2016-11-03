@@ -1,48 +1,48 @@
 <div style="justify-content: center;">
-    <table style="align-self: center;">
-      <tr>
-        <th> ID </th>
-        <th > Following ID</th>
-        <th > Post ID</th>
+  <div style="display: inline-table; width: 20%;">
+    <table style="position: absolute; top: 25px;">
+      <tr style="font-size: 20px;">
+        <th> ID -</th>
+        <th > Following ID -</th>
+        <th > Post ID </th>
       </tr>
       {% for id, fid, postid in posts %}
-      <tr style="text-align: center;">
+      <tr style="text-align: center; font-size: 18px;">
         <td>{{ id }} </td>
         <td>{{ fid }} </td>
         <td>{{ postid }} </td>
       </tr>
       {% endfor %}
     </table>
-    </br>
-
-    <div id="add-form">
+  </div>
+    <div id="add-form" style="display: inline-block; margin-top: 50px; width: 20%;">
       <form action="/add_post" method="post" id="addpost">
-        Id: <input type="text" name="id"><br>
-        Following Id: <input type="text" name="fid"><br>
-        Post Id: <input type="text" name="postid"><br>
+        Id: <input type="text" name="id"  style="margin-left: 75px;"><br>
+        Following Id: <input type="text" name="fid" style="margin-left: 5px;"><br>
+        Post Id: <input type="text" name="postid" style="margin-left: 44px;"><br>
       </form>
 
-      <button type="submit" form="addpost" value="Submit" style="margin-bottom: 30px;">Add</button>
+      <button type="submit" form="addpost" value="Submit" style="position: relative; left: 190px;">Add</button>
     </div>
 
-    <div id="delete-form">
+    <div id="delete-form" style="display: inline-block; margin-top: 50px; width: 20%;">
       <form action="/delete_post" method="post" id="deletepost">
-        Following Id: <input type="text" name="fid"><br>
-        Post Id: <input type="text" name="postid"><br>
+        Following Id: <input type="text" name="fid" style="margin-left: 5px;"><br>
+        Post Id: <input type="text" name="postid" style="margin-left: 44px;"><br>
       </form>
 
-      <button type="submit" form="deletepost" value="Submit" style="margin-bottom: 30px;">Delete</button>
+      <button type="submit" form="deletepost" value="Submit" style="position: relative; left: 190px;">Delete</button>
     </div>
 
-    <div id="update-form">
+    <div id="update-form" style="display: inline-block; margin-top: 50px; width: 20%;">
       <form action="/update_post" method="post" id="updatepost">
-        Id: <input type="text" name="id"><br>
-        Following Id: <input type="text" name="fid"><br>
-        New Post Id: <input type="text" name="new_postid"><br>
+        Id: <input type="text" name="id"  style="margin-left: 75px;"><br>
+        Following Id: <input type="text" name="fid" style="margin-left: 5px;"><br>
+        New Post Id: <input type="text" name="new_postid" style="margin-left: 10px;"><br>
       </form>
 
-      <button type="submit" form="updatepost" value="Submit" style="margin-bottom: 30px;">update</button>
+      <button type="submit" form="updatepost" value="Submit" style="position: relative; left: 190px;">update</button>
     </div>
 
-    <button onclick="location.href = '{{ url_for('home_page') }}'" style="margin-bottom: 30px;">Back to Home</button>
+    <button onclick="location.href = '{{ url_for('home_page') }}'" style=" position: absolute; top: 200px; left: 40%;">&#8617; Back to Home</button>
 
