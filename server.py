@@ -316,6 +316,60 @@ def add_pic():
         return redirect(url_for('add_pic'))
     return render_template('add_pic.html', pics=pics)
 
+@app.route('/delete_pic', methods = ['GET','POST'])
+def delete_pic():
+    pics = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT picPost.PicId, picPost.Description FROM picPost"""
+
+        cursor.execute(query)
+
+        for pic in cursor:
+            pics.append(pic)
+
+        connection.commit()
+
+    if request.method =='POST':
+        picId = request.form['ID']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """DELETE FROM picPost WHERE PicId = '""" +picId + """'"""
+            cursor.execute(query)
+            connection.commit()
+        return redirect(url_for('delete_pic'))
+    return render_template('add_pic.html', pics=pics)
+
+@app.route('/update_pic', methods = ['GET','POST'])
+def update_pic():
+    pics = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT picPost.PicId, picPost.Description FROM picPost"""
+
+        cursor.execute(query)
+
+        for pic in cursor:
+            pics.append(pic)
+
+        connection.commit()
+
+    if request.method =='POST':
+        picId = request.form['ID']
+        new_Desc = request.form['new_Desc']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """UPDATE picPost SET (PicId, Description ) = (%d,'%s' ) WHERE PicId = '""" +picId + """'"""%(picId,new_Desc)
+            #===================================================================
+            # query = """DELETE FROM picPost WHERE PicId = '""" +picId + """'"""
+            #===================================================================
+            cursor.execute(query)
+            connection.commit()
+        return redirect(url_for('update_pic'))
+    return render_template('add_pic.html', pics=pics)
+
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')

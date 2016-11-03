@@ -21,3 +21,21 @@
         <button type="submit" form="addpic" value="Submit" style="margin-bottom: 20px;">Add</button>
     </div>
 
+
+ 	<div id="delete-form">
+        <form action="/delete_pic" method="post" id="deletepic">
+            Pic Id: <input type="number" name="ID"><br>
+                    </form>
+
+        <button type="submit" form="deletepic" value="Submit" style="margin-bottom: 20px;">Delete</button>
+    </div>
+
+	<div id="update-form">
+        <form action="/update_pic" method="post" id="updatepic">
+             Id: <input type="number" name="ID"><br>
+             New Descriptor: <input type="text" name="new_Desc"><br>
+                        </form>
+
+        <button type="submit" form="updatepic" value="Submit" style="margin-bottom: 20px;">update</button>
+    </div>
+
