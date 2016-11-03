@@ -9,7 +9,7 @@ from flask import redirect
 from flask import render_template
 from werkzeug import redirect
 from flask import request
-from flask.helpers import url_for
+from flask.helpers import url_for, flash
 from initialize_db import initialize_db_func
 
 app = Flask(__name__)
@@ -53,7 +53,7 @@ def signUp():
     else:
          now = datetime.datetime.now()
          return render_template('signUp.html')
-    
+
 #--------------- end of aliercccan ---------
 
 #Start of Ahmet Caglar Bayatli's space
@@ -289,6 +289,32 @@ def notification_page():
 def profile_page():
     now = datetime.datetime.now()
     return render_template('profile.html', current_time=now.ctime())
+
+@app.route('/add_pic', methods = ['GET','POST'])
+def add_pic():
+    pics = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT picPost.PicId, picPost.Description FROM picPost"""
+
+        cursor.execute(query)
+
+        for pic in cursor:
+            pics.append(pic)
+
+        connection.commit()
+
+
+    if request.method =='POST':
+        picDesc = request.form['D']
+
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+            query = """INSERT INTO picPost (Description ) VALUES ('%s' )"""%picDesc
+            cursor.execute(query)
+            connection.commit()
+        return redirect(url_for('add_pic'))
+    return render_template('add_pic.html', pics=pics)
 
 
 if __name__ == '__main__':

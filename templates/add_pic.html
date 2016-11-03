@@ -1,0 +1,23 @@
+<div style="justify-content: center;">
+    <table style="align-self: center;">
+        <tr>
+            <th> Id </th>
+            <th > Description</th>
+        </tr>
+        {% for id, descriptor in pics %}
+        <tr style="text-align: center;">
+            <td>{{ id }} </td>
+            <td>{{ descriptor }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+    </br>
+
+    <div id="add-form">
+        <form action="/add_pic" method="post" id="addpic">
+            Descriptor: <input type="text" name="D"><br>
+                        </form>
+
+        <button type="submit" form="addpic" value="Submit" style="margin-bottom: 20px;">Add</button>
+    </div>
+

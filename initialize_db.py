@@ -39,3 +39,10 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('5', 'FUTBOL')""")
     cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('6', 'NATURE' )""")
     cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('9', 'ART')""")
+
+    #Table for Profile-picture-post
+    cursor.execute("""DROP TABLE IF EXISTS picPost""")
+    cursor.execute("""CREATE TABLE picPost (PicId  SERIAL PRIMARY KEY,Description CHAR(20) )""")
+    cursor.execute("""INSERT INTO picPost ( Description) VALUES ('School')""")
+    cursor.execute("""INSERT INTO picPost ( Description) VALUES ('With My Friends')""")
+    cursor.execute("""INSERT INTO picPost ( Description) VALUES ('Enjoy')""")
