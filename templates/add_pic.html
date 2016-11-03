@@ -32,10 +32,12 @@
 
 	<div id="update-form">
         <form action="/update_pic" method="post" id="updatepic">
-             Id: <input type="number" name="ID"><br>
-             New Descriptor: <input type="text" name="new_Desc"><br>
+             Id: <input type="number" name="ID_update"><br>
+             New Descriptor: <input type="text" name="Desc"><br>
                         </form>
 
         <button type="submit" form="updatepic" value="Submit" style="margin-bottom: 20px;">update</button>
     </div>
+
+ <button onclick="location.href = '{{ url_for('profile_page') }}'" style="margin-bottom: 30px;">Back to Profile</button>
 

@@ -356,16 +356,14 @@ def update_pic():
         connection.commit()
 
     if request.method =='POST':
-        picId = request.form['ID']
-        new_Desc = request.form['new_Desc']
+        picId = request.form['ID_update']
+        Desc = request.form['Desc']
 
         with dbapi2.connect(app.config['dsn']) as connection:
             cursor = connection.cursor()
-            query = """UPDATE picPost SET (PicId, Description ) = (%d,'%s' ) WHERE PicId = '""" +picId + """'"""%(picId,new_Desc)
-            #===================================================================
-            # query = """DELETE FROM picPost WHERE PicId = '""" +picId + """'"""
-            #===================================================================
+            query = """UPDATE picPost SET (Description ) = ('"""+Desc+"""') WHERE PicId = '""" +picId + """'"""
             cursor.execute(query)
+
             connection.commit()
         return redirect(url_for('update_pic'))
     return render_template('add_pic.html', pics=pics)
