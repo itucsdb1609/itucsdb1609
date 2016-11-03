@@ -24,6 +24,38 @@ def get_elephantsql_dsn(vcap_services):
              dbname='{}'""".format(user, password, host, port, dbname)
     return dsn
 
+#aliercccan-------------------------------------
+
+#Login page
+@app.route('/login')
+def login():
+    now = datetime.datetime.now()
+    return render_template('log_in.html', current_time=now.ctime())
+
+
+#Sign up page
+@app.route('/signUp',methods = ['GET','POST'])
+def signUp():
+
+    if request.method =='POST':
+        username = request.form['username']
+        password = request.form['password']
+        with dbapi2.connect(app.config['dsn']) as connection:
+            cursor = connection.cursor()
+
+            query =  """INSERT INTO USER ( USERNAME, PASSWORD) VALUES (%s,%s)"""
+            print(query)
+
+            cursor.execute(query,(username, password))
+            connection.commit()
+
+        return redirect(url_for('signUp'))
+    else:
+         now = datetime.datetime.now()
+         return render_template('signUp.html')
+    
+#--------------- end of aliercccan ---------
+
 #Start of Ahmet Caglar Bayatli's space
 
 @app.route('/')
