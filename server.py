@@ -25,7 +25,13 @@ def get_elephantsql_dsn(vcap_services):
     return dsn
 
 #Start of Ahmet Caglar Bayatli's space
+
 @app.route('/')
+@app.route('/welcome')
+def welcome_page():
+    return render_template('welcome.html')
+
+@app.route('/home')
 def home_page():
     posts = []
     with dbapi2.connect(app.config['dsn']) as connection:

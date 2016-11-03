@@ -1,0 +1,13 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div>
+    <h1>Welcome To Socialbum</h1>
+</div>
+<div>
+    <h2>Plese Start Database with link</h2>
+</div>
+   			 <a href="{{ url_for('initialize_db')}}"> Initialize Database</a>
+
+
+{% endblock %}
