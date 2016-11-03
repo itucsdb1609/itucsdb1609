@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    
+
+    <!-- Title for the page -->
+	{% block title %} Sign Up {% endblock %}
+
+	<!-- Add specific css, js etc. for this page only!-->
+	{% block specific_links%}
+	<link rel="stylesheet" href="/static/css/mystyle.css" />
+	{% endblock %}
+
+	<!-- Content for this page -->
+	{% block body_content %}
+
+	<div>
+            SIGN UP PAGE
+        </div>
+
+<div>
+  <form action="/signUp" method="post" >
+    <p>
+      <label for="username">Username:</label>
+      <input type="text" name="username" id="signUp" value="" placeholder="Username">
+    </p>
+
+    <p>
+      <label for="password">Password:</label>
+      <input type="text" name="password" id="password" value="" placeholder="*******">
+    </p>
+    <p>
+      <label for="password">Password Again:</label>
+      <input type="text" name="password" id="password" value="" placeholder="*******">
+    </p>
+
+    <p class="signUp-submit">
+      <button type="submit" onclick="location.href = '{{ url_for('home') }}'" >Sign Up</button>
+  </form>
+</div>
