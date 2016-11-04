@@ -1,13 +1,14 @@
 {% extends "layout.html" %}
+ <link rel="stylesheet" href="{{ url_for('static',filename='fonts.css')}}" />
 {% block content %}
-
-<div>
-    <h1>Welcome To Socialbum</h1>
+<div class="row" style="margin-top: 20px;">
+	 <div class="col-md-4" ></div>
+	 <div class="col-md-4" >
+	 	<h2>Welcome To Socialbum</h2>
+	 	<h2 >Plese Start Database </h2>
+	 	<a href="{{ url_for('initialize_db')}}" style="padding-left: 70px;"> Initialize Database</a><br><br>
+	 	<img src="static/logo/Logo.png" alt="tempicon" style="width: 300px; height: 300px;"/>
+	 </div>
 </div>
-<div>
-    <h2>Plese Start Database with link</h2>
-</div>
-   			 <a href="{{ url_for('initialize_db')}}"> Initialize Database</a>
-
 
 {% endblock %}
