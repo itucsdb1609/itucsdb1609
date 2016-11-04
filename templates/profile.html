@@ -1,8 +1,10 @@
 {% extends "layout.html" %}
+<script src="http://code.jquery.com/jquery-1.11.3.min.js"></script>
 {% block content %}
+
 <button  onclick="location.href = '{{ url_for('add_pic') }}'" class="float-left submit-button" style="position: fixed; right: 120px; top: 80px;">Edit PICTURES</button>
-  <div>
-   <div class="col-sm-3">
+<div class="row">
+	<div class="col-sm-3">
                 <div class="panel widget light-widget panel-bd-top">
                   <div class="panel-heading no-title"> </div>
                   <div class="panel-body">
@@ -56,9 +58,31 @@
                 </div>
                 <!-- panel widget -->
               </div>
-  </div>
+	<div class="col-sm-9">
+	</div>
+</div>
+<p><a href="#" class="simple-back-to-top">Back to Top</a></p>
+<script type="text/javascript">
+// create the back to top button
+$('body').prepend('<a href="#" class="back-to-top">Back to Top</a>');
 
+var amountScrolled = 300;
 
+$(window).scroll(function() {
+	if ( $(window).scrollTop() > amountScrolled ) {
+		$('a.back-to-top').fadeIn('slow');
+	} else {
+		$('a.back-to-top').fadeOut('slow');
+	}
+});
+
+$('a.back-to-top, a.simple-back-to-top').click(function() {
+	$('html, body').animate({
+		scrollTop: 0
+	}, 700);
+	return false;
+});
+</script>
 
 
 {% endblock %}
