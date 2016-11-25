@@ -1,10 +1,9 @@
-	<link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.css')}}" />
-    <link rel="stylesheet" href="{{ url_for('static',filename='bootstrap.min.css')}}" />
+
     <!-- Fonts CSS -->
     <link rel="stylesheet" href="{{ url_for('static',filename='fonts.css')}}" />
 	<link rel="stylesheet" href="{{ url_for('static',filename='theme.min.css')}}" />
-
-<div class="panel widget">
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<div class="panel widget" >
                   <div class="panel-heading vd_bg-grey">
                     <h3 class="panel-title" align="center"> <span class="menu-icon">  </span> Basic Picture Table  </h3>
                   </div>
@@ -15,6 +14,7 @@
                           <th>#</th>
                           <th>Description</th>
 <!--                           <th>Date registered</th> -->
+						  <th class="tabledit-toolbox-column"></th>
                         </tr>
                       </thead>
                       {% for id, descriptor in pics %}
@@ -22,6 +22,26 @@
                         <tr>
                           <td>{{id}}</td>
                           <td>{{descriptor}}</td>
+                          <td style="white-space: nowrap; width: 1px;">
+                          	<div class="tabledit-toolbox" style="margin-left: 5px; text-align: right;">
+                          		<button type="button" class="tabledit-edit-button btn btn-sm btn-warning" style="margin-left: 5px;">
+                          			<span class="glyphicon glyphicon-pencil">Edit
+                          			</span>
+                          		</button>
+                          		<button type="button" class="tabledit-save-button btn btn-sm btn-success" style="margin-left: 5px; display: none;">
+                          			<span class="glyphicon glyphicon-ok">
+                          			</span> &nbsp; Save
+                          		</button>
+                          		<button type="button" class="tabledit-cancel-button btn btn-sm btn-warning active" style="margin-left: 5px; display: none;">
+                          			<span class="glyphicon glyphicon-pencil">
+                          			</span>
+                          		</button>
+                          		<button type="button" class="tabledit-remove-button btn btn-sm btn-danger" style="margin-left: 5px;">
+                          			<span class="glyphicon glyphicon-trash">Delete
+                          			</span>
+                          		</button>
+                          	</div>
+                          </td>
 <!--                           <td class="center">2010/02/03</td> -->
                           </tr>
                         <tr>
