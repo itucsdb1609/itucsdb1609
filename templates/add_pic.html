@@ -11,7 +11,7 @@
                     <table class="table table-hover">
                       <thead>
                         <tr>
-                          <th>#</th>
+
                           <th>Description</th>
 <!--                           <th>Date registered</th> -->
 						  <th class="tabledit-toolbox-column"></th>
@@ -20,29 +20,39 @@
                       {% for id, descriptor in pics %}
                       <tbody>
                         <tr>
-                          <td>{{id}}</td>
+<!--                           <td>{{id}}</td> -->
                           <td>{{descriptor}}</td>
-                          <td style="white-space: nowrap; width: 1px;">
-                          	<div class="tabledit-toolbox" style="margin-left: 5px; text-align: right;">
-                          		<button type="button" class="tabledit-edit-button btn btn-sm btn-warning" style="margin-left: 5px;">
-                          			<span class="glyphicon glyphicon-pencil">Edit
-                          			</span>
-                          		</button>
-                          		<button type="button" class="tabledit-save-button btn btn-sm btn-success" style="margin-left: 5px; display: none;">
-                          			<span class="glyphicon glyphicon-ok">
-                          			</span> &nbsp; Save
-                          		</button>
-                          		<button type="button" class="tabledit-cancel-button btn btn-sm btn-warning active" style="margin-left: 5px; display: none;">
-                          			<span class="glyphicon glyphicon-pencil">
-                          			</span>
-                          		</button>
-                          		<button type="button" class="tabledit-remove-button btn btn-sm btn-danger" style="margin-left: 5px;">
-                          			<span class="glyphicon glyphicon-trash">Delete
-                          			</span>
-                          		</button>
-                          	</div>
-                          </td>
+<!--                           <td style="white-space: nowrap; width: 1px;"> -->
+<!--                           	<div class="tabledit-toolbox" style="margin-left: 5px; text-align: right;"> -->
+<!--                           		<button type="button" class="tabledit-edit-button btn btn-sm btn-warning" style="margin-left: 5px;"> -->
+<!--                           			<span class="glyphicon glyphicon-pencil">Edit -->
+<!--                           			</span> -->
+<!--                           		</button> -->
+<!--                           		<button type="button" class="tabledit-save-button btn btn-sm btn-success" style="margin-left: 5px; display: none;"> -->
+<!--                           			<span class="glyphicon glyphicon-ok"> -->
+<!--                           			</span> &nbsp; Save -->
+<!--                           		</button> -->
+<!--                           		<button type="button" class="tabledit-cancel-button btn btn-sm btn-warning active" style="margin-left: 5px; display: none;"> -->
+<!--                           			<span class="glyphicon glyphicon-pencil"> -->
+<!--                           			</span> -->
+<!--                           		</button> -->
+<!--                           		<button type="button" class="tabledit-remove-button btn btn-sm btn-danger" style="margin-left: 5px;"> -->
+<!--                           			<span class="glyphicon glyphicon-trash">Delete -->
+<!--                           			</span> -->
+<!--                           		</button> -->
+<!--                           	</div> -->
+<!--                           </td> -->
 <!--                           <td class="center">2010/02/03</td> -->
+							<form method="POST" role="form">
+	                			<input type = "hidden" name = "id" value={{ id }}>
+	                			<td class="text-center"><button href="{{ url_for('add_pic') }}" type="submit" name="Delete" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-remove"></span>Delete</button></td>
+	               				<td>
+	               					<div class="col-xs-4">
+	               						<input  type = "text" name = "newname" >
+	               					</div>
+	               					<button href="{{ url_for('add_pic') }}" type="submit" name="Update" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-edit"></span> Edit</button></td>
+
+	           				 </form>
                           </tr>
                         <tr>
                          {% endfor %}
@@ -57,28 +67,12 @@
 						<div class="col-md-2" id="add-form">
                           <form action="/add_pic" method="post" id="addpic">Addition
                           	<div class="controls">
-                           	 <input type="text" placeholder="Description" name="D">
+                           	 <input type="text" placeholder="Description" name="ADD">
                         	  </div>
                           </form>
 							 <button type="submit" form="addpic" value="Submit" style="margin-bottom: 20px;">Add</button>
                         </div>
-						<div class="col-md-2" id="delete-form">
-                          <form action="/delete_pic" method="post" id="deletepic">Deletion
-	                          <div class="controls">
-	                            <input type="number" placeholder="Picture Id" name="ID">
-	                          </div>
-                          </form>
-                           <button type="submit" form="deletepic" value="Submit" style="margin-bottom: 20px;">Delete</button>
-                        </div>
-						<div class="col-md-2" id="update-form">
-                          <form action="/update_pic" method="post" id="updatepic">Update
-                         	 <div class="controls">
-                            	<input type="number" placeholder="Id" name="ID_update" style="margin-bottom: 10px;"">
-                            	<input type="text" placeholder="New Descriptor" name="Desc">
-                         	 </div>
-                          </form>
-                           <button type="submit" form="updatepic" value="Submit" style="margin-bottom: 20px;">update</button>
-                        </div>
+
 						<div class="col-md-2" id="add-form">
 							<button onclick="location.href = '{{ url_for('profile_page') }}'" style="margin-bottom: 30px;">Back to Profile</button>
 						</div>
