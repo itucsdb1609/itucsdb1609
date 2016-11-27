@@ -46,3 +46,6 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO picPost ( Description) VALUES ('School')""")
     cursor.execute("""INSERT INTO picPost ( Description) VALUES ('With My Friends')""")
     cursor.execute("""INSERT INTO picPost ( Description) VALUES ('Enjoy')""")
+    #Table for IMAGES
+    cursor.execute("""DROP TABLE IF EXISTS IMAGES""")
+    cursor.execute("""CREATE TABLE IMAGES (ID  SERIAL PRIMARY KEY,IMAGE character varying(255) NOT NULL )""")

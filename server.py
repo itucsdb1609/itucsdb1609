@@ -334,6 +334,30 @@ def add_pic():
 
     return render_template('add_pic.html', pics=pics)
 
+@app.route('/deneme', methods = ['GET','POST'])
+def deneme_page():
+    images = []
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """SELECT ID, IMAGE FROM IMAGES"""
+
+        cursor.execute(query)
+
+        for im in cursor:
+            images.append(im)
+        connection.commit()
+
+    if request.method =='POST':
+        if 'ADD' in request.form:
+            Image = request.form['ADD']
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """INSERT INTO IMAGES (IMAGE ) VALUES ('%s' )"""%Image
+                cursor.execute(query)
+                connection.commit()
+            return redirect(url_for('deneme_page'))
+
+    return render_template('deneme.html',images=images)
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
