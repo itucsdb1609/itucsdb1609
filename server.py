@@ -11,7 +11,6 @@ from werkzeug import redirect
 from flask import request
 from flask.helpers import url_for, flash
 from initialize_db import initialize_db_func
-from imageRW import readImage,writeImage
 app = Flask(__name__)
 
 def get_elephantsql_dsn(vcap_services):
