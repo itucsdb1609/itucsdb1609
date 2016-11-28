@@ -5,26 +5,27 @@ def initialize_db_func(cursor):
     cursor.execute("""CREATE TABLE COUNTER (N INTEGER)""")
     cursor.execute("""INSERT INTO COUNTER (N) VALUES (0)""")
 
- #==============================================================================
- #    #Table for users
- #    cursor.execute("""DROP TABLE IF EXISTS USER""")
- #    cursor.execute("""CREATE TABLE USER (USERNAME CHAR(20) UNIQUE PRIMARY KEY NOT NULL, PASSWORD CHAR(20) )""")
- #
- #    cursor.execute("""INSERT INTO USER (USERNAME, PASSWORD) VALUES ('user','pass')""")
- #    cursor.execute("""INSERT INTO USER (USERNAME, PASSWORD) VALUES ('aliercccan','pass')""")
- #    cursor.execute("""INSERT INTO USER (USERNAME, PASSWORD) VALUES ('dincer','pass')""")
- #    cursor.execute("""INSERT INTO USER (USERNAME, PASSWORD) VALUES ('fatih','pass')""")
- #    cursor.execute("""INSERT INTO USER (USERNAME, PASSWORD) VALUES ('caglar','pass')""")
- #    cursor.execute("""INSERT INTO USER (USERNAME, PASSWORD) VALUES ('ekrem','pass')""")
- #
- #    #Table for admins
- #    cursor.execute("""DROP TABLE IF EXISTS ADMIN""")
- #    cursor.execute("""CREATE TABLE ADMIN (USERNAME CHAR(20) UNIQUE PRIMARY KEY NOT NULL, Password CHAR(20) )""")
- #
- #    cursor.execute("""INSERT INTO USER (USERNAME, PASSWORD) VALUES ('admin','admin')""")
- #    cursor.execute("""INSERT INTO ADMIN (USERNAME, PASSWORD) VALUES ('aliercccan','admin')""")
- #    cursor.execute("""INSERT INTO ADMIN (USERNAME, PASSWORD) VALUES ('fatih','admin')""")
- #==============================================================================
+    #Table for user login
+    cursor.execute("""DROP TABLE IF EXISTS USERLOGIN""")
+    cursor.execute("""CREATE TABLE USERLOGIN (USERNAME VARCHAR(50) UNIQUE PRIMARY KEY NOT NULL,
+                                              PASSWORD VARCHAR(50) NOT NULL, 
+                                              LASTLOGIN VARCHAR(50))""")
+
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ali','ali')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('dincer','dincer')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('fatih','fatih')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('caglar','caglar')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ekrem','ekrem')""")
+
+    #Table for user information
+    cursor.execute("""DROP TABLE IF EXISTS USER""")
+    cursor.execute("""CREATE TABLE USER (USERNAME VARCHAR(50) UNIQUE PRIMARY KEY NOT NULL,
+                                         NAME VARCHAR(50) NOT NULL,
+                                         SURNAME VARCHAR(50) NOT NULL,
+                                         MAIL VARCHAR(50) UNIQUE NOT NULL,
+                                         SEX INTEGER NOT NULL,
+                                         SCHOOL INTEGER NOT NULL,
+                                         CITY INTEGER NOT NULL)""")
 
     #Table for main
     cursor.execute("""DROP TABLE IF EXISTS PostForView""")
