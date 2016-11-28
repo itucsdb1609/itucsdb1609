@@ -18,8 +18,8 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ekrem','ekrem')""")
 
     #Table for user information
-    cursor.execute("""DROP TABLE IF EXISTS USER""")
-    cursor.execute("""CREATE TABLE USER (USERNAME VARCHAR(50) UNIQUE PRIMARY KEY NOT NULL,
+    cursor.execute("""DROP TABLE IF EXISTS USERS""")
+    cursor.execute("""CREATE TABLE USERS (USERNAME VARCHAR(50) UNIQUE PRIMARY KEY NOT NULL,
                                          NAME VARCHAR(50) NOT NULL,
                                          SURNAME VARCHAR(50) NOT NULL,
                                          MAIL VARCHAR(50) UNIQUE NOT NULL,
