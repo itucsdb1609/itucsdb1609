@@ -99,7 +99,7 @@ def initialize_db_func(cursor):
     cursor.execute("""DROP TABLE IF EXISTS POSTS CASCADE""")
     cursor.execute("""CREATE TABLE POSTS (ID SERIAL PRIMARY KEY UNIQUE,
                                             USERID INTEGER  references USERS(ID),
-                                            DATE character varying(50) NOT NULL,
+                                            DATE character varying(50) ,
                                             LINK character varying(255) NOT NULL,
                                             DESCRIPTION character varying(255))""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'28.11.2016','https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828__340.jpg','GREEN' )""")

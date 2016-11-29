@@ -304,10 +304,37 @@ def notification_page():
     now = datetime.datetime.now()
     return render_template('notification.html', current_time=now.ctime())
 
-@app.route('/profile')
+@app.route('/profile', methods = ['GET','POST'])
 def profile_page():
     now = datetime.datetime.now()
-    return render_template('profile.html', current_time=now.ctime())
+    images = []
+    users=[]
+    userr=[]
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """select users.id,posts.link from users,posts where userid=1 and users.id=posts.userid"""
+
+        cursor.execute(query)
+        for im in cursor:
+            images.append(im)
+
+
+        query="""select userid,link, username, name, surname,mail from profilepic,users where userid=1 and users.id=profilepic.userid"""
+
+        cursor.execute(query)
+        for us in cursor:
+            userr.append(us)
+        connection.commit()
+    if request.method =='POST':
+        if 'ADD' in request.form:
+            Image = request.form['ADD']
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """INSERT INTO POSTS (USERID,LINK ) VALUES (1,'%s' )"""%Image
+                cursor.execute(query)
+                connection.commit()
+            return redirect(url_for('profile_page'))
+    return render_template('profile.html', current_time=now.ctime(),images=images,userr=userr)
 
 @app.route('/add_pic', methods = ['GET','POST'])
 def add_pic():
@@ -359,7 +386,7 @@ def deneme_page():
     images = []
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """SELECT ID, IMAGE FROM IMAGES"""
+        query = """SELECT ID,LINK FROM POSTS"""
 
         cursor.execute(query)
 
