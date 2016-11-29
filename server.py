@@ -301,7 +301,7 @@ def update_hash():
 
 @app.route('/notifications')
 def notification_page():
-    now = datetime.datetime.now()
+    now = datetime.datetime.utcnow()
     return render_template('notification.html', current_time=now.ctime())
 @app.route('/profile', methods = ['GET','POST'])
 @app.route('/profile/<user>', methods = ['GET','POST'])
@@ -333,9 +333,10 @@ def profile_page(user=None):
         if 'EKLE' in request.form:
             Image = request.form['ADD']
             id=request.form['id']
+            desc=request.form['DESC']
             with dbapi2.connect(app.config['dsn']) as connection:
                 cursor = connection.cursor()
-                query = """INSERT INTO POSTS (USERID,LINK ) VALUES ("""+id+""",'%s' )"""%Image
+                query = """INSERT INTO POSTS (USERID,DATE,LINK,DESCRIPTION ) VALUES ("""+id+""",'"""+now.strftime("%Y-%m-%d %H:%M:%S")+"""','%s','%s' )"""%(Image,desc)
                 cursor.execute(query)
                 connection.commit()
             return redirect(url_for('profile_page'))
