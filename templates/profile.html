@@ -2,13 +2,24 @@
 {% block content %}
 
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-<div class="dropdown" style="margin-top:40px;">
-<button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"  >PLEASE SELECT USER
-  <span class="caret"></span></button>
-  <ul class="dropdown-menu">
-    <li><a href="#" ></a></li>
-  </ul>
+<form method="POST" role="form">
+<select id="mySelect"  style="margin-top:40px;" name="Change">
+{% for id,username in kullanici %}
+  <option value={{id}} name={{id}}  >{{username}}
+ {% endfor %}
+</select>
+
+<div class="col-xs-4">
 </div>
+<button href="{{ url_for('profile_page') }}" type="submit" name="Change" class="btn btn-danger btn-xs">
+	<span class="glyphicon glyphicon-edit"></span> SEC</button>
+
+ </form>
+
+
+<br>
+<br>
+
 
 <div class="row">
 	{% for id, image , username , name , surname , mail in userr %}
@@ -17,7 +28,7 @@
                 <div class="panel widget light-widget panel-bd-top">
                   <div class="panel-heading no-title"> </div>
                   <div class="panel-body">
-                    <div class="text-center vd_info-parent"> <img alt="example image" src="{{image}}"> </div>
+                    <div class="text-center vd_info-parent"> <img alt="example image" src="{{image}}" style="width: 200px; height: 200px;"> </div>
                     <div class="row">
 
 <!--                       <div class="col-xs-12"> <a class="btn vd_btn vd_bg-grey btn-xs btn-block no-br"><i class="fa fa-envelope append-icon"></i>Send Message</a> </div> -->
