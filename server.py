@@ -303,45 +303,47 @@ def update_hash():
 def notification_page():
     now = datetime.datetime.now()
     return render_template('notification.html', current_time=now.ctime())
-
 @app.route('/profile', methods = ['GET','POST'])
-def profile_page():
+@app.route('/profile/<user>', methods = ['GET','POST'])
+def profile_page(user=None):
     now = datetime.datetime.now()
     images = []
     kullanici=[]
     userr=[]
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """select users.id,userlogin.username from users,userlogin where users.username=userlogin.username"""
+        query = """select id,username from users"""
         cursor.execute(query)
         for im in cursor:
             kullanici.append(im)
+        if user:
+            query = """select users.id,posts.link from users,posts where username='"""+user+"""' and users.id=posts.userid"""
+            cursor.execute(query)
+            for im in cursor:
+                images.append(im)
 
-        query = """select users.id,posts.link from users,posts where userid=3 and users.id=posts.userid"""
-        cursor.execute(query)
-        for im in cursor:
-            images.append(im)
-
-
-        query="""select userid,link, username, name, surname,mail from profilepic,users where userid=3 and users.id=profilepic.userid"""
-        cursor.execute(query)
-        for us in cursor:
-            userr.append(us)
+        if user:
+            query="""select userid,link, username, name, surname,mail from profilepic,users where username='"""+user+"""' and users.id=profilepic.userid"""
+            cursor.execute(query)
+            for us in cursor:
+                userr.append(us)
 
         connection.commit()
     if request.method =='POST':
-        if 'ADD' in request.form:
+        if 'EKLE' in request.form:
             Image = request.form['ADD']
+            id=request.form['id']
             with dbapi2.connect(app.config['dsn']) as connection:
                 cursor = connection.cursor()
-                query = """INSERT INTO POSTS (USERID,LINK ) VALUES (3,'%s' )"""%Image
+                query = """INSERT INTO POSTS (USERID,LINK ) VALUES ("""+id+""",'%s' )"""%Image
                 cursor.execute(query)
                 connection.commit()
             return redirect(url_for('profile_page'))
         if 'Change' in request.form:
+            username = request.form['Change']
 
-            return redirect(url_for('profile_page'))
-    return render_template('profile.html', current_time=now.ctime(),images=images,userr=userr,kullanici=kullanici)
+            return redirect(url_for('profile_page',user=username))
+    return render_template('profile.html',user=user, current_time=now.ctime(),images=images,userr=userr,kullanici=kullanici)
 
 @app.route('/add_pic', methods = ['GET','POST'])
 def add_pic():
@@ -387,10 +389,11 @@ def add_pic():
             return redirect(url_for('add_pic'))
 
     return render_template('add_pic.html', pics=pics)
-
 @app.route('/deneme', methods = ['GET','POST'])
-def deneme_page():
+@app.route('/deneme/<user>', methods = ['GET','POST'])
+def deneme_page(user=None):
     images = []
+    kullanici=[]
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """SELECT ID,LINK FROM POSTS"""
@@ -399,6 +402,11 @@ def deneme_page():
 
         for im in cursor:
             images.append(im)
+
+        query = """select id,username from users"""
+        cursor.execute(query)
+        for im in cursor:
+            kullanici.append(im)
         connection.commit()
 
     if request.method =='POST':
@@ -406,12 +414,16 @@ def deneme_page():
             Image = request.form['ADD']
             with dbapi2.connect(app.config['dsn']) as connection:
                 cursor = connection.cursor()
-                query = """INSERT INTO IMAGES (IMAGE ) VALUES ('%s' )"""%Image
+                query = """INSERT INTO POSTS (link ) VALUES ('%s' )"""%Image
                 cursor.execute(query)
                 connection.commit()
             return redirect(url_for('deneme_page'))
+        if 'Change' in request.form:
+            username = request.form['Change']
 
-    return render_template('deneme.html',images=images)
+            return redirect(url_for('deneme_page',user=username))
+
+    return render_template('deneme.html',user=user,images=images,kullanici=kullanici)
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
