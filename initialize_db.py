@@ -114,3 +114,15 @@ def initialize_db_func(cursor):
     cursor.execute("""CREATE TABLE HIDDENPOSTS (USERID INTEGER  references USERS(ID),
                                             POSTID INTEGER PRIMARY KEY UNIQUE references POSTS(ID))""")
     cursor.execute("""INSERT INTO HIDDENPOSTS (USERID, POSTID) VALUES (3,3)""")
+
+    #Table For Follow
+    cursor.execute("""DROP TABLE IF EXISTS FOLLOW CASCADE""")
+    cursor.execute("""CREATE TABLE FOLLOW (FOLLOWER  INTEGER references USERS(ID),
+                                            FOLLOWING  INTEGER references USERS(ID),
+                                            PRIMARY KEY(FOLLOWER,FOLLOWING),
+                                            CHECK (FOLLOWING !=FOLLOWER))""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,2)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,3)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,1)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,3)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,2)""")
