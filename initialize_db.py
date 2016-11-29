@@ -6,34 +6,33 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO COUNTER (N) VALUES (0)""")
 
     #Table for GENDER
-    cursor.execute("""DROP TABLE IF EXISTS GENDER""")
+    cursor.execute("""DROP TABLE IF EXISTS GENDER CASCADE""")
     cursor.execute("""CREATE TABLE GENDER (ID  SERIAL PRIMARY KEY,TYPE character varying(10) NOT NULL )""")
     cursor.execute("""INSERT INTO GENDER ( TYPE) VALUES ('FEMALE' )""")
     cursor.execute("""INSERT INTO GENDER ( TYPE) VALUES ( 'MALE' )""")
     cursor.execute("""INSERT INTO GENDER ( TYPE) VALUES ( 'UNKNOWN' )""")
     #Table for CITY
-    cursor.execute("""DROP TABLE IF EXISTS CITY""")
+    cursor.execute("""DROP TABLE IF EXISTS CITY CASCADE""")
     cursor.execute("""CREATE TABLE CITY (ID  SERIAL PRIMARY KEY,CITYNAME character varying(20) NOT NULL )""")
     cursor.execute("""INSERT INTO CITY ( CITYNAME) VALUES ('Istanbul' )""")
     cursor.execute("""INSERT INTO CITY ( CITYNAME) VALUES ( 'Ankara' )""")
     cursor.execute("""INSERT INTO CITY ( CITYNAME) VALUES ( 'Adana' )""")
      #Table for SCHOOL
-    cursor.execute("""DROP TABLE IF EXISTS SCHOOL""")
+    cursor.execute("""DROP TABLE IF EXISTS SCHOOL CASCADE""")
     cursor.execute("""CREATE TABLE SCHOOL (ID  SERIAL PRIMARY KEY,SCHOOLNAME character varying(50) NOT NULL )""")
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ('ITU' )""")
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ( 'METU' )""")
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ( 'HACETTEPE UNIVERCITY' )""")
     #Table for user login
-    cursor.execute("""DROP TABLE IF EXISTS USERLOGIN""")
+    cursor.execute("""DROP TABLE IF EXISTS USERLOGIN CASCADE""")
     cursor.execute("""CREATE TABLE USERLOGIN (USERNAME VARCHAR(50) UNIQUE PRIMARY KEY NOT NULL,
                                               PASSWORD VARCHAR(50) NOT NULL,
                                               LASTLOGIN VARCHAR(50))""")
 
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ali','password')""")
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('dincer','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('fatih','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('caglar','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ekrem','password')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('seda','password')""")
+
 
     #Table for user information
     cursor.execute("""DROP TABLE IF EXISTS USERS""")
@@ -52,6 +51,20 @@ def initialize_db_func(cursor):
                                                                                                     2,
                                                                                                     1,
                                                                                                     3)""")
+    cursor.execute("""INSERT INTO USERS (USERNAME, NAME, SURNAME, MAIL, GENDER, SCHOOL, CITY) VALUES ('dincer',
+                                                                                                    'DINCER',
+                                                                                                    'ADANALI',
+                                                                                                    'dincertarbil@gmail.com',
+                                                                                                    2,
+                                                                                                    1,
+                                                                                                    2)""")
+    cursor.execute("""INSERT INTO USERS (USERNAME, NAME, SURNAME, MAIL, GENDER, SCHOOL, CITY) VALUES ('seda',
+                                                                                                    'SEDA',
+                                                                                                    'TIPCI',
+                                                                                                    'sedamedipol@gmail.com',
+                                                                                                    1,
+                                                                                                    3,
+                                                                                                    1)""")
 
 
     #Table for main
