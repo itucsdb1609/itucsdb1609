@@ -62,19 +62,39 @@ def signUp():
 def welcome_page():
     return render_template('welcome.html')
 
-@app.route('/home')
+@app.route('/home', methods = ['GET','POST'])
 def home_page():
     posts = []
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
-
+        query = """select m.userid, m.username, m.name, m.surname, m.linkpro, m.pid, m.linkpost, m.date, m.desc from (select users.id as userid, users.username as username, users.name as name, users.surname as surname, k.link1 as linkpro, k.id as pid, k.link2 as linkpost, k.date as date, k.description as desc from (select profilepic.link as link1,id,posts.userid as userid1,date,posts.link as link2,description from profilepic join posts on posts.userid=profilepic.userid) k join users on users.id=k.userid1) m left join hiddenposts on hiddenposts.postid=m.pid where hiddenposts.userid is null"""
         cursor.execute(query)
 
         for post in cursor:
             posts.append(post)
 
         connection.commit()
+        if request.method =='POST':
+            if 'del' in request.form:
+                postid=request.form['postid']
+                userid=request.form['userid']
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """INSERT INTO HIDDENPOSTS(userid, postid) VALUES (%s,%s) """
+                    cursor.execute(query,(userid,postid))
+                    connection.commit()
+                return redirect(url_for('home_page'))
+    
+            if 'upt' in request.form:
+                postid=request.form['postid']
+                desc = request.form['desc']
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """UPDATE posts SET (description ) = ('"""+desc+"""') WHERE postid = '""" +postid + """'"""
+                    cursor.execute(query)
+     
+                    connection.commit()
+                return redirect(url_for('home_page'))
 
     return render_template('main.html', posts=posts)
 
