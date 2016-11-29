@@ -84,7 +84,7 @@ def home_page():
                     cursor.execute(query,(userid,postid))
                     connection.commit()
                 return redirect(url_for('home_page'))
-    
+
             if 'upt' in request.form:
                 postid=request.form['postid']
                 desc = request.form['desc']
@@ -92,7 +92,7 @@ def home_page():
                     cursor = connection.cursor()
                     query = """UPDATE posts SET (description ) = ('"""+desc+"""') WHERE postid = '""" +postid + """'"""
                     cursor.execute(query)
-     
+
                     connection.commit()
                 return redirect(url_for('home_page'))
 
