@@ -23,20 +23,10 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ('ITU' )""")
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ( 'METU' )""")
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ( 'HACETTEPE UNIVERCITY' )""")
-    #Table for user login
-    cursor.execute("""DROP TABLE IF EXISTS USERLOGIN CASCADE""")
-    cursor.execute("""CREATE TABLE USERLOGIN (USERNAME VARCHAR(50) UNIQUE PRIMARY KEY NOT NULL,
-                                              PASSWORD VARCHAR(50) NOT NULL,
-                                              LASTLOGIN VARCHAR(50))""")
-
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ali','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('dincer','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('seda','password')""")
-
-
     #Table for user information
-    cursor.execute("""DROP TABLE IF EXISTS USERS""")
-    cursor.execute("""CREATE TABLE USERS (USERNAME VARCHAR(50) PRIMARY KEY NOT NULL references USERLOGIN(USERNAME),
+    cursor.execute("""DROP TABLE IF EXISTS USERS CASCADE""")
+    cursor.execute("""CREATE TABLE USERS (ID SERIAL PRIMARY KEY UNIQUE,
+                                          USERNAME VARCHAR(50) UNIQUE NOT NULL ,
                                          NAME VARCHAR(50) NOT NULL,
                                          SURNAME VARCHAR(50) NOT NULL,
                                          MAIL VARCHAR(50) UNIQUE NOT NULL,
@@ -67,6 +57,18 @@ def initialize_db_func(cursor):
                                                                                                     1)""")
 
 
+    #Table for user login
+    cursor.execute("""DROP TABLE IF EXISTS USERLOGIN CASCADE""")
+    cursor.execute("""CREATE TABLE USERLOGIN (USERNAME VARCHAR(50)  PRIMARY KEY  references users(username),
+                                               PASSWORD VARCHAR(50) NOT NULL,
+                                               LASTLOGIN VARCHAR(50))""")
+
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ali','password')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('dincer','password')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('seda','password')""")
+
+
+
     #Table for main
     cursor.execute("""DROP TABLE IF EXISTS PostForView""")
     cursor.execute("""CREATE TABLE PostForView(ID CHAR(20) NOT NULL, FID CHAR(20), POSTID Char(10) )""")
@@ -81,12 +83,28 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('6', 'NATURE' )""")
     cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('9', 'ART')""")
 
-    #Table for Profile-picture-post
+    #Table for picture-post//not active just trying
     cursor.execute("""DROP TABLE IF EXISTS picPost""")
     cursor.execute("""CREATE TABLE picPost (PicId  SERIAL PRIMARY KEY,Description CHAR(20) )""")
     cursor.execute("""INSERT INTO picPost ( Description) VALUES ('School')""")
     cursor.execute("""INSERT INTO picPost ( Description) VALUES ('With My Friends')""")
     cursor.execute("""INSERT INTO picPost ( Description) VALUES ('Enjoy')""")
-    #Table for IMAGES
-    cursor.execute("""DROP TABLE IF EXISTS IMAGES""")
-    cursor.execute("""CREATE TABLE IMAGES (ID  SERIAL PRIMARY KEY,IMAGE character varying(255) NOT NULL )""")
+    #Table for Profil PICTURE
+    cursor.execute("""DROP TABLE IF EXISTS PROFILEPIC CASCADE""")
+    cursor.execute("""CREATE TABLE PROFILEPIC (USERID INTEGER PRIMARY KEY references USERS(ID),LINK character varying(255) NOT NULL )""")
+    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (1,'http://laelith.fr/Cours/Illus/013-avatar-faceprofil.jpg')""")
+    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (2,'http://laelith.fr/Cours/Illus/013-Me.jpg' )""")
+    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (3,'http://laelith.fr/Cours/Illus/013-Exercice2.png' )""")
+     #Table for POST table
+    cursor.execute("""DROP TABLE IF EXISTS POSTS CASCADE""")
+    cursor.execute("""CREATE TABLE POSTS (ID SERIAL PRIMARY KEY UNIQUE,
+                                            USERID INTEGER  references USERS(ID),
+                                            DATE character varying(50) NOT NULL,
+                                            LINK character varying(255) NOT NULL,
+                                            DESCRIPTION character varying(255))""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'28.11.2016','https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828__340.jpg','GREEN' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'26.11.2016','https://cdn.pixabay.com/photo/2016/11/25/15/14/baffin-island-1858603__340.jpg','BAFFIN ISLAND' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'28.11.2016','https://cdn.pixabay.com/photo/2016/11/23/14/51/clouds-1853340__340.jpg','ANGRY CLOUDS' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'29.11.2016','https://cdn.pixabay.com/photo/2016/11/18/15/26/gull-1835351__340.jpg','GULL' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'25.11.2016','https://cdn.pixabay.com/photo/2015/09/22/23/42/tibet-952688__340.jpg','TIBET' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'28.11.2016','https://cdn.pixabay.com/photo/2015/08/29/18/53/sunset-913350__340.jpg','SUNSET' )""")
