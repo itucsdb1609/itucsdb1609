@@ -86,11 +86,11 @@ def home_page():
                 return redirect(url_for('home_page'))
 
             if 'upt' in request.form:
-                postid=request.form['postid']
+                post = request.form['post']
                 desc = request.form['desc']
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
-                    query = """UPDATE posts SET (description ) = ('"""+desc+"""') WHERE postid = '""" +postid + """'"""
+                    query = """UPDATE posts SET description='"""+desc+"""' WHERE id ="""+post+""""""
                     cursor.execute(query)
 
                     connection.commit()
