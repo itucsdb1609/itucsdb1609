@@ -1,127 +1,140 @@
 {% extends "layout.html" %}
 {% block content %}
-  {% if user %}
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static',filename='fonts.css')}}" />
-    <link rel="stylesheet" href="{{ url_for('static',filename='theme.min.css')}}" />
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <br>
-    <br>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="{{ url_for('static',filename='fonts.css')}}" />
+	<link rel="stylesheet" href="{{ url_for('static',filename='theme.min.css')}}" />
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<br>
+	<br>
+	{% if user %}
+		<div class="row">
+			{% for id, image , username , name , surname , mail in userr %}
+				<div class="col-sm-3">
+					<div class="panel widget light-widget panel-bd-top">
+						<div class="panel-heading no-title"> </div>
+						<div class="panel-body">
+							<div class="text-center vd_info-parent"> <img alt="{{username}}" src="{{image}}" style="width: 200px; height: 200px;"> </div>
+							<h2 class="font-semibold mgbt-xs-5">{{name}}</h2>
+							<h2 class="font-semibold mgbt-xs-5">{{surname}}</h2>
+							<h4>{{mail}}</h4>
+							<p>@{{username}}</p>
+							<div class="mgtp-20">
+								<table class="table table-striped table-hover">
+									<tbody>
+										<tr>
+											<td style="width:60%;">Status</td>
+											<td><span class="label label-success">Active</span></td>
+								     		</tr>
+										<tr>
+											<td>Member Since</td>
+											<td>{{ current_time }} </td>
+									     </tr>
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<!-- panel widget -->
 
-    <div class="row">
-      {% for id, image , username , name , surname , mail in userr %}
-      	<div class="col-sm-3">
-                      <div class="panel widget light-widget panel-bd-top">
-                        <div class="panel-heading no-title"> </div>
-                        <div class="panel-body">
-                          <div class="text-center vd_info-parent"> <img alt="{{username}}" src="{{image}}" style="width: 200px; height: 200px;"> </div>
-                          <h2 class="font-semibold mgbt-xs-5">{{name}}</h2>
-                          <h2 class="font-semibold mgbt-xs-5">{{surname}}</h2>
-                          <h4>{{mail}}</h4>
-                          <p>@{{username}}</p>
-                          <div class="mgtp-20">
-                           <table class="table table-striped table-hover">
-                              <tbody>
-                                <tr>
-                                  <td style="width:60%;">Status</td>
-                                  <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                  <td>Member Since</td>
-                                  <td> {{ current_time }} </td>
-                                </tr>
-                              </tbody>
-                           </table>
-                          </div>
-                        </div>
-                      </div>
-                      <!-- panel widget -->
+					<div class="panel widget light-widget">
+						<div class="panel-body-list">
+						  	<h3 class="pd-20 mgbt-xs-0"><i class="fa fa-users mgr-10"></i>Friends</h3>
+						  	<div class="content-grid column-xs-2 column-sm-3 height-xs-auto mgbt-xs-20">
+							 	<form class="form-horizontal" method="post" >
+								 	<div>
+								 		{% for deneme, friendusername in friendspic %}
+											<ul class="list-wrapper">
+												<input type = "hidden" name="prof" value={{friendusername}}>
+									  			<li> <button  name="FOLLOWER"><img  class="img-circle" alt="example image" src="{{deneme}}" style="margin-bottom: 20px; width: 50px; height: 50px;"> </button></li>
+											</ul>
+										{% endfor %}
+								 	</div>
+							 	</form>
+						  	</div>
+							<div class="closing text-center" style="">
+								<a href="#">See All Friends<i class="fa fa-angle-double-right prepend-icon"></i></a>
+							</div>
+						</div>
+					</div>
+					<!-- panel widget -->
 
-                      <div class="panel widget light-widget">
-                        <div class="panel-body-list">
-                          <h3 class="pd-20 mgbt-xs-0"><i class="fa fa-users mgr-10"></i>Friends</h3>
-                          <div class="content-grid column-xs-2 column-sm-3 height-xs-auto mgbt-xs-20">
-                            <div>
-                              <ul class="list-wrapper">
-                                <li> <a href="#"><img class="img-circle" alt="example image" src="" style="margin-bottom: 20px; width: 50px; height: 50px;"> </a> </li>
-                                <li> <a href="#"><img class="img-circle" alt="example image" src="" style="margin-bottom: 20px; width: 50px; height: 50px;"> </a> </li>
-                                <li> <a href="#"><img class="img-circle" alt="example image" src="" style="margin-bottom: 20px; width: 50px; height: 50px;"> </a> </li>
-                                <li> <a href="#"><img class="img-circle" alt="example image" src="" style="margin-bottom: 20px; width: 50px; height: 50px;"> </a> </li>
-                                <li> <a href="#"><img class="img-circle" alt="example image" src="" style="margin-bottom: 20px; width: 50px; height: 50px;"> </a> </li>
-                                <li> <a href="#"><img class="img-circle" alt="example image" src="" style="margin-bottom: 20px; width: 50px; height: 50px;"> </a> </li>
-                              </ul>
-                            </div>
-                          </div>
-                          <div class="closing text-center" style=""> <a href="#">See All Friends<i class="fa fa-angle-double-right prepend-icon"></i></a> </div>
-                        </div>
-                      </div>
-                      <!-- panel widget -->
-           </div>
+		  		</div>
 
-      	<div class="col-sm-9" style="margin-top=50px;">
-      		<form class="form-horizontal" method="post" >
+				<div class="col-sm-9" style="margin-top=50px;">
+					<form class="form-horizontal" method="post" >
 
-      		   <div class="form-group" style="margin-top:50px ">
-            		    <input type = "hidden" name="id" value={{id}}>
-            		    <label class="control-label col-sm-2" for="pwd">Image Url:</label>
-            		    <div class="col-sm-10" >
-            		      <input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" >
-            		    </div>
-                          <div class="col-sm-offset-2 col-sm-10">
-                                <a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:250px;">
-                                  <span class="glyphicon glyphicon-download"></span> Take link from "Hızlı Resim"
-                                </a>
-                          </div>
+						<div class="form-group" style="margin-top:50px ">
+						 	<input type = "hidden" name="id" value={{id}}>
+							<label class="control-label col-sm-2" for="pwd">Image Url:</label>
+							<div class="col-sm-10" >
+								<input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" >
+							</div>
+							<hr>
+							<div class="col-sm-offset-2 col-sm-10">
+								<a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:231px;">
+									<span class="glyphicon glyphicon-download"></span> Take link from "Hızlı Resim"
+								</a>
+								<a href="http://resimyukle.xyz/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:231px;">
+									<span class="glyphicon glyphicon-download"></span> Take link from "Resim Yukle"
+								</a>
+								<a href="https://postimage.org/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:231px;">
+									<span class="glyphicon glyphicon-download"></span> Take link from "PostImage"
+								</a>
+							</div>
+							<hr><br>
+							<div>
+								<label class="control-label col-sm-2" for="pwd">Description:</label>
+								<div class="col-sm-10" >
+									<input type="text" name="DESC"   class="form-control" id="pwd" placeholder="Enter Description" >
+								</div>
+							</div>
+							<hr><br>
+							<div class="col-sm-offset-2 col-sm-10">
+								<button type="submit" class="btn btn-default" name="EKLE">Add</button>
+							</div>
+					 	</div>
 
+					</form>
+	  
 
-            		    <label class="control-label col-sm-2" for="pwd">Description:</label>
-                		    <div class="col-sm-10" >
-                		      <input type="text" name="DESC"   class="form-control" id="pwd" placeholder="Enter Description" >
-                		    </div>
-                  	     <div class="col-sm-offset-2 col-sm-10">
-                  	       <button type="submit" class="btn btn-default" name="EKLE">Add</button>
-                  	     </div>
-      		    </div>
+					<div class="container">
+						<div class="row">
+							<h2>Gallery</h2>
+							<hr>
+						</div>
+						<div class="row">
+							{% for id, resim in images %}
+							  	<span class="col-lg-4">
+									<img class="img-thumbnail" id={{id}} src={{resim}}  style="width: 300px; height: 250px">
+							  	</span>
+						 	{% endfor %}
+						</div>
+					</div>
+			 	</div>
+			{% endfor %}
+	 	</div>
 
-      		</form>
-     
+  	{% else %}
+  		<form method="POST" role="form">
+	 		<div class="col-xs-4 col-sm-offset-4">
+		  		<select id="mySelect"  style="margin-top:40px;" name="Change">
+		  			{% for id,username in kullanici %}
+			 			<option value={{username}} name="Change"  >@{{username}}
+		  			{% endfor %}
+		  		</select>
+		  		<br><br>  
 
-      		<div class="container">
-      			<div class="row">
-      				<h2>Gallery</h2>
-      		        <hr>
-      			</div>
-      		     <div class="row">
-        		      {% for id, resim in images %}
-      		        <span class="col-lg-4">
-      		            <img class="img-thumbnail" id={{id}} src={{resim}}  style="width: 300px; height: 250px">
-      		        </span>
-      			 {% endfor %}
-      		     </div>
-      		</div>
-    	     </div>
-      {% endfor %}
-    </div>
-
-    <button  onclick="location.href = '{{ url_for('add_pic') }}'" class="float-left submit-button" >Edit PICTURES</button>
-    <button  onclick="location.href = '{{ url_for('deneme_page') }}'" class="float-left submit-button" >DENEME</button>
-
-    <p><a href="#" class="simple-back-to-top">Back to Top</a></p>
-
-  {% else %}
-  <form method="POST" role="form">
-    <div class="col-xs-4">
-        <select id="mySelect"  style="margin-top:40px;" name="Change">
-        {% for id,username in kullanici %}
-          <option value={{username}} name="Change"  >{{username}}
-        {% endfor %}
-        </select>
-        <br><br>  
-
-      <button  type="submit" name="Change" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-edit"></span> SEC</button>
-    </div>
-   </form>
+				<button  type="submit" name="Change" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-user"></span> SEC</button>
+	 		</div>
+		</form>
 
 
-  {% endif %}
+  	{% endif %}
+  		<br><br>
+  		<div class="col-md-10" style="margin-top: 100px;">
+	 		<button  onclick="location.href = '{{ url_for('add_pic') }}'" class="float-left submit-button" >Edit PICTURES</button>
+	 		<button  onclick="location.href = '{{ url_for('deneme_page') }}'" class="float-left submit-button" >DENEME</button>
+  			<p><a href="#" class="simple-back-to-top">Back to Top</a></p>
+  		</div>
+  		
 {% endblock %}

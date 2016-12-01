@@ -6,156 +6,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-  	<link rel="stylesheet" href="{{ url_for('static',filename='deneme.css')}}" />
+	<link rel="stylesheet" href="{{ url_for('static',filename='deneme.css')}}" />
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
 
-<!-- <div class="container">
-  <h2>Image Gallery</h2>
-
-  <div class="row">
-    <div class="col-md-4">
-      <div class="thumbnail">
-        <a href="/w3images/lights.jpg" target="_blank">
-          <img  src="http://i.dailymail.co.uk/i/pix/2016/04/13/00/331D901800000578-3536787-image-a-11_1460503122350.jpg" alt="Pulpit Rock" style="width: 400px; height: 200px">
-          <div class="caption">
-            <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="thumbnail">
-        <a href="/w3images/nature.jpg" target="_blank">
-          <img  src="http://www.w3schools.com/css/trolltunga.jpg" alt="Moustiers Sainte Marie" style="width: 400px; height: 200px">
-          <div class="caption">
-            <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-    <div class="col-md-4">
-      <div class="thumbnail">
-        <a href="/w3images/fjords.jpg" target="_blank">
-          <img  src="http://kingofwallpapers.com/image/image-025.jpg" alt="Cinque Terre" style="width: 400px; height: 200px">
-          <div class="caption">
-            <p>Lorem ipsum donec id elit non mi porta gravida at eget metus.</p>
-          </div>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
- -->
-
 {% if user %}
-<form class="form-horizontal" method="post" >
+	  <div class="title col-md-12" style="text-align: center;">
+		 <h1>ALL IMAGES(Just trying page)</h1>
+		 <br><br>
+	  </div>
+	  <form class="form-horizontal" method="post" >
 
-  <div class="form-group" style="margin-top:50px ">
-    <label class="control-label col-sm-2" for="pwd">Image Url:</label>
-    <div class="col-sm-10" >
-      <input type="text" name="ADD" class="form-control" id="pwd" placeholder="Enter Image Url" >
-    </div>
-  </div>
-   <div class="form-group">
-      <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-default">Add</button>
-      </div>
-    </div>
+		<div class="form-group" style="margin-top:50px ">
+		  <label class="control-label col-sm-2" for="pwd">Image Url:</label>
+		  <div class="col-sm-10" >
+			<input type="text" name="ADD" class="form-control" id="pwd" placeholder="Enter Image Url" >
+		  </div>
+		</div>
+		<div class="form-group">
+		  <div class="col-sm-offset-2 col-sm-10">
+			<button type="submit" class="btn btn-default">Add</button>
+		  </div>
+		</div>
+				
+	  </form>
 
-</form>
-
-  <div class="container">
-	<div class="row">
-		<h2>Gallery</h2>
-        <hr>
+	<div class="container">
+		<div class="row">
+			<h2>Gallery</h2>
+				<hr>
+		</div>
+		<div class="row">
+			{% for id, image in images %}
+				<span class="col-lg-3 col-sm-12 picture">
+				  <img class="img-thumbnail" id={{id}} src={{image}}  style="width: 200px; height: 200px">
+				</span>
+			{% endfor %}
+		</div>
 	</div>
-    <div class="row">
-    	{% for id, image in images %}
-        <span class="col-lg-3 col-sm-12 picture">
-            <img class="img-thumbnail" id={{id}} src={{image}}  style="width: 200px; height: 200px">
-        </span>
-         {% endfor %}
-    </div>
-</div>
-
 
 {% else %}
-<form method="POST" role="form">
-<select id="mySelect"  style="margin-top:40px;" name="Change">
-{% for id,username in kullanici %}
-  <option value={{username}} name="Change"  >{{username}}
- {% endfor %}
-</select>
+	<form method="POST" role="form">
+		<select id="mySelect"  style="margin-top:40px;" name="Change">
+			{% for id,username in kullanici %}
+		  		<option value={{username}} name="Change"  >{{username}}
+		 	{% endfor %}
+		</select>
 
-<div class="col-xs-4">
-</div>
-<button href="{{ url_for('deneme_page') }}" type="submit" name="Change" class="btn btn-danger btn-xs">
-	<span class="glyphicon glyphicon-edit"></span> SEC</button>
+		<div class="col-xs-4"></div>
+		<button href="{{ url_for('deneme_page') }}" type="submit" name="Change" class="btn btn-danger btn-xs"><span class="glyphicon glyphicon-edit"></span> SEC</button>
 
- </form>
+	</form>
 
 
 {% endif %}
-
-
-
-
-<!-- <div class="container">
-    <div id="main_area">
-        Slider
-        <div class="row">
-            <div class="col-sm-6" id="slider-thumbs">
-                Bottom switcher of slider
-                 {% for id, image in images %}
-                <ul class="hide-bullets">
-
-                    <li class="col-sm-3">
-                        <a class="thumbnail" id={{id}} >
-                            <img src={{image}} style="width: 100px; height: 100px">
-                        </a>
-                    </li>
-
-                </ul>
-                   {% endfor %}
-            </div>
-            <div class="col-sm-6">
-                <div class="col-xs-12" id="slider">
-                    Top part of the slider
-                    <div class="row">
-                        <div class="col-sm-12" id="carousel-bounding-box">
-                            <div class="carousel slide" id="myCarousel">
-                                Carousel items
-                                <div class="carousel-inner">
-	                                     <div class="active item" data-slide-number="0">
-                                       	  <img src="https://fccid.io/img.php?id=2658826&img=bg3.png" style="width: 500px; height: 600px"></div>
-									 {% for id, image in images %}
-
-                                    <div class="item" data-slide-number={{id}}>
-                                        <img src={{image}} id={{id}} style="width: 500px; height: 600px"></div>
-									 {% endfor %}
-
-                                </div>
-                                Carousel nav
-                                <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
-                                    <span class="glyphicon glyphicon-chevron-left"></span>
-                                </a>
-                                <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
-                                    <span class="glyphicon glyphicon-chevron-right"></span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            /Slider
-        </div>
-
-    </div>
-</div>
- -->
-
 
 </body>
 </html>

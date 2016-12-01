@@ -310,6 +310,7 @@ def profile_page(user=None):
     images = []
     kullanici=[]
     userr=[]
+    friendspic=[]
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """select id,username from users"""
@@ -321,13 +322,18 @@ def profile_page(user=None):
             cursor.execute(query)
             for im in cursor:
                 images.append(im)
+        if user:
+            query ="""select link,users.username from (select following,users.username from users join follow on users.id=follow.follower where username='"""+user+"""') F, profilepic,users where F.following=profilepic.userid and F.following=users.id"""
+            cursor.execute(query)
+            for im in cursor:
+                friendspic.append(im)
+
 
         if user:
             query="""select userid,link, username, name, surname,mail from profilepic,users where username='"""+user+"""' and users.id=profilepic.userid"""
             cursor.execute(query)
             for us in cursor:
                 userr.append(us)
-
         connection.commit()
     if request.method =='POST':
         if 'EKLE' in request.form:
@@ -344,7 +350,13 @@ def profile_page(user=None):
             username = request.form['Change']
 
             return redirect(url_for('profile_page',user=username))
-    return render_template('profile.html',user=user, current_time=now.ctime(),images=images,userr=userr,kullanici=kullanici)
+        if 'FOLLOWER' in request.form:
+            username = request.form['prof']
+            print(username)
+
+            return redirect(url_for('profile_page',user=username))
+
+    return render_template('profile.html',user=user, friendspic=friendspic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)
 
 @app.route('/add_pic', methods = ['GET','POST'])
 def add_pic():
