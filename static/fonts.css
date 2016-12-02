@@ -1,7 +1,7 @@
 /* Regular */
 @font-face {
     font-family: 'Open Sans';
-    
+
     src: url('../fonts/OpenSans-Regular-webfont.eot');
     src: url('../fonts/OpenSans-Regular-webfont.eot?#iefix') format('embedded-opentype'),
          url('../fonts/OpenSans-Regular-webfont.woff') format('woff'),
@@ -73,7 +73,7 @@
     src: url('../fonts/OpenSans-SemiboldItalic-webfont.eot?#iefix') format('embedded-opentype'),
          url('../fonts/OpenSans-SemiboldItalic-webfont.woff') format('woff'),
          url('../fonts/OpenSans-SemiboldItalic-webfont.ttf') format('truetype'),
-         url('../fonts/OpenSans-SemiboldItalic-webfont.svg#OpenSansSemiboldItalic') format('svg');	 
+         url('../fonts/OpenSans-SemiboldItalic-webfont.svg#OpenSansSemiboldItalic') format('svg');
     font-weight: 500;
     font-style: italic;
 }
@@ -180,4 +180,23 @@
 		url('../fonts/entypo.svg#entypo') format('svg');
 	font-weight: normal;
 	font-style: normal;
+}
+
+.btn-circle {
+  width: 49px;
+  height: 49px;
+  text-align: center;
+  padding: 5px 0;
+  font-size: 20px;
+  line-height: 2.00;
+  border-radius: 30px;
+}
+.btn-circle-sm {
+  width: 30px;
+  height: 30px;
+  text-align: center;
+  padding: 2px 0;
+  font-size: 20px;
+  line-height: 1.65;
+  border-radius: 30px;
 }
