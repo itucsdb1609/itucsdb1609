@@ -13,7 +13,55 @@
 					<div class="panel widget light-widget panel-bd-top">
 						<div class="panel-heading no-title"> </div>
 						<div class="panel-body">
-							<div class="text-center vd_info-parent"> <img alt="{{username}}" src="{{image}}" style="width: 200px; height: 200px;"> </div>
+							<div class="text-center vd_info-parent">
+								<img alt="{{username}}" src="{{image}}" style="width: 200px; height: 200px;">
+								<div class="closing text-center" style="">
+									<a href="" data-toggle="modal" data-target="#myModalChangePic"  class="btn  btn-md" >Change Profile Pic 
+										<span class="glyphicon glyphicon-edit"></span>
+									</a>
+								</div>
+							</div>
+
+							<div class="container">
+					  		<!-- Modal -->
+					  			<div class="modal fade" id=myModalChangePic role="dialog">
+					    				<div class="modal-dialog">
+					    
+					      			<!-- Modal content-->
+					      				<div class="modal-content">
+					        					<div class="modal-header">
+					          						<button type="button" class="close" data-dismiss="modal">&times;</button>
+					          						<h4 class="modal-title">Edit Profile Picture</h4>
+					        					</div>
+					        					<div class="modal-body">
+					        						<form method="POST" role="form">
+					        							<input type="hidden" name="PROFILE" value={{ id }}>
+					        							<input type="hidden" name="USERNAME" value={{ username }}>
+									                	<input type="text" name="NEWLINK" placeholder="New Picture Url " style="width: 100%;">
+									                	<br><hr>
+													<div >
+														<a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
+															<span class="glyphicon glyphicon-download"></span>Link from "Hızlı Resim"
+														</a>
+														<a href="http://resimyukle.xyz/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
+															<span class="glyphicon glyphicon-download"></span>Link from "Resim Yukle"
+														</a>
+														<a href="https://postimage.org/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
+															<span class="glyphicon glyphicon-download"></span>Link from "PostImage"
+														</a>
+													</div>
+													<hr>
+									                	<button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative; top: 10px; left: 390px;">Close</button>
+									                	<button class="btn btn-default" type="submit" name="UPDATE" style="position: relative; top: 10px; left: 400px; background-color: #03C9A9; color: white;">Change</button>
+				               						 </form>
+					        					</div>
+					        				</div>
+					      
+					    				</div>
+					  			</div>
+					  
+							</div>	
+
 							<h2 class="font-semibold mgbt-xs-5">{{name}}</h2>
 							<h2 class="font-semibold mgbt-xs-5">{{surname}}</h2>
 							<h4>{{mail}}</h4>

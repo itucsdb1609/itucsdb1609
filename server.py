@@ -369,6 +369,20 @@ def profile_page(user=None):
 
             return redirect(url_for('profile_page',user=prof))
 
+        if 'UPDATE' in request.form:
+                userid = request.form['PROFILE']
+                username=request.form['USERNAME']
+                link = request.form['NEWLINK']
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """UPDATE profilepic SET link='"""+link+"""' WHERE userid ="""+userid+""""""
+                    cursor.execute(query)
+
+                    connection.commit()
+                return redirect(url_for('profile_page',user=username))
+
+
+
     return render_template('profile.html',user=user,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)
 
 @app.route('/add_pic', methods = ['GET','POST'])
