@@ -42,22 +42,25 @@
 						  	<div class="content-grid column-xs-2 column-sm-3 height-xs-auto mgbt-xs-20">
 							 	<form class="form-horizontal" method="post" >
 								 	<div>
-								 		{% for deneme, friendusername in followingpic %}
-												<ul class="list-wrapper">
-										  			<li> 
-										  				<button class="btn btn-circle-sm btn-default" name="FOLLOWING" value={{friendusername}}>
-										  					<span class="menu-icon" style="margin-bottom: 20px; width: 50px; height: 50px;">
-										  						<img  class="img-circle" alt="example image" src="{{deneme}}" ><br>
-										  						<label style="font-size:12px; ">{{ friendusername }}</label>
-										  					</span>
-										  				</button>
-										  			</li>
-												</ul>
+								 		{% for deneme, friendusername in allfollowingpic %}
+												{% if loop.index<6 %}
+													<ul class="list-wrapper">
+											  			<li> 
+											  				<button class="btn btn-circle-md btn-default" name="FOLLOWING" value={{friendusername}}>
+											  					<span class="menu-icon" style="margin-bottom: 20px; width: 50px; height: 50px;">
+											  						<img  class="img-circle" alt="example image" src="{{deneme}}" ><br>
+											  						<label style="font-size:12px; ">{{ friendusername }}</label>
+											  					</span>
+											  				</button>
+											  			</li>
+													</ul>
+												{% endif %}
 										{% endfor %}
 										
 								 	</div>
 							 	</form>
 						  	</div>
+
 							<div class="closing text-center" style="">
 								<a href="" data-toggle="modal" data-target="#myModalfollowing" >See All Following<i class="fa fa-angle-double-right prepend-icon"></i></a>
 							</div>
@@ -79,7 +82,7 @@
 								 							{% for deneme, friendusername in allfollowingpic %}
 																<ul class="list-wrapper">
 														  			<li> 
-														  				<button class="btn btn-circle-sm btn-default" name="FOLLOWING" value={{friendusername}}>
+														  				<button class="btn btn-circle-md btn-default" name="FOLLOWING" value={{friendusername}}>
 														  					<span class="menu-icon" style="margin-bottom: 20px; width: 50px; height: 50px;">
 														  						<img  class="img-circle" alt="example image" src="{{deneme}}" ><br>
 														  						<label style="font-size:12px; ">{{ friendusername }}</label>
@@ -111,10 +114,12 @@
 						  	<div class="content-grid column-xs-2 column-sm-3 height-xs-auto mgbt-xs-20">
 							 	<form class="form-horizontal" method="post" >
 								 	<div>
-								 		{% for deneme, friendusername in followerpic %}
+								 		{% for deneme, friendusername in allfollowerpic %}
+								 			{% if loop.index<6 %}
+												<br>
 												<ul class="list-wrapper">
 										  			<li> 
-										  				<button class="btn btn-circle-sm btn-default" name="FOLLOWER" value={{friendusername}}>
+										  				<button class="btn btn-circle-md btn-default" name="FOLLOWER" value={{friendusername}}>
 										  					<span class="menu-icon" style="margin-bottom: 20px; width: 50px; height: 50px;">
 										  						<img  class="img-circle" alt="example image" src="{{deneme}}" ><br>
 										  						<label style="font-size:12px; ">{{ friendusername }}</label>
@@ -122,6 +127,7 @@
 										  				</button>
 										  			</li>
 												</ul>
+											{% endif %}
 										{% endfor %}
 										
 								 	</div>
@@ -148,7 +154,7 @@
 								 							{% for deneme, friendusername in allfollowerpic %}
 																<ul class="list-wrapper">
 														  			<li> 
-														  				<button class="btn btn-circle-sm btn-default" name="FOLLOWER" value={{friendusername}}>
+														  				<button class="btn btn-circle-md btn-default" name="FOLLOWER" value={{friendusername}}>
 														  					<span class="menu-icon" style="margin-bottom: 20px; width: 50px; height: 50px;">
 														  						<img  class="img-circle" alt="example image" src="{{deneme}}" ><br>
 														  						<label style="font-size:12px; ">{{ friendusername }}</label>

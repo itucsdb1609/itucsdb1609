@@ -310,8 +310,6 @@ def profile_page(user=None):
     images = []
     kullanici=[]
     userr=[]
-    followingpic=[]
-    followerpic=[]
     allfollowerpic=[]
     allfollowingpic=[]
     with dbapi2.connect(app.config['dsn']) as connection:
@@ -325,11 +323,7 @@ def profile_page(user=None):
             cursor.execute(query)
             for im in cursor:
                 images.append(im)
-        if user:#with limit 6
-            query ="""select link,users.username from (select following,users.username from users join follow on users.id=follow.follower where username='"""+user+"""') F, profilepic,users where F.following=profilepic.userid and F.following=users.id ORDER BY RANDOM() LIMIT 6"""
-            cursor.execute(query)
-            for im in cursor:
-                followingpic.append(im)
+
         if user:
             query ="""select link,users.username from (select following,users.username from users join follow on users.id=follow.follower where username='"""+user+"""') F, profilepic,users where F.following=profilepic.userid and F.following=users.id ORDER BY users.username ASC"""
 
@@ -337,11 +331,6 @@ def profile_page(user=None):
             for im in cursor:
                 allfollowingpic.append(im)
 
-        if user:#with limit 6
-            query ="""select link,users.username from (select follower,users.username from users join follow on users.id=follow.following where username='"""+user+"""') F, profilepic,users where F.follower=profilepic.userid and F.follower=users.id ORDER BY RANDOM() LIMIT 6"""
-            cursor.execute(query)
-            for im in cursor:
-                followerpic.append(im)
         if user:
             query ="""select link,users.username from (select follower,users.username from users join follow on users.id=follow.following where username='"""+user+"""') F, profilepic,users where F.follower=profilepic.userid and F.follower=users.id ORDER BY users.username ASC"""
 
@@ -380,7 +369,7 @@ def profile_page(user=None):
 
             return redirect(url_for('profile_page',user=prof))
 
-    return render_template('profile.html',user=user, followerpic=followerpic,allfollowerpic=allfollowerpic, followingpic=followingpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)
+    return render_template('profile.html',user=user,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)
 
 @app.route('/add_pic', methods = ['GET','POST'])
 def add_pic():
