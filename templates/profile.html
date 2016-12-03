@@ -96,7 +96,7 @@
 											  			<li> 
 											  				<button class="btn btn-circle-md btn-default" name="FOLLOWING" value={{friendusername}}>
 											  					<span class="menu-icon" style="margin-bottom: 20px; width: 50px; height: 50px;">
-											  						<img  class="img-circle" alt="example image" src="{{deneme}}" ><br>
+											  						<img  class="img-circle" alt="{{friendusername}} image" src="{{deneme}}" ><br>
 											  						<label style="font-size:12px; ">{{ friendusername }}</label>
 											  					</span>
 											  				</button>
@@ -164,7 +164,6 @@
 								 	<div>
 								 		{% for deneme, friendusername in allfollowerpic %}
 								 			{% if loop.index<6 %}
-												<br>
 												<ul class="list-wrapper">
 										  			<li> 
 										  				<button class="btn btn-circle-md btn-default" name="FOLLOWER" value={{friendusername}}>
@@ -177,7 +176,6 @@
 												</ul>
 											{% endif %}
 										{% endfor %}
-										
 								 	</div>
 							 	</form>
 						  	</div>
