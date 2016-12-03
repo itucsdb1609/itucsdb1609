@@ -26,6 +26,7 @@ def get_elephantsql_dsn(vcap_services):
 #aliercccan-------------------------------------
 
 #Login page
+
 @app.route('/login')
 def login():
     now = datetime.datetime.now()
@@ -33,6 +34,7 @@ def login():
 
 
 #Sign up page
+
 @app.route('/signUp',methods = ['GET','POST'])
 def signUp():
 
@@ -303,6 +305,8 @@ def update_hash():
 def notification_page():
     now = datetime.datetime.utcnow()
     return render_template('notification.html', current_time=now.ctime())
+
+#Start of EKREM CIHAD CETIN's space
 @app.route('/profile', methods = ['GET','POST'])
 @app.route('/profile/<user>', methods = ['GET','POST'])
 def profile_page(user=None):
@@ -429,6 +433,7 @@ def add_pic():
             return redirect(url_for('add_pic'))
 
     return render_template('add_pic.html', pics=pics)
+
 @app.route('/deneme', methods = ['GET','POST'])
 @app.route('/deneme/<user>', methods = ['GET','POST'])
 def deneme_page(user=None):
@@ -464,6 +469,16 @@ def deneme_page(user=None):
             return redirect(url_for('deneme_page',user=username))
 
     return render_template('deneme.html',user=user,images=images,kullanici=kullanici)
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
+
+@app.errorhandler(500)
+def page_not_found(e):
+    return render_template('500.html'), 500
+#
+# #END of EKREM CIHAD CETIN's space
 
 if __name__ == '__main__':
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
