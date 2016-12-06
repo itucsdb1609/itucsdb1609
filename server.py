@@ -3,7 +3,7 @@ import json
 import os
 import psycopg2 as dbapi2
 import re
-
+import random
 from flask import Flask
 from flask import redirect
 from flask import render_template
@@ -308,6 +308,7 @@ def update_hash():
 def notification_page():
     now = datetime.datetime.utcnow()
     return render_template('notification.html', current_time=now.ctime())
+
 
 
 if __name__ == '__main__':

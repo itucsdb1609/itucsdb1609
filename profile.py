@@ -31,8 +31,10 @@ def profile_page(user=None):
         for im in cursor:
             kullanici.append(im)
         if user:
-            query = """select users.id,posts.link from users,posts where username='"""+user+"""' and users.id=posts.userid"""
+            query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user+"""' and users.id=posts.userid"""
+
             cursor.execute(query)
+
             for im in cursor:
                 images.append(im)
 
@@ -88,6 +90,17 @@ def profile_page(user=None):
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
                     query = """UPDATE profilepic SET link='"""+link+"""' WHERE userid ="""+userid+""""""
+                    cursor.execute(query)
+
+                    connection.commit()
+                return redirect(url_for('profile_page',user=username))
+        if 'POSTDEL' in request.form:
+                postid = request.form['POSTDEL']
+                username=request.form['USERNAME']
+                print (postid)
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """DELETE FROM POSTS WHERE id ="""+postid+""""""
                     cursor.execute(query)
 
                     connection.commit()

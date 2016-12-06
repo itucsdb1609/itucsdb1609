@@ -1,10 +1,11 @@
 {% extends "layout.html" %}
 {% block title %}Profile Page{% endblock %}
 {% block content %}
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-	<link rel="stylesheet" href="{{ url_for('static',filename='fonts.css')}}" />
+	
 	<link rel="stylesheet" href="{{ url_for('static',filename='theme.min.css')}}" />
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+	<link rel="stylesheet" href="http://blueimp.github.io/Gallery/css/blueimp-gallery.min.css">
+	<link rel="stylesheet" href="https://raw.github.com/blueimp/Bootstrap-Image-Gallery/master/css/demo.css">
 	<br>
 	<br>
 	{% if user %}
@@ -38,7 +39,10 @@
 					        						<form method="POST" role="form">
 					        							<input type="hidden" name="PROFILE" value={{ id }}>
 					        							<input type="hidden" name="USERNAME" value={{ username }}>
-									                	<input type="text" name="NEWLINK" placeholder="New Picture Url " style="width: 100%;">
+									                	<input type="text" name="NEWLINK" id="NEWLINK" placeholder="New Picture Url " style="width: 100%; " required>
+									                	<script type="text/javascript">
+									                		document.getElementById("NEWLINK").setCustomValidity("Please Fill This Input");
+									                	</script>
 									                	<br><hr>
 													<div >
 														<a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
@@ -92,7 +96,7 @@
 							 	<form class="form-horizontal" method="post" >
 								 	<div>
 								 		{% for deneme, friendusername in allfollowingpic %}
-												{% if loop.index<6 %}
+												{% if loop.index < 6 %}
 													<ul class="list-wrapper">
 											  			<li> 
 											  				<button class="btn btn-circle-md btn-default" name="FOLLOWING" value={{friendusername}}>
@@ -128,6 +132,7 @@
 						  						<div class="content-grid column-md-4 height-xs-auto mgbt-xs-20">
 							 						<form class="form-horizontal" method="post" >
 								 						<div>
+
 								 							{% for deneme, friendusername in allfollowingpic %}
 																<ul class="list-wrapper">
 														  			<li> 
@@ -164,7 +169,7 @@
 							 	<form class="form-horizontal" method="post" >
 								 	<div>
 								 		{% for deneme, friendusername in allfollowerpic %}
-								 			{% if loop.index<6 %}
+								 			{% if loop.index < 6  %}
 												<ul class="list-wrapper">
 										  			<li> 
 										  				<button class="btn btn-circle-md btn-default" name="FOLLOWER" value={{friendusername}}>
@@ -228,6 +233,7 @@
 					<!-- panel widget  FOLLOWER END-->
 		  		</div>
 
+
 				<div class="col-sm-9" style="margin-top=50px;">
 					<form class="form-horizontal" method="post" >
 
@@ -235,7 +241,10 @@
 						 	<input type = "hidden" name="id" value={{id}}>
 							<label class="control-label col-sm-2" for="pwd">Image Url:</label>
 							<div class="col-sm-10" >
-								<input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" >
+								<input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" required>
+								<script type="text/javascript">
+									document.getElementById("pwd").setCustomValidity("Please Fill This Input");
+								</script>
 							</div>
 							<hr>
 							<div class="col-sm-offset-2 col-sm-10">
@@ -263,21 +272,92 @@
 					 	</div>
 
 					</form>
-	  
-
-					<div class="container">
-						<div class="row">
-							<h2>Gallery</h2>
-							<hr>
+	  				<div class="container">
+    						<h2>Gallery</h2>
+    						<br>
+    						<!-- The container for the list of example images -->
+    						<div id="links">
+    							{% for userid, postid, link, name, surname, date, description in images %}
+        							<a data-gallery="" title="{{ description }}" href="{{ link }}">
+           							<img src="{{ link }}" style="width: 300px; height: 250px" >
+       							</a>
+        						{% endfor %}
+   						</div>
+   						
+			 			<!-- The Bootstrap Image Gallery lightbox, should be a child element of the document body -->
+						<div id="blueimp-gallery" class="blueimp-gallery">
+						    	<!-- The container for the modal slides -->
+						    	<div class="slides"></div>
+						    	<!-- Controls for the borderless lightbox -->
+						    	<h3 class="title"></h3>
+						    	<a class="prev">‹</a>
+						    	<a class="next">›</a>
+						    	<a class="close">×</a>
+						    	<a class="play-pause"></a>
+						    	<ol class="indicator"></ol>
+						    	<!-- The modal dialog, which will be used to wrap the lightbox content -->
+						    	<div class="modal fade">
+						        	<div class="modal-dialog">
+						            	<div class="modal-content">
+							                <div class="modal-header">
+							                    <button type="button" class="close" aria-hidden="true">×</button>
+							                    <h4 class="modal-title"></h4>
+							                </div>
+							                <div class="modal-body next"></div>
+							                <div class="modal-footer">
+							                    <button type="button" class="btn btn-default pull-left prev">
+							                        <i class="glyphicon glyphicon-chevron-left"></i>
+							                        Previous
+							                    </button>
+							                    <button type="button" class="btn btn-primary next">
+							                        Next
+							                        <i class="glyphicon glyphicon-chevron-right"></i>
+							                    </button>
+							                </div>
+						            	</div>
+						        	</div>
+						    	</div>
 						</div>
-						<div class="row">
-							{% for id, resim in images %}
-							  	<span class="col-lg-4">
-									<img class="img-thumbnail" id={{id}} src={{resim}}  style="width: 300px; height: 250px">
-							  	</span>
-						 	{% endfor %}
-						</div>
+    						<br>
+					</div>	
+					<br><br><hr>
+					<div class="container" >
+    						<h2 >Posts</h2>
+    					</div>
+					{% for userid, postid, link, name, surname, date, description in images %}
+					<div class="col-md-offset-2 col-md-8">
+			            		<div class="panel panel-default panelD">
+			                		<div class="panel-heading">
+				                    		<ul class="list-inline">
+				                        		<li>{{ name }} {{ surname}}</li>
+				                        		<li class="pull-right" style="padding-right: 0;">{{ date }}</li>
+				                    		</ul>
+			                		</div>
+				                	<div class="panel-image">
+				                    		<img src="{{ link }}" class="panel-image-preview" style="width: 530px; height: 400px" />
+				                	</div>
+				                	<div class="panel-body">
+				                   		<blockquote>
+				                      		<p>{{ description }}</p>
+				                    		</blockquote>
+				                    		<div class="pull-right" >
+					                    		<form method="POST" role="form">
+					                    			<input type="hidden" name="USERNAME" value={{ username }}>
+					                    			<button href="#" class="btn btn-danger btn-xs" type="submit" value={{postid}} name="POSTDEL" style="display: inline;">Delete Post <span class="glyphicon glyphicon-remove"></span></button>
+					                    		</form>
+				                    		</div>
+				                    		<!-- <span class="tagz">Tags: <a>#faking</a></span> -->
+				                	</div>
+					                <div class="panel-footer">
+					                    <ul class="list-inline clearfix">
+					                        <li class="col-sm-4 col-md-4 col-lg-4 level-line-up"><a href=""><span class="fa fa-thumbs-o-up"></span> Like</a><span>10</span></li>
+					                        <li class="col-sm-4 col-md-4 col-lg-4 level-line-up"><center><a href=""><span class="fa fa-comments"></span> </a><span>10</span></center></li>
+					                        
+					                    </ul>
+					                </div>
+			            		</div>
 					</div>
+					{% endfor %}
 			 	</div>
 			{% endfor %}
 	 	</div>
@@ -305,4 +385,73 @@
   			<p><a href="#" class="simple-back-to-top">Back to Top</a></p>
   		</div>
   		
+  	
+	<br><br><hr>
+
+	<!-- <form data-toggle="validator" role="form">
+  <div class="form-group">
+    <label for="inputName" class="control-label">Name</label>
+    <input type="text" class="form-control" id="inputName" placeholder="Cina Saffary" required>
+  </div>
+  <div class="form-group has-feedback">
+    <label for="inputTwitter" class="control-label">Twitter</label>
+    <div class="input-group">
+      <span class="input-group-addon">@</span>
+      <input type="text" pattern="^[_A-z0-9]{1,}$" maxlength="15" class="form-control" id="inputTwitter" placeholder="1000hz" required>
+    </div>
+    <span class="glyphicon form-control-feedback" aria-hidden="true"></span>
+    <div class="help-block with-errors">Hey look, this one has feedback icons!</div>
+  </div>
+  <div class="form-group">
+    <label for="inputEmail" class="control-label">Email</label>
+    <input type="email" class="form-control" id="inputEmail" placeholder="Email" data-error="Bruh, that email address is invalid" required>
+    <div class="help-block with-errors"></div>
+  </div>
+  <div class="form-group">
+    <label for="inputPassword" class="control-label">Password</label>
+    <div class="form-inline row">
+      <div class="form-group col-sm-6">
+        <input type="password" data-minlength="6" class="form-control" id="inputPassword" placeholder="Password" required>
+        <div class="help-block">Minimum of 6 characters</div>
+      </div>
+      <div class="form-group col-sm-6">
+        <input type="password" class="form-control" id="inputPasswordConfirm" data-match="#inputPassword" data-match-error="Whoops, these don't match" placeholder="Confirm" required>
+        <div class="help-block with-errors"></div>
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="radio">
+      <label>
+        <input type="radio" name="underwear" required>
+        Boxers
+      </label>
+    </div>
+    <div class="radio">
+      <label>
+        <input type="radio" name="underwear" required>
+        Briefs
+      </label>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="terms" data-error="Before you wreck yourself" required>
+        Check yourself
+      </label>
+      <div class="help-block with-errors"></div>
+    </div>
+  </div>
+  <div class="form-group">
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </div>
+</form> -->
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
+<script src="https://raw.github.com/blueimp/Bootstrap-Image-Gallery/master/js/bootstrap-image-gallery.js"></script>
+<script src="https://raw.github.com/blueimp/Bootstrap-Image-Gallery/master/js/demo.js"></script>
+
 {% endblock %}

@@ -102,12 +102,12 @@ def initialize_db_func(cursor):
                                             DATE character varying(50) ,
                                             LINK character varying(255) NOT NULL,
                                             DESCRIPTION character varying(255))""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'28.11.2016','https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828__340.jpg','GREEN' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'26.11.2016','https://cdn.pixabay.com/photo/2016/11/25/15/14/baffin-island-1858603__340.jpg','BAFFIN ISLAND' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'28.11.2016','https://cdn.pixabay.com/photo/2016/11/23/14/51/clouds-1853340__340.jpg','ANGRY CLOUDS' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'29.11.2016','https://cdn.pixabay.com/photo/2016/11/18/15/26/gull-1835351__340.jpg','GULL' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'25.11.2016','https://cdn.pixabay.com/photo/2015/09/22/23/42/tibet-952688__340.jpg','TIBET' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'28.11.2016','https://cdn.pixabay.com/photo/2015/08/29/18/53/sunset-913350__340.jpg','SUNSET' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-28 16:05:25','https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828__340.jpg','GREEN' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-11-28 18:25:55','https://cdn.pixabay.com/photo/2016/11/25/15/14/baffin-island-1858603__340.jpg','BAFFIN ISLAND' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-29 17:34:51','https://cdn.pixabay.com/photo/2016/11/23/14/51/clouds-1853340__340.jpg','ANGRY CLOUDS' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-28 14:13:42','https://cdn.pixabay.com/photo/2016/11/18/15/26/gull-1835351__340.jpg','GULL' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-27 08:45:33','https://cdn.pixabay.com/photo/2015/09/22/23/42/tibet-952688__340.jpg','TIBET' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-29 21:24:11','https://cdn.pixabay.com/photo/2015/08/29/18/53/sunset-913350__340.jpg','SUNSET' )""")
 
     #Table for Hidden Posts
     cursor.execute("""DROP TABLE IF EXISTS HIDDENPOSTS CASCADE""")
