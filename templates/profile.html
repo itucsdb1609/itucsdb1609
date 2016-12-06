@@ -39,10 +39,8 @@
 					        						<form method="POST" role="form">
 					        							<input type="hidden" name="PROFILE" value={{ id }}>
 					        							<input type="hidden" name="USERNAME" value={{ username }}>
-									                	<input type="text" name="NEWLINK" id="NEWLINK" placeholder="New Picture Url " style="width: 100%; " required>
-									                	<script type="text/javascript">
-									                		document.getElementById("NEWLINK").setCustomValidity("Please Fill This Input");
-									                	</script>
+									                	<input type="text" name="NEWLINK" id="NEWLINK" placeholder="New Picture Url " style="width: 100%; " required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')"  >
+									                	
 									                	<br><hr>
 													<div >
 														<a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
@@ -241,10 +239,8 @@
 						 	<input type = "hidden" name="id" value={{id}}>
 							<label class="control-label col-sm-2" for="pwd">Image Url:</label>
 							<div class="col-sm-10" >
-								<input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" required>
-								<script type="text/javascript">
-									document.getElementById("pwd").setCustomValidity("Please Fill This Input");
-								</script>
+								<input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')">
+								
 							</div>
 							<hr>
 							<div class="col-sm-offset-2 col-sm-10">
