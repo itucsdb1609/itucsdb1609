@@ -369,14 +369,7 @@ def profile_page(user=None):
             username = request.form['Change']
 
             return redirect(url_for('profile_page',user=username))
-        if 'FOLLOWING' in request.form:
-            prof = request.form['FOLLOWING']
 
-            return redirect(url_for('profile_page',user=prof))
-        if 'FOLLOWER' in request.form:
-            prof = request.form['FOLLOWER']
-
-            return redirect(url_for('profile_page',user=prof))
 
         if 'UPDATE' in request.form:
                 userid = request.form['PROFILE']
@@ -392,7 +385,7 @@ def profile_page(user=None):
         if 'POSTDEL' in request.form:
                 postid = request.form['POSTDEL']
                 username=request.form['USERNAME']
-                print (postid)
+
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
                     query = """DELETE FROM POSTS WHERE id ="""+postid+""""""
@@ -400,7 +393,21 @@ def profile_page(user=None):
 
                     connection.commit()
                 return redirect(url_for('profile_page',user=username))
+        if 'POSTUPDATE' in request.form:
+                postid = request.form['postid']
+                username=request.form['username']
+                desc=request.form['DESC']
+                link=request.form['ImageUrl']
 
+
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+
+                    query = """UPDATE posts SET link='"""+link+"""' , DESCRIPTION='"""+desc+"""' , date='"""+now.strftime("%Y-%m-%d %H:%M:%S")+"""' WHERE id ="""+postid+""""""
+                    cursor.execute(query)
+
+                    connection.commit()
+                return redirect(url_for('profile_page',user=username))
 
 
     return render_template('profile.html',user=user,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)
