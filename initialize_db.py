@@ -22,7 +22,7 @@ def initialize_db_func(cursor):
     cursor.execute("""CREATE TABLE SCHOOL (ID  SERIAL PRIMARY KEY,SCHOOLNAME character varying(50) NOT NULL )""")
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ('ITU' )""")
     cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ( 'METU' )""")
-    cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ( 'HACETTEPE UNIVERCITY' )""")
+    cursor.execute("""INSERT INTO SCHOOL ( SCHOOLNAME) VALUES ( 'HACETTEPE UNIVERSITY' )""")
     #Table for user information
     cursor.execute("""DROP TABLE IF EXISTS USERS CASCADE""")
     cursor.execute("""CREATE TABLE USERS (ID SERIAL PRIMARY KEY UNIQUE,
@@ -48,13 +48,27 @@ def initialize_db_func(cursor):
                                                                                                     2,
                                                                                                     1,
                                                                                                     2)""")
-    cursor.execute("""INSERT INTO USERS (USERNAME, NAME, SURNAME, MAIL, GENDER, SCHOOL, CITY) VALUES ('seda',
-                                                                                                    'SEDA',
-                                                                                                    'TIPCI',
-                                                                                                    'sedamedipol@gmail.com',
+    cursor.execute("""INSERT INTO USERS (USERNAME, NAME, SURNAME, MAIL, GENDER, SCHOOL, CITY) VALUES ('bsk125',
+                                                                                                    'BASAK',
+                                                                                                    'KURTUL',
+                                                                                                    'baskkurtul@gmail.com',
                                                                                                     1,
                                                                                                     3,
                                                                                                     1)""")
+    cursor.execute("""INSERT INTO USERS (USERNAME, NAME, SURNAME, MAIL, GENDER, SCHOOL, CITY) VALUES ('merv',
+                                                                                                    'MERVE',
+                                                                                                    'DOGAN',
+                                                                                                    'mervdgan@gmail.com',
+                                                                                                    1,
+                                                                                                    2,
+                                                                                                    3)""")
+    cursor.execute("""INSERT INTO USERS (USERNAME, NAME, SURNAME, MAIL, GENDER, SCHOOL, CITY) VALUES ('sedt01',
+                                                                                                    'Sedat',
+                                                                                                    'Selman',
+                                                                                                    'sedatselmn@gmail.com',
+                                                                                                    2,
+                                                                                                    2,
+                                                                                                    2)""")
 
 
     #Table for user login
@@ -65,9 +79,9 @@ def initialize_db_func(cursor):
 
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ali','password')""")
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('dincer','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('seda','password')""")
-
-
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('bsk125','password')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('merv','password')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('sedt01','password')""")
 
     #Table for main
     cursor.execute("""DROP TABLE IF EXISTS PostForView""")
@@ -94,7 +108,9 @@ def initialize_db_func(cursor):
     cursor.execute("""CREATE TABLE PROFILEPIC (USERID INTEGER PRIMARY KEY references USERS(ID),LINK character varying(255) NOT NULL )""")
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (1,'http://laelith.fr/Cours/Illus/013-avatar-faceprofil.jpg')""")
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (2,'http://laelith.fr/Cours/Illus/013-Me.jpg' )""")
-    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (3,'http://laelith.fr/Cours/Illus/013-Exercice2.png' )""")
+    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (3,'http://www.hastane.com.tr/Images/Article/daha-iyi-bir-profil-icin-cene-ucu-estetigi_b.jpg' )""")
+    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (4,'https://s-media-cache-ak0.pinimg.com/originals/a3/fa/d3/a3fad3bd611a6f08d4ac0fa308cad22c.jpg' )""")
+    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (5,'http://tamirciarchitects.com/wp-content/uploads/2012/07/profil.jpg' )""")
      #Table for POST table
     cursor.execute("""DROP TABLE IF EXISTS POSTS CASCADE""")
     cursor.execute("""CREATE TABLE POSTS (ID SERIAL PRIMARY KEY UNIQUE,
@@ -102,12 +118,17 @@ def initialize_db_func(cursor):
                                             DATE character varying(50) ,
                                             LINK character varying(255) NOT NULL,
                                             DESCRIPTION character varying(255))""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-28 16:05:25','https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828__340.jpg','GREEN' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-11-28 18:25:55','https://cdn.pixabay.com/photo/2016/11/25/15/14/baffin-island-1858603__340.jpg','BAFFIN ISLAND' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-29 17:34:51','https://cdn.pixabay.com/photo/2016/11/23/14/51/clouds-1853340__340.jpg','ANGRY CLOUDS' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-28 14:13:42','https://cdn.pixabay.com/photo/2016/11/18/15/26/gull-1835351__340.jpg','GULL' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-27 08:45:33','https://cdn.pixabay.com/photo/2015/09/22/23/42/tibet-952688__340.jpg','TIBET' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-27 16:05:25','https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828__340.jpg','GREEN' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-11-28 17:25:55','https://cdn.pixabay.com/photo/2016/11/25/15/14/baffin-island-1858603__340.jpg','BAFFIN ISLAND' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-28 18:34:51','https://cdn.pixabay.com/photo/2016/11/23/14/51/clouds-1853340__340.jpg','ANGRY CLOUDS' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-28 22:13:42','https://cdn.pixabay.com/photo/2016/11/18/15/26/gull-1835351__340.jpg','GULL' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-29 08:45:33','https://cdn.pixabay.com/photo/2015/09/22/23/42/tibet-952688__340.jpg','TIBET' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-29 21:24:11','https://cdn.pixabay.com/photo/2015/08/29/18/53/sunset-913350__340.jpg','SUNSET' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (5,'2016-12-02 18:24:25','http://www.photographyblogger.net/wp-content/uploads/2013/04/nature02.jpg','Nature' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (4,'2016-12-03 21:24:23','http://phoenixrising.me/wp-content/uploads/pixabay-silhouette-woman-meditation.jpg','Meditation' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (4,'2016-12-04 02:57:22','https://cdn.pixabay.com/photo/2016/12/04/21/22/snow-man-1882635_960_720.jpg','SnowMan' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-12-04 23:28:11','https://cdn.pixabay.com/photo/2016/11/08/05/20/alms-1807525_960_720.jpg','HinduAlms' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (5,'2016-12-05 21:24:11','https://cdn.pixabay.com/photo/2016/11/10/08/15/aircraft-1813731_960_720.jpg','Aircraft' )""")
 
     #Table for Hidden Posts
     cursor.execute("""DROP TABLE IF EXISTS HIDDENPOSTS CASCADE""")
@@ -126,3 +147,11 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,1)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,3)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,2)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (5,2)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (5,3)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (5,4)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (4,2)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (4,1)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,5)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,4)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,5)""")
