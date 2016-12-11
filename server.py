@@ -11,7 +11,6 @@ from werkzeug import redirect
 from flask import request
 from flask.helpers import url_for, flash
 from initialize_db import initialize_db_func
-from docutils.parsers import null
 
 
 app = Flask(__name__)
@@ -72,12 +71,12 @@ def welcome_page():
         cursor.execute(query)
         for currentUser in cursor:
             allUsers.append(currentUser)
-            
+
         if 'ChooseUser' in request.form:
             userName = request.form['ChooseUser']
 
             return redirect(url_for('home_page',user=userName))
-    
+
     return render_template('welcome.html', allUsers=allUsers)
 
 @app.route('/home', methods = ['GET','POST'])
@@ -93,36 +92,36 @@ def home_page(user=None):
         cursor.execute(query)
         for currentUser in cursor:
             allUsers.append(currentUser)
-            
+
         for id,username in allUsers:
             if user==username:
                 userCheck = True
                 break
-            
+
         if user and userCheck:
-            
+
             query = """select m.userid, m.username, m.name, m.surname, m.linkpro, m.pid, m.linkpost, m.date, m.desc from (select users.id as userid, users.username as username, users.name as name, users.surname as surname, k.link1 as linkpro, k.id as pid, k.link2 as linkpost, k.date as date, k.description as desc from (select profilepic.link as link1,id,posts.userid as userid1,date,posts.link as link2,description from profilepic join posts on posts.userid=profilepic.userid) k join users on users.id=k.userid1) m left join hiddenposts on hiddenposts.postid=m.pid where hiddenposts.userid is null order by m.date desc"""
             cursor.execute(query)
 
             for post in cursor:
                 posts.append(post)
-                
+
         else:
             return render_template('404.html'), 404
-                
+
 
         connection.commit()
         if 'ChooseUser' in request.form:
             userName = request.form['ChooseUser']
 
             return redirect(url_for('home_page',user=userName))
-        
+
         if request.method =='POST':
             if 'del' in request.form:
                 postid=request.form['postid']
                 userid=request.form['userid']
                 userName=request.form['username']
-                
+
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
                     query = """INSERT INTO HIDDENPOSTS(userid, postid) VALUES (%s,%s) """
@@ -134,7 +133,7 @@ def home_page(user=None):
                 post = request.form['post']
                 desc = request.form['desc']
                 userName=request.form['username']
-                
+
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
                     query = """UPDATE posts SET description='"""+desc+"""' WHERE id ="""+post+""""""
@@ -368,14 +367,14 @@ def profile_page(user=None, user2=None):
     if user==user2:
         user2=None
         return redirect(url_for('profile_page',user=user))
-        
+
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """select id,username from users"""
         cursor.execute(query)
         for im in cursor:
             kullanici.append(im)
-            
+
         if user and not user2:
             query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user+"""' and users.id=posts.userid"""
 
@@ -383,7 +382,7 @@ def profile_page(user=None, user2=None):
 
             for im in cursor:
                 images.append(im)
-                
+
         if user2:
             query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user2+"""' and users.id=posts.userid"""
 
@@ -412,7 +411,7 @@ def profile_page(user=None, user2=None):
             cursor.execute(query)
             for us in cursor:
                 userr.append(us)
-                
+
         if user2:
             query ="""select link,users.username from (select following,users.username from users join follow on users.id=follow.follower where username='"""+user2+"""') F, profilepic,users where F.following=profilepic.userid and F.following=users.id ORDER BY users.username ASC"""
 
@@ -433,7 +432,7 @@ def profile_page(user=None, user2=None):
             cursor.execute(query)
             for us in cursor:
                 userr.append(us)
-        
+
         connection.commit()
     if request.method =='POST':
         if 'EKLE' in request.form:
