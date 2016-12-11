@@ -16,12 +16,14 @@
 						<div class="panel-heading no-title"> </div>
 						<div class="panel-body">
 							<div class="text-center vd_info-parent">
-								<img alt="{{username}}" src="{{image}}" style="width: 200px; height: 200px;">
+								<img class="media-object img-circle" alt="{{username}}" src="{{image}}" style="width: 200px; height: 200px;">
+								{% if not user2 %}
 								<div class="closing text-center" style="">
 									<a href="" data-toggle="modal" data-target="#myModalChangePic"  class="btn  btn-md" > Change Profile Pic 
 										<span class="glyphicon glyphicon-edit"></span>
 									</a>
 								</div>
+								{% endif %}
 							</div>
 
 							<div class="container">
@@ -98,7 +100,7 @@
 													<ul class="list-wrapper">
 											  			<li> 
 
-											  				<a  href=" {{friendusername}} ">
+											  				<a  href=" /{{user}}/{{friendusername}}/profile ">
 										  						<img  class="img-circle" alt="{{friendusername}} image" src="{{deneme}}" style=" width: 70px; height: 70px;" 	data-toggle="tooltip"  title= "{{ friendusername }}">
 											  				</a>
 											  			</li>
@@ -133,7 +135,7 @@
 								 							{% for deneme, friendusername in allfollowingpic %}
 																<ul class="list-wrapper">
 														  			<li> 
-														  				<a  href=" {{friendusername}} ">
+														  				<a  href=" /{{user}}/{{friendusername}}/profile ">
 										  									<img  class="img-circle" alt="{{friendusername}} image" src="{{deneme}}" style=" width: 70px; height: 70px;" 	data-toggle="tooltip"  title= "{{ friendusername }}">
 											  							</a>
 														  			</li>
@@ -166,7 +168,7 @@
 								 			{% if loop.index < 6  %}
 												<ul class="list-wrapper">
 										  			<li> 
-										  				<a  href=" {{friendusername}} ">
+										  				<a  href="/{{user}}/{{friendusername}}/profile">
 										  					<img  class="img-circle" alt="{{friendusername}} image" src="{{deneme}}" style=" width: 70px; height: 70px;" 	data-toggle="tooltip"  title= "{{ friendusername }}">
 											  			</a>
 										  			</li>
@@ -197,7 +199,7 @@
 								 							{% for deneme, friendusername in allfollowerpic %}
 																<ul class="list-wrapper">
 														  			<li> 
-														  				<a  href=" {{friendusername}} ">
+														  				<a  href=" /{{user}}/{{friendusername}}/profile ">
 										  									<img  class="img-circle" alt="{{friendusername}} image" src="{{deneme}}" style=" width: 70px; height: 70px;" 	data-toggle="tooltip"  title= "{{ friendusername }}">
 											  							</a>
 														  			</li>
@@ -223,6 +225,7 @@
 
 
 				<div class="col-xs-9 col-sm-9 col-md-9 col-lg-9" >
+				{% if not user2 %}
 					<form class="form-horizontal" method="post" >
 
 						<div class="form-group" style="margin-top:50px ">
@@ -258,6 +261,7 @@
 					 	</div>
 
 					</form>
+				{% endif %}
 	  				<div class="container">
     						<h2>Gallery</h2>
     						<br>
@@ -327,6 +331,7 @@
 				                   		<blockquote>
 				                      		<p>{{ description }}</p>
 				                    		</blockquote>
+				                    		{% if not user2 %}
 				                    		<div class="pull-right" >
 				                    			<div class="col-md-6">
 				                    				<button  class="btn btn-danger btn-xs" data-toggle="modal" data-target="#POSTUPDATEMODAL" type="submit" style="display: inline;">Update Post <span class="glyphicon glyphicon-edit"></span></button>
@@ -394,6 +399,7 @@
 										
 				                    		</div>
 				                    		<!-- <span class="tagz">Tags: <a>#faking</a></span> -->
+				                    		{% endif %}
 				                    		
 				                	</div>
 					                <div class="panel-footer">

@@ -11,6 +11,7 @@ from werkzeug import redirect
 from flask import request
 from flask.helpers import url_for, flash
 from initialize_db import initialize_db_func
+from docutils.parsers import null
 
 
 app = Flask(__name__)
@@ -61,46 +62,88 @@ def signUp():
 
 #Start of Ahmet Caglar Bayatli's space
 
-@app.route('/')
-@app.route('/welcome')
+@app.route('/', methods = ['GET','POST'])
+@app.route('/welcome', methods = ['GET','POST'])
 def welcome_page():
-    return render_template('welcome.html')
-
-@app.route('/home', methods = ['GET','POST'])
-def home_page():
-    posts = []
+    allUsers = []
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
-        query = """select m.userid, m.username, m.name, m.surname, m.linkpro, m.pid, m.linkpost, m.date, m.desc from (select users.id as userid, users.username as username, users.name as name, users.surname as surname, k.link1 as linkpro, k.id as pid, k.link2 as linkpost, k.date as date, k.description as desc from (select profilepic.link as link1,id,posts.userid as userid1,date,posts.link as link2,description from profilepic join posts on posts.userid=profilepic.userid) k join users on users.id=k.userid1) m left join hiddenposts on hiddenposts.postid=m.pid where hiddenposts.userid is null"""
+        query = """select id,username from users"""
         cursor.execute(query)
+        for currentUser in cursor:
+            allUsers.append(currentUser)
+            
+        if 'ChooseUser' in request.form:
+            userName = request.form['ChooseUser']
 
-        for post in cursor:
-            posts.append(post)
+            return redirect(url_for('home_page',user=userName))
+    
+    return render_template('welcome.html', allUsers=allUsers)
+
+@app.route('/home', methods = ['GET','POST'])
+@app.route('/<user>', methods = ['GET','POST'])
+@app.route('/<user>/home', methods = ['GET','POST'])
+def home_page(user=None):
+    posts = []
+    allUsers = []
+    userCheck = False
+    with dbapi2.connect(app.config['dsn']) as connection:
+        cursor = connection.cursor()
+        query = """select id,username from users"""
+        cursor.execute(query)
+        for currentUser in cursor:
+            allUsers.append(currentUser)
+            
+        for id,username in allUsers:
+            if user==username:
+                userCheck = True
+                break
+            
+        if user and userCheck:
+            
+            query = """select m.userid, m.username, m.name, m.surname, m.linkpro, m.pid, m.linkpost, m.date, m.desc from (select users.id as userid, users.username as username, users.name as name, users.surname as surname, k.link1 as linkpro, k.id as pid, k.link2 as linkpost, k.date as date, k.description as desc from (select profilepic.link as link1,id,posts.userid as userid1,date,posts.link as link2,description from profilepic join posts on posts.userid=profilepic.userid) k join users on users.id=k.userid1) m left join hiddenposts on hiddenposts.postid=m.pid where hiddenposts.userid is null order by m.date desc"""
+            cursor.execute(query)
+
+            for post in cursor:
+                posts.append(post)
+                
+        else:
+            return render_template('404.html'), 404
+                
 
         connection.commit()
+        if 'ChooseUser' in request.form:
+            userName = request.form['ChooseUser']
+
+            return redirect(url_for('home_page',user=userName))
+        
         if request.method =='POST':
             if 'del' in request.form:
                 postid=request.form['postid']
                 userid=request.form['userid']
+                userName=request.form['username']
+                
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
                     query = """INSERT INTO HIDDENPOSTS(userid, postid) VALUES (%s,%s) """
                     cursor.execute(query,(userid,postid))
                     connection.commit()
-                return redirect(url_for('home_page'))
+                return redirect(url_for('home_page',user=userName))
 
             if 'upt' in request.form:
                 post = request.form['post']
                 desc = request.form['desc']
+                userName=request.form['username']
+                
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
                     query = """UPDATE posts SET description='"""+desc+"""' WHERE id ="""+post+""""""
                     cursor.execute(query)
 
                     connection.commit()
-                return redirect(url_for('home_page'))
+                return redirect(url_for('home_page',user=userName))
 
-    return render_template('main.html', posts=posts)
+    return render_template('main.html', user=user, allUsers=allUsers , posts=posts)
 
 @app.route('/add_post', methods = ['GET','POST'])
 def add_post():
@@ -191,7 +234,7 @@ def initialize_db():
         cursor = connection.cursor()
         initialize_db_func(cursor)
         connection.commit()
-    return redirect(url_for('home_page'))
+    return redirect(url_for('welcome_page'))
 
 @app.route('/count')
 def counter_page():
@@ -209,7 +252,8 @@ def counter_page():
 
 
 @app.route('/explore')
-def explore_page():
+@app.route('/<user>/explore', methods = ['GET','POST'])
+def explore_page(user=None):
     hashs = []
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
@@ -222,7 +266,7 @@ def explore_page():
 
         connection.commit()
 
-    return render_template('explore.html', hashs=hashs)
+    return render_template('explore.html', hashs=hashs, user=user)
 
 @app.route('/add_hash', methods = ['GET','POST'])
 def add_hash():
@@ -304,43 +348,58 @@ def update_hash():
     return render_template('add_hash.html', hashs=hashs)
 
 @app.route('/notifications')
-def notification_page():
+@app.route('/<user>/notification', methods = ['GET','POST'])
+def notification_page(user=None):
     now = datetime.datetime.utcnow()
-    return render_template('notification.html', current_time=now.ctime())
+    return render_template('notification.html', current_time=now.ctime(), user=user)
 
 
 #Start of EKREM CIHAD CETIN's space
 @app.route('/profile', methods = ['GET','POST'])
-@app.route('/profile/<user>', methods = ['GET','POST'])
-def profile_page(user=None):
+@app.route('/<user>/profile', methods = ['GET','POST'])
+@app.route('/<user>/<user2>/profile', methods = ['GET','POST'])
+def profile_page(user=None, user2=None):
     now = datetime.datetime.now()
     images = []
     kullanici=[]
     userr=[]
     allfollowerpic=[]
     allfollowingpic=[]
+    if user==user2:
+        user2=None
+        return redirect(url_for('profile_page',user=user))
+        
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         query = """select id,username from users"""
         cursor.execute(query)
         for im in cursor:
             kullanici.append(im)
-        if user:
+            
+        if user and not user2:
             query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user+"""' and users.id=posts.userid"""
 
             cursor.execute(query)
 
             for im in cursor:
                 images.append(im)
+                
+        if user2:
+            query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user2+"""' and users.id=posts.userid"""
 
-        if user:
+            cursor.execute(query)
+
+            for im in cursor:
+                images.append(im)
+
+        if user and not user2:
             query ="""select link,users.username from (select following,users.username from users join follow on users.id=follow.follower where username='"""+user+"""') F, profilepic,users where F.following=profilepic.userid and F.following=users.id ORDER BY users.username ASC"""
 
             cursor.execute(query)
             for im in cursor:
                 allfollowingpic.append(im)
 
-        if user:
+        if user and not user2:
             query ="""select link,users.username from (select follower,users.username from users join follow on users.id=follow.following where username='"""+user+"""') F, profilepic,users where F.follower=profilepic.userid and F.follower=users.id ORDER BY users.username ASC"""
 
             cursor.execute(query)
@@ -348,11 +407,33 @@ def profile_page(user=None):
                 allfollowerpic.append(im)
 
 
-        if user:
+        if user and not user2:
             query="""select userid,link, username, name, surname,mail from profilepic,users where username='"""+user+"""' and users.id=profilepic.userid"""
             cursor.execute(query)
             for us in cursor:
                 userr.append(us)
+                
+        if user2:
+            query ="""select link,users.username from (select following,users.username from users join follow on users.id=follow.follower where username='"""+user2+"""') F, profilepic,users where F.following=profilepic.userid and F.following=users.id ORDER BY users.username ASC"""
+
+            cursor.execute(query)
+            for im in cursor:
+                allfollowingpic.append(im)
+
+        if user2:
+            query ="""select link,users.username from (select follower,users.username from users join follow on users.id=follow.following where username='"""+user2+"""') F, profilepic,users where F.follower=profilepic.userid and F.follower=users.id ORDER BY users.username ASC"""
+
+            cursor.execute(query)
+            for im in cursor:
+                allfollowerpic.append(im)
+
+
+        if user2:
+            query="""select userid,link, username, name, surname,mail from profilepic,users where username='"""+user2+"""' and users.id=profilepic.userid"""
+            cursor.execute(query)
+            for us in cursor:
+                userr.append(us)
+        
         connection.commit()
     if request.method =='POST':
         if 'EKLE' in request.form:
@@ -410,7 +491,7 @@ def profile_page(user=None):
                 return redirect(url_for('profile_page',user=username))
 
 
-    return render_template('profile.html',user=user,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)
+    return render_template('profile.html',user=user, user2=user2,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)
 
 @app.route('/add_pic', methods = ['GET','POST'])
 def add_pic():
