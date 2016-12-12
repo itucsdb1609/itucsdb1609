@@ -376,7 +376,7 @@ def profile_page(user=None, user2=None):
             kullanici.append(im)
 
         if user and not user2:
-            query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user+"""' and users.id=posts.userid"""
+            query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user+"""' and users.id=posts.userid order by date desc"""
 
             cursor.execute(query)
 
@@ -384,7 +384,7 @@ def profile_page(user=None, user2=None):
                 images.append(im)
 
         if user2:
-            query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user2+"""' and users.id=posts.userid"""
+            query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user2+"""' and users.id=posts.userid order by date desc"""
 
             cursor.execute(query)
 
@@ -439,12 +439,14 @@ def profile_page(user=None, user2=None):
             Image = request.form['ADD']
             id=request.form['id']
             desc=request.form['DESC']
+            username=request.form['username']
+            print (username)
             with dbapi2.connect(app.config['dsn']) as connection:
                 cursor = connection.cursor()
                 query = """INSERT INTO POSTS (USERID,DATE,LINK,DESCRIPTION ) VALUES ("""+id+""",'"""+now.strftime("%Y-%m-%d %H:%M:%S")+"""','%s','%s' )"""%(Image,desc)
                 cursor.execute(query)
                 connection.commit()
-            return redirect(url_for('profile_page'))
+            return redirect(url_for('profile_page',user=username))
         if 'Change' in request.form:
             username = request.form['Change']
 
@@ -452,42 +454,42 @@ def profile_page(user=None, user2=None):
 
 
         if 'UPDATE' in request.form:
-                userid = request.form['PROFILE']
-                username=request.form['USERNAME']
-                link = request.form['NEWLINK']
-                with dbapi2.connect(app.config['dsn']) as connection:
-                    cursor = connection.cursor()
-                    query = """UPDATE profilepic SET link='"""+link+"""' WHERE userid ="""+userid+""""""
-                    cursor.execute(query)
+            userid = request.form['PROFILE']
+            username=request.form['USERNAME']
+            link = request.form['NEWLINK']
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """UPDATE profilepic SET link='"""+link+"""' WHERE userid ="""+userid+""""""
+                cursor.execute(query)
 
-                    connection.commit()
-                return redirect(url_for('profile_page',user=username))
+                connection.commit()
+            return redirect(url_for('profile_page',user=username))
         if 'POSTDEL' in request.form:
-                postid = request.form['POSTDEL']
-                username=request.form['USERNAME']
+            postid = request.form['POSTDEL']
+            username=request.form['USERNAME']
 
-                with dbapi2.connect(app.config['dsn']) as connection:
-                    cursor = connection.cursor()
-                    query = """DELETE FROM POSTS WHERE id ="""+postid+""""""
-                    cursor.execute(query)
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
+                query = """DELETE FROM POSTS WHERE id ="""+postid+""""""
+                cursor.execute(query)
 
-                    connection.commit()
-                return redirect(url_for('profile_page',user=username))
+                connection.commit()
+            return redirect(url_for('profile_page',user=username))
         if 'POSTUPDATE' in request.form:
-                postid = request.form['postid']
-                username=request.form['username']
-                desc=request.form['DESC']
-                link=request.form['ImageUrl']
+            postid = request.form['postid']
+            username=request.form['username']
+            desc=request.form['DESC']
+            link=request.form['ImageUrl']
 
 
-                with dbapi2.connect(app.config['dsn']) as connection:
-                    cursor = connection.cursor()
+            with dbapi2.connect(app.config['dsn']) as connection:
+                cursor = connection.cursor()
 
-                    query = """UPDATE posts SET link='"""+link+"""' , DESCRIPTION='"""+desc+"""' , date='"""+now.strftime("%Y-%m-%d %H:%M:%S")+"""' WHERE id ="""+postid+""""""
-                    cursor.execute(query)
+                query = """UPDATE posts SET link='"""+link+"""' , DESCRIPTION='"""+desc+"""' , date='"""+now.strftime("%Y-%m-%d %H:%M:%S")+"""' WHERE id ="""+postid+""""""
+                cursor.execute(query)
 
-                    connection.commit()
-                return redirect(url_for('profile_page',user=username))
+                connection.commit()
+            return redirect(url_for('profile_page',user=username))
 
 
     return render_template('profile.html',user=user, user2=user2,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici)

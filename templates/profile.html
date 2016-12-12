@@ -28,7 +28,7 @@
 
 							<div class="container">
 					  		<!-- Modal -->
-					  			<div class="modal fade" id=myModalChangePic role="dialog">
+					  			<div class="modal fade" id="myModalChangePic" role="dialog">
 					    				<div class="modal-dialog">
 					    
 					      			<!-- Modal content-->
@@ -39,11 +39,9 @@
 					        					</div>
 					        					<div class="modal-body">
 					        						<form method="POST" role="form">
-					        							<input type="hidden" name="PROFILE" value={{ id }}>
-					        							<input type="hidden" name="USERNAME" value={{ username }}>
-									                	<input type="text" name="NEWLINK" id="NEWLINK" placeholder="New Picture Url " style="width: 100%; " required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')"  >
-									                	
-									                	<br><hr>
+					        							<input type="hidden" name="PROFILE" value={{ id }} >
+					        							<input type="hidden" name="USERNAME" value={{ username }} >
+									                	<input type="text" name="NEWLINK" id="NEWLINK" placeholder="New Picture Url " style="width: 100%; " required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')"  ><br><hr>
 													<div >
 														<a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
 															<span class="glyphicon glyphicon-download"></span>Link from "Hızlı Resim"
@@ -58,7 +56,7 @@
 													<hr>
 									                	<button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative; top: 10px; left: 390px;">Close</button>
 									                	<button class="btn btn-default" type="submit" name="UPDATE" style="position: relative; top: 10px; left: 400px; background-color: #03C9A9; color: white;">Change</button>
-				               						 </form>
+				               						</form>
 					        					</div>
 					        				</div>
 					      
@@ -230,6 +228,7 @@
 
 						<div class="form-group" style="margin-top:50px ">
 						 	<input type = "hidden" name="id" value={{id}}>
+						 	<input type = "hidden" name="username" value={{username}}>
 							<label class="control-label col-sm-2 col-xs-2 col-md-2 col-lg-2" for="pwd">Image Url:</label>
 							<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
 								<input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')">
@@ -363,7 +362,7 @@
 																 	<input type = "hidden" name="username" value={{username}}>
 																	<label class="control-label col-sm-2 col-xs-2 col-md-2 col-lg-2" for="pwd">Image Url:</label>
 																	<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
-																		<input type="text" name="ImageUrl"   class="form-control" id="pwd" placeholder="Enter Image Url" required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')">
+																		<input type="text" name="ImageUrl"   class="form-control" id="pwd" value="{{link}}" required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')">
 																		
 																	</div>
 																	<hr>
@@ -382,7 +381,7 @@
 																	<div>
 																		<label class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2" for="pwd">Description:</label>
 																		<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
-																			<input type="text" name="DESC"   class="form-control" id="pwd" placeholder="Enter Description" >
+																			<input type="text" name="DESC"   class="form-control" id="pwd" value="{{description}}" >
 																		</div>
 																	</div>
 																	<hr><br>
@@ -402,13 +401,13 @@
 				                    		{% endif %}
 				                    		
 				                	</div>
-					                <div class="panel-footer">
+					                <!-- <div class="panel-footer">
 					                    <ul class="list-inline clearfix">
 					                        <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4 level-line-up"><a href=""><span class="fa fa-thumbs-o-up"></span> Like</a><span>10</span></li>
 					                        <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4 level-line-up"><center><a href=""><span class="fa fa-comments"></span> </a><span>10</span></center></li>
 					                        
 					                    </ul>
-					                </div>
+					                </div> -->
 			            		</div><hr>
 					</div>
 					{% endfor %}
@@ -440,7 +439,7 @@
   		</div>	
 	<br><br><hr>
 
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 <script src="https://raw.github.com/blueimp/Bootstrap-Image-Gallery/master/js/bootstrap-image-gallery.js"></script>
