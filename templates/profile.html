@@ -85,6 +85,22 @@
 							</div>
 						</div>
 					</div>
+
+					<div id = interest_panel class="panel panel-default" style="border: solid; border-width: 2px; border-color: #eee; border-radius: 5px;">
+						<div class="panel-heading">
+							<h4 class="text text-center font-bold">Interests</h4>
+						</div>
+						<div class="panel-body">
+							{% if user_interests %}
+								{% for id, interest in user_interests %}
+									<span id="interest{{ id }}" title=" {{ interest }}" class="label label-info "> {{ interest }}
+									</span>&nbsp;
+								{% endfor %}
+							{% else %}
+								<p class="text-danger"> There is no interest</p>
+							{% endif %}
+						</div>
+					</div>
 					<!-- panel widget  FOLLOWING START-->
 
 					<div class="panel widget light-widget">
@@ -401,14 +417,56 @@
 				                    		{% endif %}
 				                    		
 				                	</div>
-					                <!-- <div class="panel-footer">
-					                    <ul class="list-inline clearfix">
-					                        <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4 level-line-up"><a href=""><span class="fa fa-thumbs-o-up"></span> Like</a><span>10</span></li>
-					                        <li class="col-xs-4 col-sm-4 col-md-4 col-lg-4 level-line-up"><center><a href=""><span class="fa fa-comments"></span> </a><span>10</span></center></li>
-					                        
-					                    </ul>
-					                </div> -->
-			            		</div><hr>
+					                 <div class="panel-footer" style="background-color: #fff;">
+										  <form method="post">
+											  <input type="hidden" name="postId" value="{{postid}}">
+											  <div  class="btn-group " role="group" aria-label="..." >
+												  <button name="like" value="heart" class="btn btn-xs btn-danger"><i class="fa fa-heart"></i></button>
+												  <button name="like" value="thumbs-up" class="btn btn-xs btn-success"><i class="fa fa-thumbs-up"></i></button>
+												  <button name="like" value="thumbs-down" class="btn btn-xs btn-warning"><i class="fa fa-thumbs-down"></i></button>
+												  <button name="like" value="frown-o" class="btn btn-xs btn-info"><i class="fa fa-frown-o"></i></button>
+											</div>
+											<div id="post-foot{{ postid }}" class="btn-group pull-right" role="group" aria-label="..." >
+											  <button type="button"  class="btn btn-default" onclick="LikeBar('{{ postid }}',this,'open')" value="{{ postid }}">Likes</button>
+											  <button type="button" class="btn btn-default" onclick="CommentsBar('{{ postid }}',this,'open')">Show Comments</button>
+											  <button type="button" class="btn btn-default" onclick="AddCommentBar('{{ postid }}',this,'open')">Add Comment</button>
+											</div>
+										  </form>
+										  <br>
+										  <div id="post-like{{ postid }}" >
+											  {% if postsLikes[postid] %}
+												  {% for id,username,like_type in postsLikes[postid] %}
+													{% if username==user %}
+														<div class="panel"><div class="panel-heading"><button title="unlike" name="unlike" value="{{ id }}" class="btn btn-xs btn-danger">x</button></div>{{username}}<br/><i class="fa fa-{{like_type}}"></i></div>
+													{% else %}
+														<div class="panel hidden">{{username}}<br/><i class="fa fa-{{like_type}}"></i></div>
+													{% endif %}
+												  {% endfor %}
+											  {% else %}
+											  		<span>No likes</span>
+											  {% endif %}
+										  </div>
+										 <br/>
+										  <div id="post-comment{{ postid }}" class="hidden" >
+											  {% if postsComments[postid] %}
+												  <table class="table table-bordered table-responsive table-condensed">
+													  {% for id,username,comment in postsComments[postid] %}
+													  <tr>
+														  <td style="max-width: 20px">{{ username }} says:</td>
+														  <td>{{ comment }}
+														  {% if username==user %}
+															  <button title="uncomment" name="uncomment" value="{{ id }}" class="btn btn-xs btn-danger pull-right">x</button>
+														  {% endif %}
+														  </td>
+													  </tr>
+													  {% endfor %}
+												  </table>
+											  {% else %}
+											  		<span class="text-center text-danger">No Comments</span>
+											  {% endif %}
+										  </div>
+									  </div>
+			            		</div>
 					</div>
 					{% endfor %}
 			 	</div>
@@ -444,5 +502,55 @@
 <script src="http://blueimp.github.io/Gallery/js/jquery.blueimp-gallery.min.js"></script>
 <script src="https://raw.github.com/blueimp/Bootstrap-Image-Gallery/master/js/bootstrap-image-gallery.js"></script>
 <script src="https://raw.github.com/blueimp/Bootstrap-Image-Gallery/master/js/demo.js"></script>
+
+<script>
+
+		function AddCommentBar(parent,button,type) {
+			$('#temp').remove();
+			button= $('#post-foot'+parent+' button:eq( 2 )');
+			if(type=='open'){
+				$('#post-foot'+parent).after('<br/><br/><div id="temp"><textarea name="comment" class="form-control" placeholder="Add a Comment"></textarea><br/><button class="center-block btn btn-success" type="submit" name="saveComment" value="1">Save Comment</button></div>');
+				button.removeClass('btn-default');
+				button.addClass('btn-primary');
+				button.attr('onclick','AddCommentBar("'+parent+'",this,"close")');
+			}
+			else{
+				button.removeClass('btn-primary');
+				button.addClass('btn-default');
+				button.attr('onclick','AddCommentBar("'+parent+'",this,"open")');
+			}
+		}
+		function LikeBar(parent,button,type) {
+			button= $('#post-foot'+parent+' button:eq( 0 )');
+			if(type=='open'){
+				$('#post-like'+parent+' .panel').removeClass('hidden');
+				button.removeClass('btn-default');
+				button.addClass('btn-success');
+				button.attr('onclick','LikeBar("'+parent+'",this,"close")');
+			}
+			else{
+				$('#post-like'+parent+' .panel').addClass('hidden');
+				button.removeClass('btn-success');
+				button.addClass('btn-default');
+				button.attr('onclick','LikeBar("'+parent+'",this,"open")');
+			}
+		}
+		function CommentsBar(parent,button,type) {
+			button= $('#post-foot'+parent+' button:eq( 1 )');
+			if(type=='open'){
+				$('#post-comment'+parent).removeClass('hidden');
+				button.removeClass('btn-default');
+				button.addClass('btn-info');
+				button.attr('onclick','CommentsBar("'+parent+'",this,"close")');
+			}
+			else{
+				$('#post-comment'+parent).addClass('hidden');
+				button.removeClass('btn-info');
+				button.addClass('btn-default');
+				button.attr('onclick','CommentsBar("'+parent+'",this,"open")');
+			}
+		}
+
+	</script>
 
 {% endblock %}
