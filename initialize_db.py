@@ -118,17 +118,17 @@ def initialize_db_func(cursor):
                                             DATE character varying(50) ,
                                             LINK character varying(255) NOT NULL,
                                             DESCRIPTION character varying(255))""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-27 16:05:25','https://cdn.pixabay.com/photo/2015/12/01/20/28/green-1072828__340.jpg','GREEN' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-11-28 17:25:55','https://cdn.pixabay.com/photo/2016/11/25/15/14/baffin-island-1858603__340.jpg','BAFFIN ISLAND' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-28 18:34:51','https://cdn.pixabay.com/photo/2016/11/23/14/51/clouds-1853340__340.jpg','ANGRY CLOUDS' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-28 22:13:42','https://cdn.pixabay.com/photo/2016/11/18/15/26/gull-1835351__340.jpg','GULL' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-29 08:45:33','https://cdn.pixabay.com/photo/2015/09/22/23/42/tibet-952688__340.jpg','TIBET' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-29 21:24:11','https://cdn.pixabay.com/photo/2015/08/29/18/53/sunset-913350__340.jpg','SUNSET' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-27 16:05:25','http://images.freeimages.com/images/previews/fcb/feeling-down-at-the-park-1432442.jpg','PARK' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-11-28 17:25:55','http://images.freeimages.com/images/premium/large-thumbs/1870/18706766-hikers-enjoy-the-freedom.jpg','Freedom' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-28 18:34:51','http://images.freeimages.com/images/premium/large-thumbs/1539/15397320-sad-black-man.jpg','Sadness' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-28 22:13:42','http://www.freeimageslive.com/galleries/sports/sportsgames/preview/cricket_ball.jpg','Cricket' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-29 08:45:33','http://www.freeimages.co.uk/galleries/sports/sportsgames/thumbs/extreme_unicycle.jpg','Unicycle' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-29 21:24:11','http://www.freeimageslive.com/galleries/sports/moods%20emotions/preview/beach_sands_breakersP1013474.jpg','Beach' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (5,'2016-12-02 18:24:25','http://www.photographyblogger.net/wp-content/uploads/2013/04/nature02.jpg','Nature' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (4,'2016-12-03 21:24:23','http://phoenixrising.me/wp-content/uploads/pixabay-silhouette-woman-meditation.jpg','Meditation' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (4,'2016-12-04 02:57:22','https://cdn.pixabay.com/photo/2016/12/04/21/22/snow-man-1882635_960_720.jpg','SnowMan' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-12-04 23:28:11','https://cdn.pixabay.com/photo/2016/11/08/05/20/alms-1807525_960_720.jpg','HinduAlms' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (5,'2016-12-05 21:24:11','https://cdn.pixabay.com/photo/2016/11/10/08/15/aircraft-1813731_960_720.jpg','Aircraft' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (4,'2016-12-04 02:57:22','http://www.freeimageslive.com/galleries/transtech/electronics/pics/03250021.jpg','Tech' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-12-04 23:28:11','http://www.freeimageslive.com/galleries/transtech/electronics/pics/smtintegratedcircuit2288.jpg','Chip' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (5,'2016-12-05 21:24:11','http://www.freeimageslive.com/galleries/transtech/objects/pics/injection.jpg','InjectionTime' )""")
 
     #Table for Hidden Posts
     cursor.execute("""DROP TABLE IF EXISTS HIDDENPOSTS CASCADE""")
