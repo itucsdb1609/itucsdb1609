@@ -3,21 +3,46 @@
 {% block content %}
 <div class="area" style="width: 40%; position: absolute; left:30%; padding-top: 20px;">
 {% if user %}
-	{% for userid, username, name, surname, linkpro, postid, linkpost, date, desc in posts %}
-		{% if username==user %}
 		<div style="width: 25%; position: fixed; left:70px; top: 80px;">
 			<div class="media">
 			  <div class="media-left media-middle">
-			    <a href="/{{user}}/profile">
-			      <img class="media-object img-circle" id="profilePic" src={{linkpro}} alt="profilepic" style="width: 150px; height: 150px;">
+			    <a href="/{{ user_data[0] }}/profile">
+			      <img class="media-object img-circle" id="profilePic" src={{ user_data[3] }} alt="profilepic" style="width: 150px; height: 150px;">
 			    </a>
 			  </div>
 			  <div class="media-body" style="padding-left: 30px; width: 100px;">
-			    <h4 class="media-heading">{{name}} {{surname}}</h4>
-			    @{{username}}
+			    <h4 class="media-heading">{{user_data[1]}} {{user_data[2]}}</h4>
+			    @{{user_data[0]}}
 			  </div>
 			</div>
+			<br/>
+			<form method="post">
+			<div id = interest_panel class="panel panel-default" style="border: solid; border-width: 2px; border-color: #eee; border-radius: 5px;">
+				<div class="panel-heading">
+					<h4 class="text text-center font-bold">Interests</h4>
+				</div>
+				<div class="panel-body">
+					{% if user_interests %}
+						{% for id, interest in user_interests %}
+							<span id="interest{{ id }}" title=" {{ interest }}" class="label label-info "> {{ interest }}
+								<button class="btn btn-xs " type="button" onclick="updateInterest('{{ id }}')"><i class="fa fa-edit"></i></button>
+								<button class="btn btn-xs " name="deleteInterest" value="{{ id }}"><i class="fa  fa-close"></i></button>
+							</span>&nbsp;
+						{% endfor %}
+					{% else %}
+						<p class="text-danger"> There is no interest</p>
+					{% endif %}
+				</div>
+				<div  class="panel-footer">
+					<input class="form-control input-border" id="new_interest" name="interestName" placeholder="Tap to add"/><br/>
+					<button name="newInterest" value="1" class="btn btn-success form-control"><i class="fa fa-save"></i> Save Interest</button>
+				</div>
+			</div>
+			</form>
 		</div>
+	{% for userid, username, name, surname, linkpro, postid, linkpost, date, desc in posts %}
+		{% if username==user %}
+
 		{% else %}
 	    <div style="margin-bottom: 35px; margin-top: 25px; position: relative; top: 15px; background-color: #fff; border: solid; border-width: 2px; border-color: #eee; border-radius: 10px; max-height: 512px; width: 575px;">
 			  <div class="panel-heading">
@@ -84,11 +109,52 @@
 				</div>
 			  </div>
 			  <div class="panel-footer" style="background-color: #fff;">
-			  	<div class="btn-group" role="group" aria-label="..." style="position: relative; left: 400px;">
-					  <button type="button" class="btn btn-default">like</button>
-					  <button type="button" class="btn btn-default">comment</button>
+				  <form method="post">
+					  <input type="hidden" name="postId" value="{{postid}}">
+					  <div  class="btn-group " role="group" aria-label="..." >
+						  <button name="like" value="heart" class="btn btn-xs btn-danger"><i class="fa fa-heart"></i></button>
+						  <button name="like" value="thumbs-up" class="btn btn-xs btn-success"><i class="fa fa-thumbs-up"></i></button>
+						  <button name="like" value="thumbs-down" class="btn btn-xs btn-warning"><i class="fa fa-thumbs-down"></i></button>
+						  <button name="like" value="frown-o" class="btn btn-xs btn-info"><i class="fa fa-frown-o"></i></button>
 					</div>
-			  </div>
+			  		<div id="post-foot{{ postid }}" class="btn-group pull-right" role="group" aria-label="..." >
+					  <button type="button"  class="btn btn-default" onclick="LikeBar('{{ postid }}',this,'open')" value="{{ postid }}">Likes</button>
+					  <button type="button" class="btn btn-default" onclick="CommentsBar('{{ postid }}',this,'open')">Show Comments</button>
+					  <button type="button" class="btn btn-default" onclick="AddCommentBar('{{ postid }}',this,'open')">Add Comment</button>
+					</div>
+				  <br>
+				  <div id="post-like{{ postid }}" >
+					  {% if postsLikes[postid] %}
+						  {% for id,username,like_type in postsLikes[postid] %}
+							{% if username==user %}
+								<div class="panel"><div class="panel-heading"><button title="unlike" name="unlike" value="{{ id }}" class="btn btn-xs btn-danger ">x</button></div>{{username}}<br/><i class="fa fa-{{like_type}}"></i></div>
+							{% else %}
+								<div class="panel hidden">{{username}}<br/><i class="fa fa-{{like_type}}"></i></div>
+							{% endif %}
+						  {% endfor %}
+					  {% else %}
+							<span>No likes</span>
+					  {% endif %}
+				  </div>
+				  <div id="post-comment{{ postid }}" class="hidden" >
+					  {% if postsComments[postid] %}
+						  <table class="table table-bordered table-responsive table-condensed">
+							  {% for id,username,comment in postsComments[postid] %}
+							  <tr>
+								  <td style="max-width: 20px">{{ username }} says:</td>
+								  <td>{{ comment }}
+								  {% if username==user %}
+									  <button title="uncomment" name="uncomment" value="{{ id }}" class="btn btn-xs btn-danger pull-right">x</button>
+								  {% endif %}
+								  </td>
+							  </tr>
+							  {% endfor %}
+						  </table>
+					  {% else %}
+							<span class="text-center text-danger">No Comments</span>
+					  {% endif %}
+				  </div>
+			  </form>
 			</div>
 			{% endif %}
 			{% endfor %}
@@ -106,5 +172,76 @@
 		 		</div>
 			</form>
 		{% endif %}
-  </div>
+	  </div>
+	</div>
+
+	<script>
+
+		function AddCommentBar(parent,button,type) {
+			$('#temp').remove();
+			button= $('#post-foot'+parent+' button:eq( 2 )');
+			if(type=='open'){
+				$('#post-foot'+parent).after('<div id="temp"><br/><br/><textarea name="comment" class="form-control" placeholder="Add a Comment"></textarea><br/><button class="center-block btn btn-success" type="submit" name="saveComment" value="1">Save Comment</button></div>');
+				button.removeClass('btn-default');
+				button.addClass('btn-primary');
+				button.attr('onclick','AddCommentBar("'+parent+'",this,"close")');
+			}
+			else{
+				button.removeClass('btn-primary');
+				button.addClass('btn-default');
+				button.attr('onclick','AddCommentBar("'+parent+'",this,"open")');
+			}
+		}
+		function LikeBar(parent,button,type) {
+			button= $('#post-foot'+parent+' button:eq( 0 )');
+			if(type=='open'){
+				$('#post-like'+parent+' .panel').removeClass('hidden');
+				button.removeClass('btn-default');
+				button.addClass('btn-success');
+				button.attr('onclick','LikeBar("'+parent+'",this,"close")');
+			}
+			else{
+				$('#post-like'+parent+' .panel').addClass('hidden');
+				button.removeClass('btn-success');
+				button.addClass('btn-default');
+				button.attr('onclick','LikeBar("'+parent+'",this,"open")');
+			}
+		}
+		function CommentsBar(parent,button,type) {
+			button= $('#post-foot'+parent+' button:eq( 1 )');
+			if(type=='open'){
+				$('#post-comment'+parent).removeClass('hidden');
+				button.removeClass('btn-default');
+				button.addClass('btn-info');
+				button.attr('onclick','CommentsBar("'+parent+'",this,"close")');
+			}
+			else{
+				$('#post-comment'+parent).addClass('hidden');
+				button.removeClass('btn-info');
+				button.addClass('btn-default');
+				button.attr('onclick','CommentsBar("'+parent+'",this,"open")');
+			}
+		}
+
+
+
+		function updateInterest(parent) {
+			var interestSpan = $('#interest'+parent);
+			var interestName= interestSpan.attr('title');
+			window.interest=interestSpan;
+			interestSpan.after('<div id="tempInterest"><input name=updatedName value="'+interestName+'" />' +
+					'<button class="btn btn-xs btn-success" name="updateInterest" value="'+parent+'"><i class="fa fa-check-circle"></i></button>' +
+					'<button class="btn btn-xs btn-danger" type="button" onclick="unupdateInterest()"><i class="fa fa-close"></i></button></div>')
+
+			interestSpan.remove();
+		}
+
+		function unupdateInterest() {
+			temp=$('#tempInterest');
+			temp.after(window.interest);
+			temp.remove();
+		}
+
+	</script>
+
 {% endblock %}
