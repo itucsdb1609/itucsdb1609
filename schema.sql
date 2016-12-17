@@ -1,0 +1,48 @@
+DROP TABLE IF EXISTS postComments CASCADE;
+CREATE TABLE postComments
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    postId INT NOT NULL,
+    userId INT NOT NULL,
+    comment VARCHAR(255) NOT NULL
+);
+
+CREATE INDEX postc_id ON postComments USING btree (postId);
+ALTER TABLE ONLY postComments
+    ADD CONSTRAINT fkPostId FOREIGN KEY (postId) REFERENCES posts(id) DEFERRABLE INITIALLY DEFERRED;
+
+CREATE INDEX userc_id ON postComments USING btree (userId);
+ALTER TABLE ONLY postComments
+    ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED;
+
+DROP TABLE IF EXISTS postLikes CASCADE;
+DROP TYPE IF EXISTS likeType;
+CREATE TYPE likeType AS ENUM ('heart', 'thumbs-up', 'thumbs-down', 'frown-o');
+CREATE TABLE postLikes
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    postId INT NOT NULL,
+    userId INT NOT NULL,
+    likeType VARCHAR(255) NOT NULL
+);
+
+CREATE INDEX postl_id ON postLikes USING btree (postId);
+ALTER TABLE ONLY postLikes
+    ADD CONSTRAINT fkPostId FOREIGN KEY (postId) REFERENCES posts(id) DEFERRABLE INITIALLY DEFERRED;
+
+CREATE INDEX userl_id ON postLikes USING btree (userId);
+ALTER TABLE ONLY postLikes
+    ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED;
+
+DROP TABLE IF EXISTS interests CASCADE;
+CREATE TABLE interests
+(
+    id SERIAL PRIMARY KEY NOT NULL,
+    userId INT NOT NULL,
+    interest VARCHAR(255) NOT NULL
+);
+
+CREATE INDEX useri_id ON interests USING btree (userId);
+ALTER TABLE ONLY interests
+    ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED;
+
