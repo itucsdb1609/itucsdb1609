@@ -319,7 +319,7 @@ def initialize_db():
         cursor = connection.cursor()
         initialize_db_func(cursor)
         connection.commit()
-    return redirect(url_for('/'))
+    return redirect(url_for('home_page'))
 
 @app.route('/count')
 def counter_page():
