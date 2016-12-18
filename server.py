@@ -54,25 +54,24 @@ def logout():
 
 #Sign up page
 
-@app.route('/signUp',methods = ['GET','POST'])
-def signUp():
+@app.route('/register',methods=['GET','POST'])
+def register():
+    all_cities=[]
+    status='Register'
+    all_collages=[]
+    with dbapi2.connect(app.config['dsn']) as connection:
+        if request.method == 'POST':
+            registeruser=Register(connection=connection,name=request.form['name'], surname=request.form['surname'], email=request.form['email'],
+                                  username=request.form['username'], city=request.form['city'], collage=request.form['collage'],newcity=request.form['newcity'],
+                                  newcollage=request.form['newcollage'],gender=request.form['gender'], password=request.form['password'],confirm=request.form['confirm'])
+            status=registeruser.save()
+        city=City(connection=connection)
+        all_cities=city.get_all_cities()
+        collage= Collage(connection=connection)
+        all_collages = collage.get_all_collages()
 
-    if request.method =='POST':
-        username = request.form['username']
-        password = request.form['password']
-        with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
+    return render_template('register.html', all_cities=all_cities,all_collages=all_collages,status=status)
 
-            query =  """INSERT INTO USER ( USERNAME, PASSWORD) VALUES (%s,%s)"""
-            print(query)
-
-            cursor.execute(query,(username, password))
-            connection.commit()
-
-        return redirect(url_for('signUp'))
-    else:
-         now = datetime.datetime.now()
-         return render_template('signUp.html')
 
 #--------------- end of aliercccan ---------
 
