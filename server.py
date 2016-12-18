@@ -431,11 +431,21 @@ def update_hash():
 
     return render_template('add_hash.html', hashs=hashs)
 
-@app.route('/notifications')
-@app.route('/<user>/notification', methods = ['GET','POST'])
-def notification_page(user=None):
-    now = datetime.datetime.utcnow()
-    return render_template('notification.html', current_time=now.ctime(), user=user)
+@app.route('/notification', methods = ['GET','POST'])
+def notification_page():
+    if 'username' in session:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
+    comments=[]
+    likes=[]
+    if user:
+        with dbapi2.connect(app.config['dsn']) as connection:
+            notification=Notifications(username=user,connection=connection)
+            comments=notification.get_all_comments()
+            likes =notification.get_all_likes()
+
+    return render_template('notification.html',user=user, comments=comments,likes=likes)
 
 
 #Start of EKREM CIHAD CETIN's space
