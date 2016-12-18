@@ -79,6 +79,10 @@ def initialize_db_func(cursor):
                                                 ADMIN    BOOLEAN       DEFAULT FALSE )""")
 
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD,admin) VALUES ('ali','password',TRUE )""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('dincer','password' )""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('bsk125','password' )""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('merv','password' )""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('sedt01','password' )""")
 
     #Table for main
     cursor.execute("""DROP TABLE IF EXISTS PostForView""")
