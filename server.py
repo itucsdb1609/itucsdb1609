@@ -486,7 +486,7 @@ def profile_page(user2=None):
             query = """select id from users where username='"""+user2+"""'"""
             cursor.execute(query)
             user2_id=cursor.fetchall()[0]
-            print (user2_id)
+
             query = """select * from follow where follower= %s and following=%s"""
             cursor.execute(query,(user_id,user2_id))
             status=cursor.fetchall()
@@ -592,7 +592,7 @@ def profile_page(user2=None):
                 userid = request.form['PROFILE']
                 username=request.form['USERNAME']
                 link = request.form['NEWLINK']
-                print (userid)
+
                 Newprofilepic = ProfilePic( picid=userid, link=link, connection=connection)
                 Newprofilepic.update_pic()
 
