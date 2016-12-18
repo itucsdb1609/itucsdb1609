@@ -1,21 +1,26 @@
 {% extends "layout.html" %}
-{% block title %}Main Page{% endblock %}
-{% block content %}
-<div class="area" style="width: 40%; position: absolute; left:30%; padding-top: 20px;">
-{% if user %}
-		<div style="width: 25%; position: fixed; left:70px; top: 80px;">
-			<div class="media">
-			  <div class="media-left media-middle">
-			    <a href="/profile">
-			      <img class="media-object img-circle" id="profilePic" src={{ user_data[3] }} alt="profilepic" style="width: 150px; height: 150px;">
-			    </a>
-			  </div>
-			  <div class="media-body" style="padding-left: 30px; padding-top: 30px;">
-			    <h4 class="media-heading">{{user_data[1]}} {{user_data[2]}}</h4>
-			    @{{user_data[0]}}
-			  </div>
-			</div>
-			<br/>
+	{% block title %}Main Page{% endblock %}
+	{% block content %}
+	<div class="area" style="width: 40%; position: absolute; left:30%; padding-top: 20px;">
+		{{error}}
+	{% if user %}
+			<div style="width: 25%; position: fixed; left:70px; top: 80px;">
+				<div class="media">
+				  <div class="media-left media-middle">
+					<a href="/profile">
+					  <img class="media-object img-circle" id="profilePic" src={{ user_data[3] }} alt="profilepic" style="width: 150px; height: 150px;">
+					</a>
+				  </div>
+				  <div class="media-body" style="padding-left: 30px; width: 100px;">
+					<h4 class="media-heading">{{user_data[1]}} {{user_data[2]}}</h4>
+					@{{user_data[0]}}
+				  </div>
+				</div>
+				<br/>
+				{% if session['admin'] %}
+				<div class="panel"><div class="panel-heading"><a class="btn btn-primary" href="/admin">Go to Admin Page</a></div></div>
+				{% endif %}
+				<br/>
 			<form method="post">
 			<div id = interest_panel class="panel panel-default" style="border: solid; border-width: 2px; border-color: #eee; border-radius: 5px;">
 				<div class="panel-heading">
