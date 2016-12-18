@@ -37,6 +37,9 @@ class Register:
             return True
         else:
             return False
+    def search_id_for_username(self):
+        self.__cursor.execute("""SELECT id from users WHERE username =%s""" ,[self.username])
+        return self.__cursor.fetchone()
 
     def search_for_email(self):
         self.__cursor.execute("""SELECT id from users WHERE mail =%s""", [self.email])

@@ -65,6 +65,9 @@ def register():
                                   username=request.form['username'], city=request.form['city'], collage=request.form['collage'],newcity=request.form['newcity'],
                                   newcollage=request.form['newcollage'],gender=request.form['gender'], password=request.form['password'],confirm=request.form['confirm'])
             status=registeruser.save()
+
+            profilpic=ProfilePic(connection=connection,picid=registeruser.search_id_for_username(),link='http://www.maxibayan.com/wp-content/uploads/2014/10/instagram-avatar-5.png')
+            profilpic.save()
         city=City(connection=connection)
         all_cities=city.get_all_cities()
         collage= Collage(connection=connection)
@@ -619,7 +622,7 @@ def profile_page(user2=None):
                 userid = request.form['PROFILE']
                 username=request.form['USERNAME']
                 link = request.form['NEWLINK']
-
+                print (userid)
                 Newprofilepic = ProfilePic( picid=userid, link=link, connection=connection)
                 Newprofilepic.update_pic()
 
