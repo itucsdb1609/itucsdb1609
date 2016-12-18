@@ -32,7 +32,7 @@ def get_elephantsql_dsn(vcap_services):
 
 #Login page
 
-@app.route('/login')
+@app.route('/login',methods = ['GET','POST'])
 def login():
     if request.method == 'POST':
         with dbapi2.connect(app.config['dsn']) as connection:
@@ -46,7 +46,7 @@ def login():
 
     return render_template('login.html')
 
-@app.route('/logout')
+@app.route('/logout',methods = ['GET','POST'])
 def logout():
     session.pop('username',None)
     session.pop('admin',None)
