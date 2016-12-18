@@ -115,10 +115,12 @@ def home_page():
     user_id=None
     user_data=None
     posts = []
+    suggests = []
     posts_likes={}
     posts_comments={}
     allUsers = []
     userCheck = False
+    suggestSet = False
     with dbapi2.connect(app.config['dsn']) as connection:
         post_like = PostLike(connection=connection)
         post_comment = PostComments(connection=connection)
@@ -183,6 +185,17 @@ def home_page():
 
                     connection.commit()
                 return redirect(url_for('home_page', user=userName))
+            
+            elif 'follow' in request.form:
+                userid = request.form['userid']
+                userName = request.form['username']
+
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """DELETE FROM SUGGESTS (userid, usersid) VALUES (%s,%s) """
+                    cursor.execute(query, (user_id, userid))
+                    connection.commit()
+                return redirect(url_for('home_page', user=userName))
 
             elif 'like' in request.form:
                 post_id = request.form['postId']
@@ -225,6 +238,12 @@ def home_page():
             query = """select distinct r.userid, username, name, surname, r.link as linkpro, r.postid, r.linkpost, date, description from (select * from (select m.mid, uid, m.postid, linkpost, date, description from (select l.mid, userid as uid, id as postid, link as linkpost, date, description from (select k.id as mid, k.following from (select id, following from users join follow on users.id = follow.follower where users.id = """+ str( user_id ) + """) k left join hiddenusers on hiddenusers.userhid = k.following where hiddenusers.userid is null) l join posts on posts.userid = l.following or  posts.userid = l.mid) m left join hiddenposts on hiddenposts.postid = m.postid where hiddenposts.userid is null) n join profilepic on profilepic.userid = n.uid) r join users on r. userid = users.id order by date asc"""
             cursor.execute(query)
             temp = cursor.fetchall()
+            
+            if not temp:
+                query = """select distinct k.id, k.username, k.name, k.surname, l.link as linkpro, k.postid, k.link as linkpost, k.date, k.description from (select m.id, username, name, surname, n.id as postid, link, date, description from users m join posts n on m.id=n.userid where m.id = """+str(user_id)+""") k join profilepic l on l.userid=k.id"""
+                cursor.execute(query)
+                temp = cursor.fetchall()
+            
             for post in temp:
                 likes = post_like.get_likes_by_post_id(post[5])
                 if likes:
@@ -245,7 +264,13 @@ def home_page():
             for post in temp:
                 if user_id==post[0]:
                     user_data.append(post[1])
-
+            
+            query = """select userid, username, name, surname, link as linkpro from(select userid, link from (select distinct k.following from (select distinct n.following from follow m join follow n on m.following=n.follower where m.follower="""+str(user_id)+""")k left join follow l on l.following=k.following and l.follower="""+str(user_id)+""" where l.follower is null and k.following!="""+str(user_id)+""")p join profilepic on p.following=userid) r join users on users.id=r.userid"""
+            cursor.execute(query)
+            temp = cursor.fetchall()
+            for suggest in temp:
+                suggests.append(suggest)
+                    
         else:
             return render_template('404.html'), 404
 
@@ -258,7 +283,7 @@ def home_page():
 
 
 
-    return render_template('main.html', user=user, user_data=user_data, allUsers=allUsers , posts=posts,postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
+    return render_template('main.html', user=user, user_data=user_data, allUsers=allUsers , posts=posts, suggests=suggests, postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
 
 #End of Ahmet Caglar Bayatli's space
 

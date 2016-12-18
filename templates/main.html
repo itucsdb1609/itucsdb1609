@@ -1,7 +1,7 @@
 {% extends "layout.html" %}
 {% block title %}Main Page{% endblock %}
 {% block content %}
-<div class="area" style="width: 40%; position: absolute; left:30%; padding-top: 20px;">
+<div class="area" style="width: 45%; position: absolute; left:30%; padding-top: 20px;">
 {% if user %}
 		<div style="width: 25%; position: fixed; left:70px; top: 80px;">
 			<div class="media">
@@ -53,15 +53,15 @@
 					    <h4 class="media-heading">{{name}} {{surname}}</h4>
 					    @{{ username }}
 					  </div>
+				</div>
 			  </div>
-			  <div style="position: relative; left: 475px; bottom: 50px;">
+			  <div style="position: relative; left: 500px; bottom: 60px;">
 			  {% if username!=user %}
 
-			  	<div class="dropdown" style="display: inline;">
-			  		
-				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border: none; margin-left: 20px;">
-				  <span class="glyphicon glyphicon-remove"></span>
-				</button>
+			  	<div class="dropdown" style="display: inline;">	
+					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border: none; margin-left: 25px;">
+					  <span class="glyphicon glyphicon-remove"></span>
+					</button>
 				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
 				    <li><form method="POST" role="form" style="display: inline;">
                 			<input type="hidden" name="postid" value={{ postid }}>
@@ -101,7 +101,7 @@
 			                	<input type="text" name="desc" value="{{ desc }}" style="width: 100%;">
 			                	<input type="hidden" name="username" value={{user}}>
 			                	<button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative; top: 10px; left: 390px;">Close</button>
-			                	<button class="btn btn-default" type="submit" name="upt" style="position: relative; top: 10px; left: 400px; background-color: #03C9A9; color: white;">Submit Edit</button>
+			                	<button class="btn btn-success" type="submit" name="upt" style="position: relative; top: 10px; left: 400px;">Submit Edit</button>
 			                </form>
 				        </div>
 				        </div>
@@ -154,7 +154,7 @@
 						  <button name="like" value="thumbs-up" class="btn btn-xs btn-success"><i class="fa fa-thumbs-up"></i></button>
 						  <button name="like" value="thumbs-down" class="btn btn-xs btn-warning"><i class="fa fa-thumbs-down"></i></button>
 						  <button name="like" value="frown-o" class="btn btn-xs btn-info"><i class="fa fa-frown-o"></i></button>
-					</div>
+					  </div>
 			  		<div id="post-foot{{ postid }}" class="btn-group pull-right" role="group" aria-label="..." >
 					  <button type="button"  class="btn btn-default" onclick="LikeBar('{{ postid }}',this,'open')" value="{{ postid }}">Likes</button>
 					  <button type="button" class="btn btn-default" onclick="CommentsBar('{{ postid }}',this,'open')">Show Comments</button>
@@ -192,11 +192,40 @@
 							<span class="text-center text-danger">No Comments</span>
 					  {% endif %}
 				  </div>
-			  </form>
-			</div>
-			</div>
+			  	  </form>
+			  </div>
 		</div>
-			{% endfor %}
+	{% endfor %}
+</div>
+<div style="width: 25%; position: fixed; right:30px; top: 80px; height: 500px; overflow: auto; padding-left: 20px;">
+	<ul class="list-group">
+	<li class="list-group-item">
+		<h4>Suggestion for you</h4>
+	</li>
+	{% for userid, username, name, surname, linkpro in suggests %}
+	<li class="list-group-item">
+		<div class="media">
+		  <div class="media-left media-middle">
+		    <a href="/{{username}}/profile">
+		      <img class="media-object img-circle" id={{userid}} src={{linkpro}} alt="profilepic" style="width: 50px; height: 50px;">
+		    </a>
+		  </div>
+		  <div class="media-body" style="padding-left: 10px; padding-top: 10px; width: 70%;">
+		    <h4 class="media-heading">{{name}} {{surname}}</h4>
+		    <p>@{{username}}</p>
+		  </div>
+		  <div class="media-right media-middle" style="padding-left: 20px;">
+			  <form method="POST" role="form" style="display: inline;">
+	    		<input type="hidden" name="post" value={{ postid }}>
+	        	<input type="hidden" name="username" value={{user}}>
+			  	<button class="btn btn-success" type="submit" name="follow" style="display: inline;">Follow</button>
+			  </form>
+		  </div>
+		</div>
+	</li>
+	{% endfor %}
+	</ul>
+</div>
 		{% else %}
 			<form method="POST" role="form">
 		 		<div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 col-xs-offset-4 col-sm-offset-4 col-md-offset-4 col-lg-offset-4 ">

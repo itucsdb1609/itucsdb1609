@@ -138,6 +138,13 @@ def initialize_db_func(cursor):
                                             PRIMARY KEY (USERID, USERHID),
                                             CHECK (USERID !=USERHID))""")
     cursor.execute("""INSERT INTO HIDDENUSERS (USERID, USERHID) VALUES (3,1)""")
+    
+    #Table for Suggestion
+    cursor.execute("""DROP TABLE IF EXISTS SUGGESTS CASCADE""")
+    cursor.execute("""CREATE TABLE SUGGESTS (USERID INTEGER  references USERS(ID),
+                                            USERSID INTEGER references USERS(ID),
+                                            PRIMARY KEY (USERID, USERSID),
+                                            CHECK (USERID !=USERSID))""")
 
     #Table For Follow
     cursor.execute("""DROP TABLE IF EXISTS FOLLOW CASCADE""")
