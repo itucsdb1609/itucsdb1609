@@ -455,6 +455,7 @@ def profile_page(user2=None):
     user_id=None
     posts_likes = {}
     posts_comments = {}
+    user_interests=[]
     if user==user2:
         user2=None
         return redirect(url_for('profile_page',user=user))
@@ -553,7 +554,7 @@ def profile_page(user2=None):
 
 
         if user and not user2:
-            query="""select userid,link, username, name, surname,mail from profilepic,users where username='"""+user+"""' and users.id=profilepic.userid"""
+            query="""select userid,link, username, name, surname,mail from users left join profilepic on  users.id=profilepic.userid where username='"""+user+"""' """
             cursor.execute(query)
             userr = cursor.fetchall()
             if userr:
