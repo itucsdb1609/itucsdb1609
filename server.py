@@ -136,7 +136,7 @@ def home_page():
                 break
 
         if request.method == 'POST':
-            if 'delpost' in request.form:
+            if 'hidepost' in request.form:
                 postid = request.form['postid']
                 userid = request.form['userid']
                 userName = request.form['username']
@@ -148,7 +148,7 @@ def home_page():
                     connection.commit()
                 return redirect(url_for('home_page', user=userName))
             
-            elif 'deluser' in request.form:
+            elif 'hideuser' in request.form:
                 userid = request.form['userid']
                 userName = request.form['username']
 
@@ -167,6 +167,18 @@ def home_page():
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
                     query = """UPDATE posts SET description='""" + desc + """' WHERE id =""" + post + """"""
+                    cursor.execute(query)
+
+                    connection.commit()
+                return redirect(url_for('home_page', user=userName))
+            
+            elif 'del' in request.form:
+                post = request.form['post']
+                userName = request.form['username']
+
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """DELETE FROM posts where id = """+post+""" and userid= """+str(user_id)+""""""
                     cursor.execute(query)
 
                     connection.commit()
