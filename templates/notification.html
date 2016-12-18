@@ -11,7 +11,7 @@
     <p class="text-danger"> No Comments Found</p>
     {% else %}
     {% for username,plink in comments %}
-        <div class="alert alert-success" role="alert"><a href="/{{user}}/{{username}}/profile">{{ username }}</a> comments your post<img class="media-object" src="{{ plink }}" alt="sample1" align="right"  style=" margin-left: 10px; width: 30px; height: 30px;"/></div>
+        <div class="alert alert-success" role="alert"><a href="/{{username}}/profile">{{ username }}</a> comments your post<img class="media-object" src="{{ plink }}" alt="sample1" align="right"  style=" margin-left: 10px; width: 30px; height: 30px;"/></div>
     {% endfor %}
     {%endif%}
 </div>
@@ -21,7 +21,7 @@
     <p class="text-danger"> No Likes Found</p>
     {% else %}
     {% for username,plink in likes %}
-        <div class="alert alert-success" role="alert"><a href="/{{user}}/{{username}}/profile">{{ username }}</a> likes your post<img class="media-object" src="{{ plink }}" alt="sample1" align="right"  style=" margin-left: 10px; width: 30px; height: 30px;"/></div>
+        <div class="alert alert-success" role="alert"><a href="/{{username}}/profile">{{ username }}</a> likes your post<img class="media-object" src="{{ plink }}" alt="sample1" align="right"  style=" margin-left: 10px; width: 30px; height: 30px;"/></div>
     {% endfor %}
     {%endif%}
 </div>
