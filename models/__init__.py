@@ -5,4 +5,4 @@ from .interest import Interest
 from .posts import posts
 from .profilepic import ProfilePic
 
-__all__ = ['PostLike','PostComments','Interest','posts','ProfilePic']
+__all__ = ['PostLike','PostComments','Interest','posts','ProfilePic','City','Collage','Register','Login','Admin',]
