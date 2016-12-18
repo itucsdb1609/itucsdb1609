@@ -73,15 +73,12 @@ def initialize_db_func(cursor):
 
     #Table for user login
     cursor.execute("""DROP TABLE IF EXISTS USERLOGIN CASCADE""")
-    cursor.execute("""CREATE TABLE USERLOGIN (USERNAME VARCHAR(50)  PRIMARY KEY  references users(username),
+    cursor.execute("""CREATE TABLE USERLOGIN (USERNAME VARCHAR(50)  PRIMARY KEY  references  users(username) ON DELETE CASCADE ,
                                                PASSWORD VARCHAR(50) NOT NULL,
-                                               LASTLOGIN VARCHAR(50))""")
+                                               LASTLOGIN TIMESTAMP DEFAULT NULL,
+                                                ADMIN    BOOLEAN       DEFAULT FALSE )""")
 
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('ali','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('dincer','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('bsk125','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('merv','password')""")
-    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('sedt01','password')""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD,admin) VALUES ('ali','password',TRUE )""")
 
     #Table for main
     cursor.execute("""DROP TABLE IF EXISTS PostForView""")
@@ -105,7 +102,7 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO picPost ( Description) VALUES ('Enjoy')""")
     #Table for Profil PICTURE
     cursor.execute("""DROP TABLE IF EXISTS PROFILEPIC CASCADE""")
-    cursor.execute("""CREATE TABLE PROFILEPIC (USERID INTEGER PRIMARY KEY references USERS(ID),LINK character varying(255) NOT NULL )""")
+    cursor.execute("""CREATE TABLE PROFILEPIC (USERID INTEGER PRIMARY KEY references USERS(ID) ON DELETE CASCADE,LINK character varying(255) NOT NULL )""")
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (1,'http://laelith.fr/Cours/Illus/013-avatar-faceprofil.jpg')""")
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (2,'http://laelith.fr/Cours/Illus/013-Me.jpg' )""")
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (3,'http://www.hastane.com.tr/Images/Article/daha-iyi-bir-profil-icin-cene-ucu-estetigi_b.jpg' )""")
@@ -114,7 +111,7 @@ def initialize_db_func(cursor):
      #Table for POST table
     cursor.execute("""DROP TABLE IF EXISTS POSTS CASCADE""")
     cursor.execute("""CREATE TABLE POSTS (ID SERIAL PRIMARY KEY UNIQUE,
-                                            USERID INTEGER  references USERS(ID),
+                                            USERID INTEGER  references USERS(ID) ON DELETE CASCADE,
                                             DATE character varying(50) ,
                                             LINK character varying(255) NOT NULL,
                                             DESCRIPTION character varying(255))""")
@@ -132,14 +129,14 @@ def initialize_db_func(cursor):
 
     #Table for Hidden Posts
     cursor.execute("""DROP TABLE IF EXISTS HIDDENPOSTS CASCADE""")
-    cursor.execute("""CREATE TABLE HIDDENPOSTS (USERID INTEGER  references USERS(ID),
-                                            POSTID INTEGER PRIMARY KEY UNIQUE references POSTS(ID))""")
+    cursor.execute("""CREATE TABLE HIDDENPOSTS (USERID INTEGER  references USERS(ID) ON DELETE CASCADE,
+                                            POSTID INTEGER PRIMARY KEY UNIQUE references POSTS(ID) ON DELETE CASCADE)""")
     cursor.execute("""INSERT INTO HIDDENPOSTS (USERID, POSTID) VALUES (3,3)""")
 
     #Table For Follow
     cursor.execute("""DROP TABLE IF EXISTS FOLLOW CASCADE""")
-    cursor.execute("""CREATE TABLE FOLLOW (FOLLOWER  INTEGER references USERS(ID),
-                                            FOLLOWING  INTEGER references USERS(ID),
+    cursor.execute("""CREATE TABLE FOLLOW (FOLLOWER  INTEGER references USERS(ID) ON DELETE CASCADE,
+                                            FOLLOWING  INTEGER references USERS(ID) ON DELETE CASCADE,
                                             PRIMARY KEY(FOLLOWER,FOLLOWING),
                                             CHECK (FOLLOWING !=FOLLOWER))""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,2)""")
@@ -167,11 +164,11 @@ def initialize_db_func(cursor):
 
                         CREATE INDEX postc_id ON postComments USING btree (postId);
                         ALTER TABLE ONLY postComments
-                            ADD CONSTRAINT fkPostId FOREIGN KEY (postId) REFERENCES posts(id) DEFERRABLE INITIALLY DEFERRED;
+                            ADD CONSTRAINT fkPostId FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
                         CREATE INDEX userc_id ON postComments USING btree (userId);
                         ALTER TABLE ONLY postComments
-                            ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED;
+                            ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
                         DROP TABLE IF EXISTS postLikes CASCADE;
                         DROP TYPE IF EXISTS likeType;
@@ -186,11 +183,11 @@ def initialize_db_func(cursor):
 
                         CREATE INDEX postl_id ON postLikes USING btree (postId);
                         ALTER TABLE ONLY postLikes
-                            ADD CONSTRAINT fkPostId FOREIGN KEY (postId) REFERENCES posts(id) DEFERRABLE INITIALLY DEFERRED;
+                            ADD CONSTRAINT fkPostId FOREIGN KEY (postId) REFERENCES posts(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
                         CREATE INDEX userl_id ON postLikes USING btree (userId);
                         ALTER TABLE ONLY postLikes
-                            ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED;
+                            ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
                         DROP TABLE IF EXISTS interests CASCADE;
                         CREATE TABLE interests
@@ -202,6 +199,6 @@ def initialize_db_func(cursor):
 
                         CREATE INDEX useri_id ON interests USING btree (userId);
                         ALTER TABLE ONLY interests
-                            ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) DEFERRABLE INITIALLY DEFERRED;
+                            ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 """)
