@@ -9,7 +9,7 @@ from flask import Flask
 from flask import redirect
 from flask import render_template
 from werkzeug import redirect
-from flask import request
+from flask import request,session
 from flask.helpers import url_for, flash
 from initialize_db import initialize_db_func
 
@@ -34,9 +34,23 @@ def get_elephantsql_dsn(vcap_services):
 
 @app.route('/login')
 def login():
-    now = datetime.datetime.now()
-    return render_template('log_in.html', current_time=now.ctime())
+    if request.method == 'POST':
+        with dbapi2.connect(app.config['dsn']) as connection:
+            auth=Login(request.form['username'],request.form['password'],connection)
+            user = auth.authenticator()
+            if user:
+                session['logged_in']='true'
+                session['username']=user[0]
+                session['admin']=user[1]
+        return redirect(url_for('home_page'))
 
+    return render_template('login.html')
+
+@app.route('/logout')
+def logout():
+    session.pop('username',None)
+    session.pop('admin',None)
+    return redirect(url_for('login'))
 
 #Sign up page
 
@@ -64,28 +78,38 @@ def signUp():
 
 #Start of Ahmet Caglar Bayatli's space
 
-@app.route('/', methods = ['GET','POST'])
-@app.route('/welcome', methods = ['GET','POST'])
-def welcome_page():
-    allUsers = []
+@app.route('/admin', methods = ['GET','POST'])
+def admin_page():
+    if 'username' in session and 'admin' in session and session['admin']==True:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
     with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        query = """select id,username from users"""
-        cursor.execute(query)
-        for currentUser in cursor:
-            allUsers.append(currentUser)
+        admin = Admin(connection=connection)
+        if request.method == 'POST':
+            if 'save' in request.form:
+                collage = Collage(collage_name=request.form['school'], connection=connection)
+                collage_id=collage.search_collage_by_name()
+                if not collage_id:
+                    collage.save()
+                    collage_id = collage.search_collage_by_name()
+                admin.update_user(email=request.form['email'],school_id=collage_id,user_id=request.form['save'])
+            elif 'userdel':
+                admin.del_user(request.form['userdel'])
 
-        if 'ChooseUser' in request.form:
-            userName = request.form['ChooseUser']
+        all_users= admin.get_users()
 
-            return redirect(url_for('home_page',user=userName))
+    return render_template('admin.html',all_users=all_users)
 
-    return render_template('welcome.html', allUsers=allUsers)
+
 
 @app.route('/home', methods = ['GET','POST'])
-@app.route('/<user>', methods = ['GET','POST'])
-@app.route('/<user>/home', methods = ['GET','POST'])
-def home_page(user=None):
+@app.route('/', methods = ['GET','POST'])
+def home_page():
+    if 'username' in session:
+        user=session['username']
+    else:
+        return redirect(url_for('login'))
     user_id=None
     user_data=None
     posts = []
@@ -295,7 +319,7 @@ def initialize_db():
         cursor = connection.cursor()
         initialize_db_func(cursor)
         connection.commit()
-    return redirect(url_for('welcome_page'))
+    return redirect(url_for('/'))
 
 @app.route('/count')
 def counter_page():
@@ -417,9 +441,12 @@ def notification_page(user=None):
 
 #Start of EKREM CIHAD CETIN's space
 @app.route('/profile', methods = ['GET','POST'])
-@app.route('/<user>/profile', methods = ['GET','POST'])
-@app.route('/<user>/<user2>/profile', methods = ['GET','POST'])
-def profile_page(user=None, user2=None):
+@app.route('/<user2>/profile', methods = ['GET','POST'])
+def profile_page(user2=None):
+    if 'username' in session:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
     now = datetime.datetime.now()
     images = []
     kullanici=[]
