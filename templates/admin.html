@@ -1,0 +1,63 @@
+{% extends "layout.html" %}
+{% block content %}
+<br>
+<br>
+<br>
+<div class="row">
+    <form method="POST">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <p class="panel-title">Admin Page</p>
+        </div>
+        <div class="col-md-12">
+            <div class="panel panel-danger">
+                <div class="panel-heading">
+                    <p class="panel-title">Users</p>
+                </div>
+                <div class="panel-body">
+                    <table class="table table-responsive table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Full Name</th>
+                            <th>Username</th>
+                            <th>e-Mail</th>
+                            <th>City</th>
+                            <th>School</th>
+                            <th>Gender</th>
+                            <th>Prosesses</th>
+                        </tr>
+                        </thead>
+                        {% for id,name,surname,username,mail,cityname,schoolname,type in all_users %}
+                        <tr id="{{id}}">
+                            <td>{{name}} {{surname}}</td>
+                            <td>{{username}}</td>
+                            <td>{{mail}}</td>
+                            <td>{{cityname}}</td>
+                            <td>{{schoolname}}</td>
+                            <td>{{type}}</td>
+                            <td><button id="btn{{id}}" class="btn btn-primary" type="button" onclick="userUpdate('{{id}}')"><i class="fa fa-eraser"></i>Edit</button>
+                                <button class="btn btn-danger" name="userdel" value="{{id}}"><i class="fa fa-eraser"></i>Delete</button></td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    </form>
+</div>
+
+<script>
+    function userUpdate(line) {
+        var email= $('#'+line+' td:eq(2)').text();
+        $('#'+line+' td:eq(2)').html('<input name="email" value="'+email+'"/>');
+        var school= $('#'+line+' td:eq(4)').text();
+        $('#'+line+' td:eq(4)').html('<input name="school" value="'+school+'"/>');
+        $("#btn"+line).addClass('hidden');
+        $("#btn"+line).after('<button name="save" value="'+line+'" class="btn btn-success"><i class="fa fa-save"></i></button>' +
+                            '<button type="button" onclick="location.reload();" class="btn btn-warning"><i class="fa fa-backward"></i></button>');
+    }
+</script>
+
+
+{% endblock %}

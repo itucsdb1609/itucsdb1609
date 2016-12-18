@@ -4,12 +4,28 @@
 <div>
     <h1>Recent Notifications</h1>
 </div>
-    <div class="alert alert-success" role="alert">@username1 likes your post<img class="media-object" src="static/photos/samplepic1.png" alt="sample1" align="right" style=" margin-left: 10px; width: 30px; height: 30px;"/>
-    </div>
-    <div class="alert alert-success" role="alert">@username1 comments on your post<img class="media-object" src="static/photos/samplepic1.png" alt="sample1" align="right" style=" margin-left: 10px; width: 30px; height: 30px;"/>
-    </div>
-    <div class="alert alert-success" role="alert">@username2 likes your post<img class="media-object" src="static/photos/samplepic1.png" alt="sample1" align="right" style=" margin-left: 10px; width: 30px; height: 30px;"/>
-    </div>
+<div class="col-lg-6">
+    <h2>Comments</h2>
+
+    {% if not comments %}
+    <p class="text-danger"> No Comments Found</p>
+    {% else %}
+    {% for username,plink in comments %}
+        <div class="alert alert-success" role="alert"><a href="/{{username}}/profile">{{ username }}</a> comments your post<img class="media-object" src="{{ plink }}" alt="sample1" align="right"  style=" margin-left: 10px; width: 30px; height: 30px;"/></div>
+    {% endfor %}
+    {%endif%}
+</div>
+<div class="col-lg-6">
+    <h2>Likes</h2>
+    {% if not likes %}
+    <p class="text-danger"> No Likes Found</p>
+    {% else %}
+    {% for username,plink in likes %}
+        <div class="alert alert-success" role="alert"><a href="/{{username}}/profile">{{ username }}</a> likes your post<img class="media-object" src="{{ plink }}" alt="sample1" align="right"  style=" margin-left: 10px; width: 30px; height: 30px;"/></div>
+    {% endfor %}
+    {%endif%}
+</div>
+
 
 
 {% endblock %}

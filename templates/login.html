@@ -1,0 +1,35 @@
+{% extends "registerlayout.html" %}
+{% block title %}Register{% endblock %}
+{% block content %}
+<div class="col-lg-3"></div>
+<div class="col-lg-6">
+  <div class="login-logo">
+    <h1><a ><b>Social</b>bum</a></h1>
+  </div>
+  <div class="login-box-body">
+    <a href="/initdb" class="login-box-msg"><i class="fa fa-server"></i>Init Db</a>
+    <br/>
+    <br/>
+    <br/>
+    <form method="post">
+      <div class="form-group has-feedback">
+        <input class="form-control" name="username" placeholder="username">
+        <span class="glyphicon glyphicon-user form-control-feedback"></span>
+      </div>
+      <div class="form-group has-feedback">
+        <input type="password" name="password" class="form-control" placeholder="Password">
+        <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+      </div>
+      <div class="row">
+        <div class="col-xs-8"></div>
+        <div class="col-xs-4">
+          <button type="submit" class="btn btn-primary btn-block btn-flat">Sign In</button>
+        </div>
+      </div>
+    </form>
+
+    <a href="/register" class="text-center">Register a new membership</a>
+
+  </div>
+</div>
+{% endblock %}

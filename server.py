@@ -9,7 +9,7 @@ from flask import Flask
 from flask import redirect
 from flask import render_template
 from werkzeug import redirect
-from flask import request
+from flask import request,session
 from flask.helpers import url_for, flash
 from initialize_db import initialize_db_func
 
@@ -32,60 +32,86 @@ def get_elephantsql_dsn(vcap_services):
 
 #Login page
 
-@app.route('/login')
+@app.route('/login',methods = ['GET','POST'])
 def login():
-    now = datetime.datetime.now()
-    return render_template('log_in.html', current_time=now.ctime())
+    if request.method == 'POST':
+        with dbapi2.connect(app.config['dsn']) as connection:
+            auth=Login(request.form['username'],request.form['password'],connection)
+            user = auth.authenticator()
+            if user:
+                session['logged_in']='true'
+                session['username']=user[0]
+                session['admin']=user[1]
+        return redirect(url_for('home_page'))
 
+    return render_template('login.html')
+
+@app.route('/logout',methods = ['GET','POST'])
+def logout():
+    session.pop('username',None)
+    session.pop('admin',None)
+    return redirect(url_for('login'))
 
 #Sign up page
 
-@app.route('/signUp',methods = ['GET','POST'])
-def signUp():
+@app.route('/register',methods=['GET','POST'])
+def register():
+    all_cities=[]
+    status='Register'
+    all_collages=[]
+    with dbapi2.connect(app.config['dsn']) as connection:
+        if request.method == 'POST':
+            registeruser=Register(connection=connection,name=request.form['name'], surname=request.form['surname'], email=request.form['email'],
+                                  username=request.form['username'], city=request.form['city'], collage=request.form['collage'],newcity=request.form['newcity'],
+                                  newcollage=request.form['newcollage'],gender=request.form['gender'], password=request.form['password'],confirm=request.form['confirm'])
+            status=registeruser.save()
 
-    if request.method =='POST':
-        username = request.form['username']
-        password = request.form['password']
-        with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
+            profilpic=ProfilePic(connection=connection,picid=registeruser.search_id_for_username(),link='http://www.maxibayan.com/wp-content/uploads/2014/10/instagram-avatar-5.png')
+            profilpic.save()
+        city=City(connection=connection)
+        all_cities=city.get_all_cities()
+        collage= Collage(connection=connection)
+        all_collages = collage.get_all_collages()
 
-            query =  """INSERT INTO USER ( USERNAME, PASSWORD) VALUES (%s,%s)"""
-            print(query)
+    return render_template('register.html', all_cities=all_cities,all_collages=all_collages,status=status)
 
-            cursor.execute(query,(username, password))
-            connection.commit()
-
-        return redirect(url_for('signUp'))
-    else:
-         now = datetime.datetime.now()
-         return render_template('signUp.html')
 
 #--------------- end of aliercccan ---------
 
 #Start of Ahmet Caglar Bayatli's space
 
-@app.route('/', methods = ['GET','POST'])
-@app.route('/welcome', methods = ['GET','POST'])
-def welcome_page():
-    allUsers = []
+@app.route('/admin', methods = ['GET','POST'])
+def admin_page():
+    if 'username' in session and 'admin' in session and session['admin']==True:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
     with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        query = """select id,username from users"""
-        cursor.execute(query)
-        for currentUser in cursor:
-            allUsers.append(currentUser)
+        admin = Admin(connection=connection)
+        if request.method == 'POST':
+            if 'save' in request.form:
+                collage = Collage(collage_name=request.form['school'], connection=connection)
+                collage_id=collage.search_collage_by_name()
+                if not collage_id:
+                    collage.save()
+                    collage_id = collage.search_collage_by_name()
+                admin.update_user(email=request.form['email'],school_id=collage_id,user_id=request.form['save'])
+            elif 'userdel':
+                admin.del_user(request.form['userdel'])
 
-        if 'ChooseUser' in request.form:
-            userName = request.form['ChooseUser']
+        all_users= admin.get_users()
 
-            return redirect(url_for('home_page',user=userName))
+    return render_template('admin.html',all_users=all_users)
 
-    return render_template('welcome.html', allUsers=allUsers)
+
 
 @app.route('/home', methods = ['GET','POST'])
-@app.route('/<user>', methods = ['GET','POST'])
-@app.route('/<user>/home', methods = ['GET','POST'])
-def home_page(user=None):
+@app.route('/', methods = ['GET','POST'])
+def home_page():
+    if 'username' in session:
+        user=session['username']
+    else:
+        return redirect(url_for('login'))
     user_id=None
     user_data=None
     posts = []
@@ -230,7 +256,7 @@ def initialize_db():
         cursor = connection.cursor()
         initialize_db_func(cursor)
         connection.commit()
-    return redirect(url_for('welcome_page'))
+    return redirect(url_for('home_page'))
 
 @app.route('/count')
 def counter_page():
@@ -343,18 +369,31 @@ def update_hash():
 
     return render_template('add_hash.html', hashs=hashs)
 
-@app.route('/notifications')
-@app.route('/<user>/notification', methods = ['GET','POST'])
-def notification_page(user=None):
-    now = datetime.datetime.utcnow()
-    return render_template('notification.html', current_time=now.ctime(), user=user)
+@app.route('/notification', methods = ['GET','POST'])
+def notification_page():
+    if 'username' in session:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
+    comments=[]
+    likes=[]
+    if user:
+        with dbapi2.connect(app.config['dsn']) as connection:
+            notification=Notifications(username=user,connection=connection)
+            comments=notification.get_all_comments()
+            likes =notification.get_all_likes()
+
+    return render_template('notification.html',user=user, comments=comments,likes=likes)
 
 
 #Start of EKREM CIHAD CETIN's space
 @app.route('/profile', methods = ['GET','POST'])
-@app.route('/<user>/profile', methods = ['GET','POST'])
-@app.route('/<user>/<user2>/profile', methods = ['GET','POST'])
-def profile_page(user=None, user2=None):
+@app.route('/<user2>/profile', methods = ['GET','POST'])
+def profile_page(user2=None):
+    if 'username' in session:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
     now = datetime.datetime.now()
     images = []
     kullanici=[]
@@ -364,6 +403,7 @@ def profile_page(user=None, user2=None):
     user_id=None
     posts_likes = {}
     posts_comments = {}
+    user_interests=[]
     if user==user2:
         user2=None
         return redirect(url_for('profile_page',user=user))
@@ -462,7 +502,7 @@ def profile_page(user=None, user2=None):
 
 
         if user and not user2:
-            query="""select userid,link, username, name, surname,mail from profilepic,users where username='"""+user+"""' and users.id=profilepic.userid"""
+            query="""select userid,link, username, name, surname,mail from users left join profilepic on  users.id=profilepic.userid where username='"""+user+"""' """
             cursor.execute(query)
             userr = cursor.fetchall()
             if userr:
@@ -517,7 +557,7 @@ def profile_page(user=None, user2=None):
                 userid = request.form['PROFILE']
                 username=request.form['USERNAME']
                 link = request.form['NEWLINK']
-
+                print (userid)
                 Newprofilepic = ProfilePic( picid=userid, link=link, connection=connection)
                 Newprofilepic.update_pic()
 
@@ -635,6 +675,7 @@ def page_not_found(e):
 #
 # #END of EKREM CIHAD CETIN's space
 if __name__ == '__main__':
+    app.secret_key = 'itucsdb1609'
     VCAP_APP_PORT = os.getenv('VCAP_APP_PORT')
     if VCAP_APP_PORT is not None:
         port, debug = int(VCAP_APP_PORT), False
