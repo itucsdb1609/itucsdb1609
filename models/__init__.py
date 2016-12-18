@@ -9,5 +9,6 @@ from .collage import Collage
 from .register import Register
 from .login import Login
 from .admin import Admin
+from .notifications import Notifications
 
-__all__ = ['PostLike','PostComments','Interest','posts','ProfilePic','City','Collage','Register','Login','Admin',]
+__all__ = ['PostLike','PostComments','Interest','posts','ProfilePic','City','Collage','Register','Login','Admin','Notifications',]
