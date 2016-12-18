@@ -41,10 +41,7 @@
 			</form>
 		</div>
 	{% for userid, username, name, surname, linkpro, postid, linkpost, date, desc in posts %}
-		{% if username==user %}
-
-		{% else %}
-	    <div style="margin-bottom: 35px; margin-top: 25px; position: relative; top: 15px; background-color: #fff; border: solid; border-width: 2px; border-color: #eee; border-radius: 10px; max-height: 512px; width: 575px;">
+	    <div style="margin-bottom: 35px; margin-top: 25px; margin-left: 30px; position: relative; top: 15px; background-color: #fff; border: solid; border-width: 2px; border-color: #eee; border-radius: 10px; width: 575px;">
 			  <div class="panel-heading">
 			    <div class="media">
 					  <div class="media-left media-middle">
@@ -56,53 +53,130 @@
 					    <h4 class="media-heading">{{name}} {{surname}}</h4>
 					    @{{ username }}
 					  </div>
-					  <div style="position: relative; left: 475px; bottom: 40px;">
-					  	<button data-toggle="modal" data-target="#{{postid}}" style="background: transparent; border: none; display: inline;"><span class="glyphicon glyphicon-edit"></span></button>
-					  	<form method="POST" role="form" style="display: inline;">
-		                			<input type="hidden" name="postid" value={{ postid }}>
-		                			<input type="hidden" name="userid" value={{userid}}>
-		                			<input type="hidden" name="username" value={{user}}>
-		                			<button href="{{ url_for('home_page')}}" type="submit" name="del" style="background: transparent; border: none; display: inline;"><span class="glyphicon glyphicon-remove"></span></button>
-		               	</form>
-		               	<!-- <form method="POST" role="form">
-						        		<input type="hidden" name="post" value={{ postid }}>
-					                	<input type="text" name="desc" style="width: 100%;">
-					                	<button class="btn btn-default" type="submit" name="upt" data-dismiss="modal" style="background-color: #03C9A9; color: white;">Submit Edit</button>
-						        </form> -->
-		               	<div class="container">
-						  <!-- Modal -->
-						  <div class="modal fade" id={{postid}} role="dialog">
-						    <div class="modal-dialog">
-						    
-						      <!-- Modal content-->
-						      <div class="modal-content">
-						        <div class="modal-header">
-						          <button type="button" class="close" data-dismiss="modal">&times;</button>
-						          <h4 class="modal-title">Edit Post Description</h4>
-						        </div>
-						        <div class="modal-body">
-						        	<form method="POST" role="form">
-						        		<input type="hidden" name="post" value={{ postid }}>
-					                	<input type="text" name="desc" value="{{ desc }}" style="width: 100%;">
-					                	<input type="hidden" name="username" value={{user}}>
-					                	<button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative; top: 10px; left: 390px;">Close</button>
-					                	<button class="btn btn-default" type="submit" name="upt" style="position: relative; top: 10px; left: 400px; background-color: #03C9A9; color: white;">Submit Edit</button>
-					                </form>
-						        </div>
-						        </div>
-						      
-						    </div>
-						  </div>
-						  
-						</div>
-					  </div>
+			  </div>
+			  <div style="position: relative; left: 475px; bottom: 40px;">
+			  {% if username!=user %}
+			  	<button data-toggle="modal" data-target="#Update{{postid}}" style="background: transparent; border: none; display: inline;"><span class="glyphicon glyphicon-edit"></span></button>
+
+			  	<div class="dropdown" style="display: inline;">
+			  		
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border: none;">
+				  <span class="glyphicon glyphicon-remove"></span>
+				</button>
+				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				    <li><form method="POST" role="form" style="display: inline;">
+                			<input type="hidden" name="postid" value={{ postid }}>
+                			<input type="hidden" name="userid" value={{userid}}>
+                			<input type="hidden" name="username" value={{user}}>
+                			<button href="{{ url_for('home_page')}}" type="submit" name="delpost" style="background: transparent; border: none; display: inline; margin-left: 20px; margin-top: 5px;">Hide Post</span></button>
+               			</form>
+               		</li>
+				    <li role="separator" class="divider"></li>
+				    <li><form method="POST" role="form" style="display: inline;">
+                			<input type="hidden" name="postid" value={{ postid }}>
+                			<input type="hidden" name="userid" value={{userid}}>
+                			<input type="hidden" name="username" value={{user}}>
+                			<button href="{{ url_for('home_page')}}" type="submit" name="deluser" style="background: transparent; border: none; display: inline; margin-left: 20px; margin-top: 5px; margin-bottom: 5px;">Hide User</span></button>
+               			</form>
+               		</li>
+				  </ul>
+				</div>
+               	<!-- <form method="POST" role="form">
+				        		<input type="hidden" name="post" value={{ postid }}>
+			                	<input type="text" name="desc" style="width: 100%;">
+			                	<button class="btn btn-default" type="submit" name="upt" data-dismiss="modal" style="background-color: #03C9A9; color: white;">Submit Edit</button>
+				        </form> -->
+               	<div class="container">
+				  <!-- Modal -->
+				  <div class="modal fade" id="Update{{postid}}" role="dialog">
+				    <div class="modal-dialog">
+				    
+				      <!-- Modal content-->
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title">Edit Post Description</h4>
+				        </div>
+				        <div class="modal-body">
+				        	<form method="POST" role="form">
+				        		<input type="hidden" name="post" value={{ postid }}>
+			                	<input type="text" name="desc" value="{{ desc }}" style="width: 100%;">
+			                	<input type="hidden" name="username" value={{user}}>
+			                	<button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative; top: 10px; left: 390px;">Close</button>
+			                	<button class="btn btn-default" type="submit" name="upt" style="position: relative; top: 10px; left: 400px; background-color: #03C9A9; color: white;">Submit Edit</button>
+			                </form>
+				        </div>
+				        </div>
+				      
+				    </div>
+				  </div>
+				  
+				</div>
+				{% else %}
+				<button data-toggle="modal" data-target="#Update{{postid}}" style="background: transparent; border: none; display: inline;"><span class="glyphicon glyphicon-edit"></span></button>
+
+			  	<div class="dropdown" style="display: inline;">
+			  		
+				<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border: none;">
+				  <span class="glyphicon glyphicon-remove"></span>
+				</button>
+				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+				    <li><form method="POST" role="form" style="display: inline;">
+                			<input type="hidden" name="postid" value={{ postid }}>
+                			<input type="hidden" name="userid" value={{userid}}>
+                			<input type="hidden" name="username" value={{user}}>
+                			<button href="{{ url_for('home_page')}}" type="submit" name="delpost" style="background: transparent; border: none; display: inline; margin-left: 20px; margin-top: 5px;">Hide Post</span></button>
+               			</form>
+               		</li>
+				    <li role="separator" class="divider"></li>
+				    <li><form method="POST" role="form" style="display: inline;">
+                			<input type="hidden" name="postid" value={{ postid }}>
+                			<input type="hidden" name="userid" value={{userid}}>
+                			<input type="hidden" name="username" value={{user}}>
+                			<button href="{{ url_for('home_page')}}" type="submit" name="deluser" style="background: transparent; border: none; display: inline; margin-left: 20px; margin-top: 5px; margin-bottom: 5px;">Hide User</span></button>
+               			</form>
+               		</li>
+				  </ul>
+				</div>
+               	<!-- <form method="POST" role="form">
+				        		<input type="hidden" name="post" value={{ postid }}>
+			                	<input type="text" name="desc" style="width: 100%;">
+			                	<button class="btn btn-default" type="submit" name="upt" data-dismiss="modal" style="background-color: #03C9A9; color: white;">Submit Edit</button>
+				        </form> -->
+               	<div class="container">
+				  <!-- Modal -->
+				  <div class="modal fade" id="Update{{postid}}" role="dialog">
+				    <div class="modal-dialog">
+				    
+				      <!-- Modal content-->
+				      <div class="modal-content">
+				        <div class="modal-header">
+				          <button type="button" class="close" data-dismiss="modal">&times;</button>
+				          <h4 class="modal-title">Edit Post Description</h4>
+				        </div>
+				        <div class="modal-body">
+				        	<form method="POST" role="form">
+				        		<input type="hidden" name="post" value={{ postid }}>
+			                	<input type="text" name="desc" value="{{ desc }}" style="width: 100%;">
+			                	<input type="hidden" name="username" value={{user}}>
+			                	<button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative; top: 10px; left: 390px;">Close</button>
+			                	<button class="btn btn-default" type="submit" name="upt" style="position: relative; top: 10px; left: 400px; background-color: #03C9A9; color: white;">Submit Edit</button>
+			                </form>
+				        </div>
+				        </div>
+				      
+				    </div>
+				  </div>
+				  
+				</div>
+				{% endif %}
 			  </div>
 			  <div class="panel-body">
 			    <div class="media">
 				  <div class="media-left media-top">
 				      <img class="media-object" src={{linkpost}} alt="sample1" style=" margin-left: 100px; width: 300px; height: 300px;" />
 				  </div>
-				  <div style="position: relative; top: 0; margin-left: 100px;">
+				  <div style="position: relative; top: 0; margin-left: 100px; margin-top: 20px;">
 				    <!-- <h4 class="media-heading">Post {{ postid }}</h4> -->
 				    {{desc}} - {{date}}
 				  </div>
@@ -156,7 +230,8 @@
 				  </div>
 			  </form>
 			</div>
-			{% endif %}
+			</div>
+		</div>
 			{% endfor %}
 		{% else %}
 			<form method="POST" role="form">
@@ -172,8 +247,7 @@
 		 		</div>
 			</form>
 		{% endif %}
-	  </div>
-	</div>
+	  
 
 	<script>
 

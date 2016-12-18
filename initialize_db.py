@@ -83,12 +83,6 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('merv','password')""")
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('sedt01','password')""")
 
-    #Table for main
-    cursor.execute("""DROP TABLE IF EXISTS PostForView""")
-    cursor.execute("""CREATE TABLE PostForView(ID CHAR(20) NOT NULL, FID CHAR(20), POSTID Char(10) )""")
-    cursor.execute("""INSERT INTO PostForView (ID, FID, POSTID) VALUES ('2', '5', '1' )""")
-    cursor.execute("""INSERT INTO PostForView (ID, FID, POSTID) VALUES ('2', '3', '4' )""")
-
     #Table for explore
     cursor.execute("""DROP TABLE IF EXISTS hashTag""")
     cursor.execute("""CREATE TABLE hashTag (HASHID CHAR(20) NOT NULL, GRUPNAME CHAR(20) )""")
@@ -134,7 +128,15 @@ def initialize_db_func(cursor):
     cursor.execute("""DROP TABLE IF EXISTS HIDDENPOSTS CASCADE""")
     cursor.execute("""CREATE TABLE HIDDENPOSTS (USERID INTEGER  references USERS(ID),
                                             POSTID INTEGER PRIMARY KEY UNIQUE references POSTS(ID))""")
-    cursor.execute("""INSERT INTO HIDDENPOSTS (USERID, POSTID) VALUES (3,3)""")
+    cursor.execute("""INSERT INTO HIDDENPOSTS (USERID, POSTID) VALUES (3,4)""")
+    
+    #Table for Hidden Users
+    cursor.execute("""DROP TABLE IF EXISTS HIDDENUSERS CASCADE""")
+    cursor.execute("""CREATE TABLE HIDDENUSERS (USERID INTEGER  references USERS(ID),
+                                            USERHID INTEGER references USERS(ID),
+                                            PRIMARY KEY (USERID, USERHID),
+                                            CHECK (USERID !=USERHID))""")
+    cursor.execute("""INSERT INTO HIDDENUSERS (USERID, USERHID) VALUES (3,1)""")
 
     #Table For Follow
     cursor.execute("""DROP TABLE IF EXISTS FOLLOW CASCADE""")
@@ -155,6 +157,7 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,5)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,4)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,5)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,1)""")
 
     cursor.execute("""DROP TABLE IF EXISTS postComments CASCADE;
                         CREATE TABLE postComments

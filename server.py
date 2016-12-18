@@ -110,7 +110,7 @@ def home_page(user=None):
                 break
 
         if request.method == 'POST':
-            if 'del' in request.form:
+            if 'delpost' in request.form:
                 postid = request.form['postid']
                 userid = request.form['userid']
                 userName = request.form['username']
@@ -119,6 +119,17 @@ def home_page(user=None):
                     cursor = connection.cursor()
                     query = """INSERT INTO HIDDENPOSTS(userid, postid) VALUES (%s,%s) """
                     cursor.execute(query, (userid, postid))
+                    connection.commit()
+                return redirect(url_for('home_page', user=userName))
+            
+            elif 'deluser' in request.form:
+                userid = request.form['userid']
+                userName = request.form['username']
+
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """INSERT INTO HIDDENUSERS(userid, userhid) VALUES (%s,%s) """
+                    cursor.execute(query, (user_id, userid))
                     connection.commit()
                 return redirect(url_for('home_page', user=userName))
 
@@ -173,12 +184,10 @@ def home_page(user=None):
         if user and userCheck:
             interest = Interest(connection=connection)
             user_interests = interest.get_interest_by_user_id(user_id)
-            query = """select m.userid, m.username, m.name, m.surname, m.linkpro, m.pid, m.linkpost, m.date, m.desc from (select users.id as userid, users.username as username, users.name as name, users.surname as surname, k.link1 as linkpro, k.id as pid, k.link2 as linkpost, k.date as date, k.description as desc from (select profilepic.link as link1,id,posts.userid as userid1,date,posts.link as link2,description from profilepic join posts on posts.userid=profilepic.userid) k join users on users.id=k.userid1) m left join hiddenposts on hiddenposts.postid=m.pid where hiddenposts.userid is null order by m.date desc"""
+            query = """select distinct r.userid, username, name, surname, r.link as linkpro, r.postid, r.linkpost, date, description from (select * from (select m.mid, uid, m.postid, linkpost, date, description from (select l.mid, userid as uid, id as postid, link as linkpost, date, description from (select k.id as mid, k.following from (select id, following from users join follow on users.id = follow.follower where users.id = """+ str( user_id ) + """) k left join hiddenusers on hiddenusers.userhid = k.following where hiddenusers.userid is null) l join posts on posts.userid = l.following or  posts.userid = l.mid) m left join hiddenposts on hiddenposts.postid = m.postid where hiddenposts.userid is null) n join profilepic on profilepic.userid = n.uid) r join users on r. userid = users.id order by date asc"""
             cursor.execute(query)
             temp = cursor.fetchall()
             for post in temp:
-                if post[0]==user_id:
-                    user_data.append(post[4])
                 likes = post_like.get_likes_by_post_id(post[5])
                 if likes:
                     posts_likes.update({post[5]: likes})
@@ -191,6 +200,13 @@ def home_page(user=None):
                 else:
                     posts_comments.update({post[5]: False})
                 posts.append(post)
+            
+            query = """select * from profilepic"""
+            cursor.execute(query)
+            temp = cursor.fetchall()
+            for post in temp:
+                if user_id==post[0]:
+                    user_data.append(post[1])
 
         else:
             return render_template('404.html'), 404
@@ -206,87 +222,6 @@ def home_page(user=None):
 
     return render_template('main.html', user=user, user_data=user_data, allUsers=allUsers , posts=posts,postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
 
-@app.route('/add_post', methods = ['GET','POST'])
-def add_post():
-    posts = []
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
-
-        cursor.execute(query)
-
-        for post in cursor:
-            posts.append(post)
-
-        connection.commit()
-
-
-    if request.method =='POST':
-        id = request.form['id']
-        fid = request.form['fid']
-        postid = request.form['postid']
-
-        with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """INSERT INTO PostForView (ID, FID, POSTID ) VALUES (%s, %s, %s )"""
-            cursor.execute(query, (id, fid, postid))
-            connection.commit()
-
-    return render_template('add_post.html', posts=posts)
-
-@app.route('/delete_post', methods = ['GET','POST'])
-def delete_post():
-    posts = []
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
-
-        cursor.execute(query)
-
-        for post in cursor:
-            posts.append(post)
-
-        connection.commit()
-    if request.method =='POST':
-        fid = request.form['fid']
-        postid = request.form['postid']
-
-        with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """DELETE FROM PostForView WHERE FID = '""" +fid + """' AND POSTID = '""" +postid + """'"""
-            cursor.execute(query)
-            connection.commit()
-
-    return render_template('add_post.html', posts=posts)
-
-@app.route('/update_post', methods = ['GET','POST'])
-def update_post():
-    posts = []
-    with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        query = """SELECT PostForView.ID, PostForView.FID, PostForView.POSTID FROM PostForView"""
-
-        cursor.execute(query)
-
-        for post in cursor:
-            posts.append(post)
-
-        connection.commit()
-
-    if request.method =='POST':
-        id = request.form['id']
-        fid = request.form['fid']
-        new_post = request.form['new_postid']
-
-        with dbapi2.connect(app.config['dsn']) as connection:
-            cursor = connection.cursor()
-            query = """UPDATE PostForView SET (ID, FID, POSTID) = (%s,%s, %s) WHERE ID = '""" +id + """' AND FID = '""" +fid + """'"""
-
-            cursor.execute(query, (id, fid, new_post))
-            connection.commit()
-
-
-    return render_template('add_post.html', posts=posts)
 #End of Ahmet Caglar Bayatli's space
 
 @app.route('/initdb')
