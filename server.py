@@ -335,22 +335,31 @@ def counter_page():
     return "This page was accessed %d times." % count
 
 
-@app.route('/explore')
-@app.route('/<user>/explore', methods = ['GET','POST'])
-def explore_page(user=None):
+@app.route('/explore', methods = ['GET','POST'])
+def explore_page():
+    if 'username' in session:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
     hashs = []
+    search_post=False
+    most_use_hash=[]
     with dbapi2.connect(app.config['dsn']) as connection:
-        cursor = connection.cursor()
-        query = """SELECT hashTag.HASHID, hashTag.GRUPNAME FROM hashTag"""
+        hashtag = Hashtag(connection=connection)
+        hashs = hashtag.get_hashtags()
+        post_hash= PostHashtag(connection)
+        i=0
+        for one_hash in hashs:
+            most =post_hash.get_posts_of_hashtag(hashtag_id=one_hash[0],limit=True)
+            if most and i < 4:
+                most_use_hash.append(most)
+                i+=1
+        if request.method == 'POST':
+            if 'search' in request.form:
+                search_post = post_hash.get_posts_of_hashtag(request.form['search'])
 
-        cursor.execute(query)
 
-        for hash in cursor:
-            hashs.append(hash)
-
-        connection.commit()
-
-    return render_template('explore.html', hashs=hashs, user=user)
+    return render_template('explore.html',most_use_hash=most_use_hash, hashs=hashs, user=user ,search_post=search_post)
 
 @app.route('/add_hash', methods = ['GET','POST'])
 def add_hash():
@@ -510,7 +519,47 @@ def profile_page(user2=None):
             elif 'uncomment' in request.form:
                 comment = PostComments(pcid=request.form['uncomment'], connection=connection)
                 comment.delete()
+                
+            elif 'savehashtag' in request.form:
+                hashtag = Hashtag(connection=connection,name=request.form['newhash'])
+                hashtag.save()
+                hashtag_id=hashtag.get_hashtag_by_name()
+                posts_hashtag = PostHashtag(connection=connection,hashtag_id=hashtag_id,post_id=request.form['savehashtag'])
+                posts_hashtag.save()
+            elif 'deletehashtag' in request.form:
+                hashtag=PostHashtag(connection=connection,phid=request.form['deletehashtag'])
+                hashtag.delete()
 
+            elif 'saveartist' in request.form:
+                if request.form['artist'] =='0' and len(request.form['newartist'])!=0:
+                    new_artist = Artists(connection=connection,name=request.form['newartist'])
+                    new_artist.save()
+                    artist_id = new_artist.get_artist_by_name()
+                    user_artist = UserArtist(connection=connection,user_id=user_id,artist_id=artist_id)
+                    user_artist.save()
+                elif 'artist' in request.form:
+                    user_artist = UserArtist(connection=connection, user_id=user_id, artist_id= request.form['artist'])
+                    user_artist.save()
+
+            elif 'savebook' in request.form:
+                if request.form['book'] == '0' and len(request.form['newbook']) != 0:
+                    new_book = Book(connection=connection, name=request.form['newbook'])
+                    new_book.save()
+                    book_id = new_book.get_book_by_name()
+                    user_book = UserBooks(connection=connection, user_id=user_id,book_id=book_id)
+                    user_book.save()
+                elif 'book' in request.form:
+                    user_book = UserBooks(connection=connection, user_id=user_id, book_id=request.form['book'])
+                    user_book.save()
+
+            elif 'deluserartist' in request.form:
+                user_artist=UserArtist(connection=connection,uaid=request.form['deluserartist'])
+                user_artist.delete()
+
+            elif 'deluserbook' in request.form:
+                user_book = UserBooks(connection=connection, ubid=request.form['deluserbook'])
+                user_book.delete()
+            
         if user and not user2:
             query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user+"""' and users.id=posts.userid order by date desc"""
 
@@ -581,6 +630,14 @@ def profile_page(user2=None):
             if userr:
                 interest = Interest(connection=connection)
                 user_interests = interest.get_interest_by_user_id(userr[0][0])
+                userbook = UserBooks(connection=connection)
+                user_books = userbook.get_books_of_user(userr[0][0])
+                book=Book(connection=connection)
+                all_books = book.get_books()
+                userartist = UserArtist(connection=connection)
+                user_artists = userartist.get_artists_of_user(userr[0][0])
+                artist = Artists(connection=connection)
+                all_artists = artist.get_artists()
 
         if user2:
             query ="""select link,users.username from (select following,users.username from users join follow on users.id=follow.follower where username='"""+user2+"""') F, profilepic,users where F.following=profilepic.userid and F.following=users.id ORDER BY users.username ASC"""
@@ -603,6 +660,14 @@ def profile_page(user2=None):
             if userr:
                 interest = Interest(connection=connection)
                 user_interests = interest.get_interest_by_user_id(userr[0][0])
+                userbook = UserBooks(connection=connection)
+                user_books = userbook.get_books_of_user(userr[0][0])
+                book=Book(connection=connection)
+                all_books = book.get_books()
+                userartist = UserArtist(connection=connection)
+                user_artists = userartist.get_artists_of_user(userr[0][0])
+                artist = Artists(connection=connection)
+                all_artists = artist.get_artists()
 
 
 
