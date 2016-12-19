@@ -15,6 +15,7 @@ from initialize_db import initialize_db_func
 
 
 from models import *
+from time import strftime
 
 app = Flask(__name__)
 
@@ -112,6 +113,7 @@ def home_page():
         user=session['username']
     else:
         return redirect(url_for('login'))
+    now = datetime.datetime.now()
     user_id=None
     user_data=None
     posts = []
@@ -120,7 +122,7 @@ def home_page():
     posts_comments={}
     allUsers = []
     userCheck = False
-    suggestSet = False
+    
     with dbapi2.connect(app.config['dsn']) as connection:
         post_like = PostLike(connection=connection)
         post_comment = PostComments(connection=connection)
@@ -135,6 +137,11 @@ def home_page():
                 user_data=[username,name,surname]
                 user_id=uid
                 userCheck = True
+                with dbapi2.connect(app.config['dsn']) as connection:
+                    cursor = connection.cursor()
+                    query = """UPDATE LASTVISITS SET date='"""+str(now)+"""' WHERE userid="""+str(user_id)+""" """
+                    cursor.execute(query)
+                    connection.commit()
                 break
 
         if request.method == 'POST':
@@ -192,7 +199,7 @@ def home_page():
 
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
-                    query = """DELETE FROM SUGGESTS (userid, usersid) VALUES (%s,%s) """
+                    query = """INSERT INTO FOLLOW (follower, following) VALUES (%s,%s) """
                     cursor.execute(query, (user_id, userid))
                     connection.commit()
                 return redirect(url_for('home_page', user=userName))
@@ -282,8 +289,7 @@ def home_page():
             return redirect(url_for('home_page',user=userName))
 
 
-
-    return render_template('main.html', user=user, user_data=user_data, allUsers=allUsers , posts=posts, suggests=suggests, postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
+    return render_template('main.html', user=user, user_data=user_data, allUsers=allUsers , lastseen=now, posts=posts, suggests=suggests, postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
 
 #End of Ahmet Caglar Bayatli's space
 

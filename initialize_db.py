@@ -139,12 +139,15 @@ def initialize_db_func(cursor):
                                             CHECK (USERID !=USERHID))""")
     cursor.execute("""INSERT INTO HIDDENUSERS (USERID, USERHID) VALUES (3,1)""")
     
-    #Table for Suggestion
-    cursor.execute("""DROP TABLE IF EXISTS SUGGESTS CASCADE""")
-    cursor.execute("""CREATE TABLE SUGGESTS (USERID INTEGER  references USERS(ID),
-                                            USERSID INTEGER references USERS(ID),
-                                            PRIMARY KEY (USERID, USERSID),
-                                            CHECK (USERID !=USERSID))""")
+    #Table for Last Visit
+    cursor.execute("""DROP TABLE IF EXISTS LASTVISITS CASCADE""")
+    cursor.execute("""CREATE TABLE LASTVISITS (USERID INTEGER PRIMARY KEY references USERS(ID),
+                                            DATE character varying(50))""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (1,'2016-11-26 16:05:25')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (2,'2016-11-26 16:05:25')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (3,'2016-11-26 16:05:25')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (4,'2016-11-26 16:05:25')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (5,'2016-11-26 16:05:25')""")
 
     #Table For Follow
     cursor.execute("""DROP TABLE IF EXISTS FOLLOW CASCADE""")
