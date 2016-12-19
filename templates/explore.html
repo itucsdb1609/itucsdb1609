@@ -1,52 +1,53 @@
 {% extends "layout.html" %}
 {% block content %}
 
-<div class="row" style="height:100px;margin-top:50px">
-    <div class="col-lg-6">
-    <div class="input-group">
-      <input type="text" class="form-control" aria-label="...">
-      <div class="input-group-btn">
-        <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Action <span class="caret"></span></button>
-        <ul class="dropdown-menu dropdown-menu-right">
-          <li><a href="#">Select</a></li>
-          <li><a href="#">Tag</a></li>
-          <li><a href="#">People</a></li><a href="#">
-          <li role="separator" class="divider"></li>
-          </a><li><a href="#"></a><a href="#">Author</a></li>
-        </ul>
-      </div><!-- /btn-group -->
-    </div><!-- /input-group -->
-  </div><!-- /.col-lg-6 -->
-</div>
-  
-<div class="row" style="margin-top:50px">
-  
-  <div class="col-sm-4 col-md-4">
-    <div class="thumbnail">
-      <img src="http://www.srilankatourismgazette.com/wp-content/uploads/2016/09/nature-22.jpg" alt="...">
-          <div class="caption">
-            <h3>Explore Nature</h3>
-            <p>Explore nature</p>
-            <p></p></div></div>
-  </div>
-<div class="col-sm-4 col-md-4">
-    <div class="thumbnail">
-        <img src="http://i.dailymail.co.uk/i/pix/2016/01/05/00/2FB0141F00000578-0-Cristiano_Ronaldo_has_said_that_he_does_not_expect_to_remain_in_-a-31_1451953551282.jpg&#10; " alt="...">
-          <div class="caption">
-            <h3>Explore Football</h3>
-            <p>Explore football..</p>
-            <p></p></div></div></div>
-  </div>
-<div class="col-sm-4 col-md-4">
-    <div class="thumbnail">
-      <img src="https://s-media-cache-ak0.pinimg.com/originals/2d/fe/1d/2dfe1dc24f65983ca30e7940d7fa7016.jpg&#10; " alt="...">
-          <div class="caption">
-            <h3>Explore Art</h3>
-            <p>Explore art</p>
-            <p></p></div></div>
-  </div>
-</div>
 
-<button  onclick="location.href = '{{ url_for('add_hash') }}'" class="float-left submit-button" style="position: fixed; right: 120px; top: 80px;">Edit Hash List</button>
+<div class="row" style="margin-top:50px">
+    <form method="post">
+    <div class="col-lg-3">
+      <h3>Hashtags</h3>
+      <table class="table table-bordered">
+      {% for id ,hashname in hashs %}
+            <tr>
+                <td><button class="btn btn-success" name="search" value="{{id}}"><i class="fa fa-search"></i></button> {{hashname}}</td>
+            </tr>
+      {% endfor %}
+      </table>
+    </div>
+    <div class="col-lg-9">
+        <div class="row">
+        {% for id ,link ,hashname in most_use_hash %}
+        <div class="col-lg-3">
+            <div class="thumbnail">
+                  <img src="{{link}}" alt="...">
+                  <div class="caption">
+                    <h3>#{{hashname}}</h3>
+                    <p></p>
+                  </div>
+            </div>
+        </div>
+        {%endfor%}
+        </div>
+        {% if search_post %}
+        <div class="row">
+            <h3>Result</h3>
+            {% for  id ,link ,hashname in search_post %}
+            <div class="col-lg-3">
+                <div class="thumbnail">
+                      <img src="{{link}}" alt="...">
+                      <div class="caption">
+                        <h3>#{{hashname}}</h3>
+                        <p></p>
+                      </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {%elif search_post==[] %}
+            <span class="text-danger">No Post for hashtag</span>
+        {% endif %}
+    </div>
+    </form>
+
 
 {% endblock %}
