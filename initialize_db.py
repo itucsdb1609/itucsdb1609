@@ -241,7 +241,7 @@ def initialize_db_func(cursor):
 
 """)
     
-     cursor.execute("""DROP TABLE IF EXISTS hashtag CASCADE ;
+    cursor.execute("""DROP TABLE IF EXISTS hashtag CASCADE ;
                         CREATE TABLE hashtag(
                             id SERIAL PRIMARY KEY NOT NULL,
                             hashtagname VARCHAR(255) NOT NULL
