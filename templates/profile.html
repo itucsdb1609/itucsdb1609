@@ -431,6 +431,32 @@
 				                   		<blockquote>
 				                      		<p>{{ description }}</p>
 				                    		</blockquote>
+								<form method="post">
+											<div class="panel">
+				                    		{% if not user2 %}
+												<p><input name="newhash" placeholder="Add new hashtag"/> <button name="savehashtag" value="{{postid}}" class="btn btn-success"><i class="fa fa-save"></i></button></p>
+												{% if posts_hashtags %}
+													<div class="panel-body">
+													{% for id,name in posts_hashtags[postid] %}
+														{% if  posts_hashtags[postid] != False %}
+															<span>#{{ name }} <button class="btn btn-xs btn-danger" name="deletehashtag" value="{{id}}">x</button></span>
+														{%endif %}
+													{% endfor %}
+													</div>
+												{% endif %}
+											{% else %}
+												{% if posts_hashtags %}
+													<div class="panel-body">
+													{% for id,name in posts_hashtags[postid] %}
+														{% if  posts_hashtags[postid] != False %}
+															<span>#{{ name }}</span>
+														{%endif %}
+													{% endfor %}
+													</div>
+												{% endif %}
+											{% endif %}
+											</div>
+											</form>
 				                    		{% if not user2 %}
 				                    		<div class="pull-right" >
 				                    			<div class="col-md-6">

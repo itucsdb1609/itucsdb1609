@@ -471,6 +471,7 @@ def profile_page(user2=None):
     userr=[]
     allfollowerpic=[]
     allfollowingpic=[]
+    posts_hashtags={}
     user_id=None
     user2_id=None
     status=None
@@ -485,6 +486,7 @@ def profile_page(user2=None):
     with dbapi2.connect(app.config['dsn']) as connection:
         post_like = PostLike(connection=connection)
         post_comment = PostComments(connection=connection)
+        posts_hashtag = PostHashtag(connection=connection)
         cursor = connection.cursor()
 
         query = """select id,username from users"""
@@ -579,6 +581,13 @@ def profile_page(user2=None):
                     posts_comments.update({post[1]: comments})
                 else:
                     posts_comments.update({post[1]: False})
+
+                hashs = posts_hashtag.get_hashtags_of_post(post[1])
+                if hashs:
+                    posts_hashtags.update({post[1]: hashs})
+                else:
+                    posts_hashtags.update({post[1]: []})
+                 
                 images.append(post)
 
         if user2:
@@ -605,6 +614,12 @@ def profile_page(user2=None):
                     posts_comments.update({post[1]: comments})
                 else:
                     posts_comments.update({post[1]: False})
+
+                hashs = posts_hashtag.get_hashtags_of_post(post[1])
+                if hashs:
+                    posts_hashtags.update({post[1]: hashs})
+                else:
+                    posts_hashtags.update({post[1]: []})
                 images.append(post)
 
 
@@ -732,7 +747,7 @@ def profile_page(user2=None):
                 return redirect(url_for('profile_page',user=username))
         connection.commit()
 
-    return render_template('profile.html',status=status,user2_id=user2_id,user=user, user2=user2,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici,postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
+    return render_template('profile.html',status=status,user2_id=user2_id,user=user, user2=user2,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici,postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests,posts_hashtags=posts_hashtags,user_artists=user_artists,user_books=user_books,all_artists=all_artists,all_books=all_books)
 
 @app.route('/add_pic', methods = ['GET','POST'])
 def add_pic():
