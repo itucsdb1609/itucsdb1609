@@ -298,6 +298,70 @@
 
 					</form>
 				{% endif %}
+					<div class="row">
+						<div class="col-lg-6">
+							<form method="post">
+							<div class="panel panel-primary">
+								<div class="panel-heading">
+									<h3 class="panel-title">Favorite Artists</h3>
+									<input style="color: black" name="newartist" placeholder="Add new artist">
+									<select style="color: black" name="artist">
+										<option value="0">Choose one </option>
+										{% for id, name in all_artists %}
+											<option value="{{id}}">{{name}}</option>
+										{%endfor%}
+									</select>
+									<button class="btn btn-success" name="saveartist" value="1"><i class="fa fa-save"></i></button>
+								</div>
+								<div class="panel-body">
+									{% if user2 %}
+									{% for id, name in user_artists %}
+										<span style="background-color: #3c629a; color: white; margin: 3px">{{name}}</span>
+									{% endfor %}
+									{% else %}
+									{% for id, name in user_artists %}
+										<span style="background-color: #3c629a; color: white; margin: 3px">
+											{{name}}
+											<button class="btn btn-danger btn-xs" name="deluserartist" value="{{id}}"><i class="fa fa-eraser"></i></button>
+										</span>
+									{% endfor %}
+									{% endif %}
+								</div>
+							</div>
+							</form>
+						</div>
+						<div class="col-lg-6">
+							<form method="post">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h3 class="panel-title" style="color: black;">Books that I read</h3>
+									<input name="newbook" placeholder="Add new book">
+									<select name="book">
+										<option  value="0">Choose one </option>
+										{% for id, name in all_books %}
+											<option value="{{id}}">{{name}}</option>
+										{%endfor%}
+									</select>
+									<button class="btn btn-success" name="savebook" value="1"><i class="fa fa-save"></i></button>
+								</div>
+								<div class="panel-body">
+									{% if user2 %}
+									{% for id, name in user_books %}
+										<span style="background-color: #3c629a; color: white; margin: 3px">{{name}}</span>
+									{% endfor %}
+									{% else %}
+									{% for id, name in user_books %}
+										<span style="background-color: #3c629a; color: white; margin: 3px">
+											{{name}}
+											<button class="btn btn-danger btn-xs" name="deluserbook" value="{{id}}"><i class="fa fa-eraser"></i></button>
+										</span>
+									{% endfor %}
+									{% endif %}
+								</div>
+							</div>
+							</form>
+						</div>
+					</div>
 	  				<div class="container">
     						<h2>Gallery</h2>
     						<br>
