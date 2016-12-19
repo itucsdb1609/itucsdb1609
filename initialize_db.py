@@ -69,6 +69,13 @@ def initialize_db_func(cursor):
                                                                                                     2,
                                                                                                     2,
                                                                                                     2)""")
+    cursor.execute("""INSERT INTO USERS (USERNAME, NAME, SURNAME, MAIL, GENDER, SCHOOL, CITY) VALUES ('yuppie',
+                                                                                                    'Yuppie',
+                                                                                                    'Co',
+                                                                                                    'yuppieco@gmail.com',
+                                                                                                    3,
+                                                                                                    1,
+                                                                                                    1)""")
 
 
     #Table for user login
@@ -83,6 +90,7 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('bsk125','password' )""")
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('merv','password' )""")
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('sedt01','password' )""")
+    cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('yuppie','password' )""")
 
     #Table for explore
     cursor.execute("""DROP TABLE IF EXISTS hashTag""")
@@ -106,6 +114,7 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (3,'http://www.hastane.com.tr/Images/Article/daha-iyi-bir-profil-icin-cene-ucu-estetigi_b.jpg' )""")
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (4,'https://s-media-cache-ak0.pinimg.com/originals/a3/fa/d3/a3fad3bd611a6f08d4ac0fa308cad22c.jpg' )""")
     cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (5,'http://tamirciarchitects.com/wp-content/uploads/2012/07/profil.jpg' )""")
+    cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (6,'http://scontent.cdninstagram.com/t51.2885-15/s480x480/e35/13561552_675079435983185_835270489_n.jpg?ig_cache_key=MTI5MDUwMTA1NzM0ODIzMDM5OQ%3D%3D.2' )""")
      #Table for POST table
     cursor.execute("""DROP TABLE IF EXISTS POSTS CASCADE""")
     cursor.execute("""CREATE TABLE POSTS (ID SERIAL PRIMARY KEY UNIQUE,
@@ -117,13 +126,16 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-11-28 17:25:55','http://images.freeimages.com/images/premium/large-thumbs/1870/18706766-hikers-enjoy-the-freedom.jpg','Freedom' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-28 18:34:51','http://images.freeimages.com/images/premium/large-thumbs/1539/15397320-sad-black-man.jpg','Sadness' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-28 22:13:42','http://www.freeimageslive.com/galleries/sports/sportsgames/preview/cricket_ball.jpg','Cricket' )""")
-    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-29 08:45:33','http://www.freeimages.co.uk/galleries/sports/sportsgames/thumbs/extreme_unicycle.jpg','Unicycle' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-12-06 08:45:33','http://www.freeimages.co.uk/galleries/sports/sportsgames/thumbs/extreme_unicycle.jpg','Unicycle' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (2,'2016-11-29 21:24:11','http://www.freeimageslive.com/galleries/sports/moods%20emotions/preview/beach_sands_breakersP1013474.jpg','Beach' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (5,'2016-12-02 18:24:25','http://www.photographyblogger.net/wp-content/uploads/2013/04/nature02.jpg','Nature' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (4,'2016-12-03 21:24:23','http://phoenixrising.me/wp-content/uploads/pixabay-silhouette-woman-meditation.jpg','Meditation' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (4,'2016-12-04 02:57:22','http://www.freeimageslive.com/galleries/transtech/electronics/pics/03250021.jpg','Tech' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (1,'2016-12-04 23:28:11','http://www.freeimageslive.com/galleries/transtech/electronics/pics/smtintegratedcircuit2288.jpg','Chip' )""")
     cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (5,'2016-12-05 21:24:11','http://www.freeimageslive.com/galleries/transtech/objects/pics/injection.jpg','InjectionTime' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (6,'2016-11-29 17:24:45','http://scontent.cdninstagram.com/t51.2885-15/s480x480/e35/13398983_567391036767264_287090279_n.jpg?ig_cache_key=MTI3NjAyMDk5NzkxMzkzMDcwNw%3D%3D.2', 'Hop!' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (6,'2016-12-04 13:42:05','http://scontent.cdninstagram.com/t51.2885-15/s480x480/e35/13725545_230634197330672_1747945080_n.jpg?ig_cache_key=MTMwMTQ5NjcyNTM2OTkzMzg4MQ%3D%3D.2', 'Working space.' )""")
+    cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (6,'2016-12-07 10:22:37','http://scontent.cdninstagram.com/t51.2885-15/s480x480/e35/13643494_1730085967259785_1692782804_n.jpg?ig_cache_key=MTI5MzQwODEyNjQ0NzYwNzA1Nw%3D%3D.2', 'Music and stuff' )""")
 
     #Table for Hidden Posts
     cursor.execute("""DROP TABLE IF EXISTS HIDDENPOSTS CASCADE""")
@@ -143,11 +155,12 @@ def initialize_db_func(cursor):
     cursor.execute("""DROP TABLE IF EXISTS LASTVISITS CASCADE""")
     cursor.execute("""CREATE TABLE LASTVISITS (USERID INTEGER PRIMARY KEY references USERS(ID),
                                             DATE character varying(50))""")
-    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (1,'2016-11-26 16:05:25')""")
-    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (2,'2016-11-26 16:05:25')""")
-    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (3,'2016-11-26 16:05:25')""")
-    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (4,'2016-11-26 16:05:25')""")
-    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (5,'2016-11-26 16:05:25')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (1,'2016-00-00 00:00:00')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (2,'2016-00-00 00:00:00')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (3,'2016-00-00 00:00:00')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (4,'2016-00-00 00:00:00')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (5,'2016-00-00 00:00:00')""")
+    cursor.execute("""INSERT INTO LASTVISITS (USERID, DATE) VALUES (6,'2016-00-00 00:00:00')""")
 
     #Table For Follow
     cursor.execute("""DROP TABLE IF EXISTS FOLLOW CASCADE""")
@@ -157,18 +170,26 @@ def initialize_db_func(cursor):
                                             CHECK (FOLLOWING !=FOLLOWER))""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,2)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,3)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,6)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,1)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,3)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (6,1)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,2)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (5,2)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,6)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (5,3)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (6,3)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,6)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (5,4)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (4,2)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (4,1)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (6,4)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (1,5)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (2,4)""")
+    cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (5,6)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,5)""")
     cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (3,1)""")
+    
 
     cursor.execute("""DROP TABLE IF EXISTS postComments CASCADE;
                         CREATE TABLE postComments

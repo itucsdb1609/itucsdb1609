@@ -45,7 +45,11 @@
 			</form>
 		</div>
 	{% for userid, username, name, surname, linkpro, postid, linkpost, date, desc in posts %}
+		{% if date < lastseen %}
+			<div style="margin-bottom: 35px; margin-top: 25px; margin-left: 30px; position: relative; top: 15px; background-color: #fafafa; border: solid; border-width: 2px; border-color: #eee; border-radius: 10px; width: 575px;"><div style="text-align: center;"><span class="glyphicon glyphicon-eye-open"></span>&nbsp; Seen</div>
+		{% else %}
 	    <div style="margin-bottom: 35px; margin-top: 25px; margin-left: 30px; position: relative; top: 15px; background-color: #fff; border: solid; border-width: 2px; border-color: #eee; border-radius: 10px; width: 575px;">
+	    {% endif %}
 			  <div class="panel-heading">
 			    <div class="media">
 					  <div class="media-left media-middle">
@@ -63,7 +67,7 @@
 			  {% if username!=user %}
 
 			  	<div class="dropdown" style="display: inline;">	
-					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border: none; margin-left: 25px;">
+					<button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" style="border: none; margin-left: 25px; background-color: transparent;">
 					  <span class="glyphicon glyphicon-remove"></span>
 					</button>
 				  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
@@ -85,8 +89,8 @@
 				</div>
                	
 				{% else %}
-				<button data-toggle="modal" data-target="#Update{{postid}}" style="background: transparent; border: none; display: inline;"><span class="glyphicon glyphicon-edit"></span></button>
-				<button data-toggle="modal" data-target="#Delete{{postid}}" style="background: transparent; border: none; display: inline;"><span class="glyphicon glyphicon-remove"></span></button>
+				<button data-toggle="modal" data-target="#Update{{postid}}" style="background: transparent; border: none; display: inline; background-color: transparent;"><span class="glyphicon glyphicon-edit"></span></button>
+				<button data-toggle="modal" data-target="#Delete{{postid}}" style="background: transparent; border: none; display: inline; background-color: transparent;"><span class="glyphicon glyphicon-remove"></span></button>
 			  	
                	<div class="container">
 				  <!-- Modal -->

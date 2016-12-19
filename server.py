@@ -16,6 +16,7 @@ from initialize_db import initialize_db_func
 
 from models import *
 from time import strftime
+from lib2to3.pytree import convert
 
 app = Flask(__name__)
 
@@ -122,6 +123,7 @@ def home_page():
     posts_comments={}
     allUsers = []
     userCheck = False
+    lastseen = None
     
     with dbapi2.connect(app.config['dsn']) as connection:
         post_like = PostLike(connection=connection)
@@ -139,7 +141,12 @@ def home_page():
                 userCheck = True
                 with dbapi2.connect(app.config['dsn']) as connection:
                     cursor = connection.cursor()
-                    query = """UPDATE LASTVISITS SET date='"""+str(now)+"""' WHERE userid="""+str(user_id)+""" """
+                    query = """select date from lastvisits where userid="""+str(user_id)+""""""
+                    cursor.execute(query)
+                    temp = cursor.fetchall()
+                    for date in temp:
+                        lastseen=date[0]
+                    query = """UPDATE LASTVISITS SET date='"""+now.strftime("%Y-%m-%d %H:%M:%S")+"""' WHERE userid="""+str(user_id)+""" """
                     cursor.execute(query)
                     connection.commit()
                 break
@@ -242,7 +249,7 @@ def home_page():
         if user and userCheck:
             interest = Interest(connection=connection)
             user_interests = interest.get_interest_by_user_id(user_id)
-            query = """select distinct r.userid, username, name, surname, r.link as linkpro, r.postid, r.linkpost, date, description from (select * from (select m.mid, uid, m.postid, linkpost, date, description from (select l.mid, userid as uid, id as postid, link as linkpost, date, description from (select k.id as mid, k.following from (select id, following from users join follow on users.id = follow.follower where users.id = """+ str( user_id ) + """) k left join hiddenusers on hiddenusers.userhid = k.following where hiddenusers.userid is null) l join posts on posts.userid = l.following or  posts.userid = l.mid) m left join hiddenposts on hiddenposts.postid = m.postid where hiddenposts.userid is null) n join profilepic on profilepic.userid = n.uid) r join users on r. userid = users.id order by date asc"""
+            query = """select distinct r.userid, username, name, surname, r.link as linkpro, r.postid, r.linkpost, date, description from (select * from (select m.mid, uid, m.postid, linkpost, date, description from (select l.mid, userid as uid, id as postid, link as linkpost, date, description from (select k.id as mid, k.following from (select id, following from users join follow on users.id = follow.follower where users.id = """+ str( user_id ) + """) k left join hiddenusers on hiddenusers.userhid = k.following where hiddenusers.userid is null) l join posts on posts.userid = l.following or  posts.userid = l.mid) m left join hiddenposts on hiddenposts.postid = m.postid where hiddenposts.userid is null) n join profilepic on profilepic.userid = n.uid) r join users on r. userid = users.id order by date desc"""
             cursor.execute(query)
             temp = cursor.fetchall()
             
@@ -275,8 +282,20 @@ def home_page():
             query = """select userid, username, name, surname, link as linkpro from(select userid, link from (select distinct k.following from (select distinct n.following from follow m join follow n on m.following=n.follower where m.follower="""+str(user_id)+""")k left join follow l on l.following=k.following and l.follower="""+str(user_id)+""" where l.follower is null and k.following!="""+str(user_id)+""")p join profilepic on p.following=userid) r join users on users.id=r.userid"""
             cursor.execute(query)
             temp = cursor.fetchall()
-            for suggest in temp:
-                suggests.append(suggest)
+            if not temp:
+                query = """select * from follow where follower="""+str(user_id)+""""""
+                cursor.execute(query)
+                temp = cursor.fetchall()
+                if not temp:
+                    query = """select userid, m.username, m.name, m.surname, link as linkpro from (select * from users) m join profilepic on m.id=profilepic.userid where m.id!="""+str(user_id)+""" ORDER BY RANDOM() LIMIT 5"""
+                    cursor.execute(query)
+                    temp = cursor.fetchall()
+                    for suggest in temp:
+                        suggests.append(suggest)
+                
+            else:
+                for suggest in temp:
+                    suggests.append(suggest)
                     
         else:
             return render_template('404.html'), 404
@@ -289,7 +308,7 @@ def home_page():
             return redirect(url_for('home_page',user=userName))
 
 
-    return render_template('main.html', user=user, user_data=user_data, allUsers=allUsers , lastseen=now, posts=posts, suggests=suggests, postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
+    return render_template('main.html', user=user, user_data=user_data, allUsers=allUsers , lastseen=str(lastseen), posts=posts, suggests=suggests, postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
 
 #End of Ahmet Caglar Bayatli's space
 
