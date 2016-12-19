@@ -92,13 +92,6 @@ def initialize_db_func(cursor):
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('sedt01','password' )""")
     cursor.execute("""INSERT INTO USERLOGIN (USERNAME, PASSWORD) VALUES ('yuppie','password' )""")
 
-    #Table for explore
-    cursor.execute("""DROP TABLE IF EXISTS hashTag""")
-    cursor.execute("""CREATE TABLE hashTag (HASHID CHAR(20) NOT NULL, GRUPNAME CHAR(20) )""")
-    cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('2', 'NATURE' )""")
-    cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('5', 'FUTBOL')""")
-    cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('6', 'NATURE' )""")
-    cursor.execute("""INSERT INTO hashTag (HASHID, GRUPNAME) VALUES ('9', 'ART')""")
 
     #Table for picture-post//not active just trying
     cursor.execute("""DROP TABLE IF EXISTS picPost""")
