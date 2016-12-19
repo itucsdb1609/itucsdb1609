@@ -219,3 +219,67 @@ def initialize_db_func(cursor):
                             ADD CONSTRAINT fkUserId FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
 
 """)
+    
+     cursor.execute("""DROP TABLE IF EXISTS hashtag CASCADE ;
+                        CREATE TABLE hashtag(
+                            id SERIAL PRIMARY KEY NOT NULL,
+                            hashtagname VARCHAR(255) NOT NULL
+                        )""")
+    cursor.execute("""DROP TABLE IF EXISTS postHashtags CASCADE ;
+                        CREATE TABLE postHashtags(
+                            id SERIAL PRIMARY KEY NOT NULL,
+                            hashtagid  INT NOT NULL,
+                            postid  INT NOT NULL
+                        );
+
+                        CREATE INDEX hashtag_id ON postHashtags USING btree (hashtagid);
+                        ALTER TABLE ONLY postHashtags
+                            ADD CONSTRAINT fkHashtag FOREIGN KEY (hashtagid) REFERENCES hashtag(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+                        CREATE INDEX posth_id ON postHashtags USING btree (postid);
+                        ALTER TABLE ONLY postHashtags
+                            ADD CONSTRAINT fkpost FOREIGN KEY (postid) REFERENCES posts(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;""")
+
+    cursor.execute("""DROP TABLE IF EXISTS artists CASCADE ;
+                    CREATE TABLE artists(
+                        id SERIAL PRIMARY KEY NOT NULL ,
+                        artistname VARCHAR(255) NOT NULL
+                    );
+
+                    DROP TABLE IF EXISTS userArtists CASCADE ;
+                    CREATE TABLE userArtists(
+                        id SERIAL PRIMARY KEY NOT NULL ,
+                        userId INT NOT NULL ,
+                        artistId INT NOT NULL
+                    );
+                    CREATE INDEX usera_id ON userArtists USING btree (userId);
+                    ALTER TABLE ONLY userArtists
+                        ADD CONSTRAINT fkuser FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+                    CREATE INDEX artist_id ON userArtists USING btree (artistId);
+                    ALTER TABLE ONLY userArtists
+                        ADD CONSTRAINT fkartist FOREIGN KEY (artistId) REFERENCES artists(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;""")
+
+    cursor.execute("""
+                    DROP TABLE IF EXISTS books CASCADE ;
+                    CREATE TABLE books(
+                        id SERIAL PRIMARY KEY NOT NULL ,
+                        bookname VARCHAR(255) NOT NULL
+                    );
+
+                    DROP TABLE IF EXISTS userBooks CASCADE ;
+                    CREATE TABLE userBooks(
+                        id SERIAL PRIMARY KEY NOT NULL ,
+                        userId INT NOT NULL ,
+                        bookid INT NOT NULL
+                    );
+
+                    CREATE INDEX userb_id ON userBooks USING btree (userId);
+                    ALTER TABLE ONLY userBooks
+                        ADD CONSTRAINT fkuserb FOREIGN KEY (userId) REFERENCES users(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;
+
+
+                    CREATE INDEX book_id ON userBooks USING btree (bookid);
+                    ALTER TABLE ONLY userBooks
+                        ADD CONSTRAINT fkbook FOREIGN KEY (bookid) REFERENCES books(id) ON DELETE CASCADE DEFERRABLE INITIALLY DEFERRED;""")
