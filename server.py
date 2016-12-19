@@ -471,6 +471,7 @@ def profile_page(user2=None):
     userr=[]
     allfollowerpic=[]
     allfollowingpic=[]
+    posts_hashtags={}
     user_id=None
     user2_id=None
     status=None
@@ -579,6 +580,13 @@ def profile_page(user2=None):
                     posts_comments.update({post[1]: comments})
                 else:
                     posts_comments.update({post[1]: False})
+
+                hashs = posts_hashtag.get_hashtags_of_post(post[1])
+                if hashs:
+                    posts_hashtags.update({post[1]: hashs})
+                else:
+                    posts_hashtags.update({post[1]: []})
+                 
                 images.append(post)
 
         if user2:
@@ -605,6 +613,12 @@ def profile_page(user2=None):
                     posts_comments.update({post[1]: comments})
                 else:
                     posts_comments.update({post[1]: False})
+
+                hashs = posts_hashtag.get_hashtags_of_post(post[1])
+                if hashs:
+                    posts_hashtags.update({post[1]: hashs})
+                else:
+                    posts_hashtags.update({post[1]: []})
                 images.append(post)
 
 
