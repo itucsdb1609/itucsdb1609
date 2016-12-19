@@ -12,6 +12,27 @@
 		<div class="row">
 			{% for id, image , username , name , surname , mail in userr %}
 				<div class="col-xs-3 col-sm-3 col-md-3 col-lg-3" >
+					{% if user2 %}
+					<div id = Follow_panel class="panel panel-default" style="border: solid; border-width: 2px; border-color: #eee; border-radius: 5px;">
+						<div class="panel-heading">
+							<h4 class="text text-center font-bold">Follow Status</h4>
+						</div>
+						<div class="panel-body">
+							<form method="POST" role="form">
+					              	{% if status %}
+					                 	<button href="#" class="btn  btn-danger btn-xs" type="submit"  name="UNFOLLOW" style="display: inline;">UNFOLLOW 
+					                 		<span class="glyphicon glyphicon-remove"></span>
+					                 	</button>
+					                {% else %}   	
+					                 	<button href="#" class="btn  label-success btn-xs" type="submit"  name="FOLLOW" style="display: inline;">FOLLOW 
+					                 		<span class="glyphicon glyphicon-plus"></span>
+					                 	</button>
+					                {% endif %}		
+					           </form>
+							
+						</div>
+					</div>
+					{% endif %}
 					<div class="panel widget light-widget panel-bd-top">
 						<div class="panel-heading no-title"> </div>
 						<div class="panel-body">

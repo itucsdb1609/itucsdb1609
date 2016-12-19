@@ -16,6 +16,10 @@
 			  </div>
 			</div>
 			<br/>
+			{% if session['admin'] %}
+			<div class="panel"><div class="panel-heading"><a class="btn btn-primary" href="/admin">Go to Admin Page</a></div></div>
+			{% endif %}
+			<br/>
 			<form method="post">
 			<div id = interest_panel class="panel panel-default" style="border: solid; border-width: 2px; border-color: #eee; border-radius: 5px;">
 				<div class="panel-heading">

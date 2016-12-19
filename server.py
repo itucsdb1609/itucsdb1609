@@ -149,7 +149,7 @@ def home_page():
                     cursor.execute(query, (userid, postid))
                     connection.commit()
                 return redirect(url_for('home_page', user=userName))
-            
+
             elif 'hideuser' in request.form:
                 userid = request.form['userid']
                 userName = request.form['username']
@@ -173,7 +173,7 @@ def home_page():
 
                     connection.commit()
                 return redirect(url_for('home_page', user=userName))
-            
+
             elif 'del' in request.form:
                 post = request.form['post']
                 userName = request.form['username']
@@ -257,7 +257,7 @@ def home_page():
                 else:
                     posts_comments.update({post[5]: False})
                 posts.append(post)
-            
+
             query = """select * from profilepic"""
             cursor.execute(query)
             temp = cursor.fetchall()
@@ -438,9 +438,12 @@ def profile_page(user2=None):
     allfollowerpic=[]
     allfollowingpic=[]
     user_id=None
+    user2_id=None
+    status=None
     posts_likes = {}
     posts_comments = {}
     user_interests=[]
+
     if user==user2:
         user2=None
         return redirect(url_for('profile_page',user=user))
@@ -449,6 +452,7 @@ def profile_page(user2=None):
         post_like = PostLike(connection=connection)
         post_comment = PostComments(connection=connection)
         cursor = connection.cursor()
+
         query = """select id,username from users"""
         cursor.execute(query)
         for im in cursor:
@@ -504,6 +508,13 @@ def profile_page(user2=None):
                 images.append(post)
 
         if user2:
+            query = """select id from users where username='"""+user2+"""'"""
+            cursor.execute(query)
+            user2_id=cursor.fetchall()[0]
+
+            query = """select * from follow where follower= %s and following=%s"""
+            cursor.execute(query,(user_id,user2_id))
+            status=cursor.fetchall()
             query = """select users.id ,posts.id, link, name, surname,date,description from users,posts where username='"""+user2+"""' and users.id=posts.userid order by date desc"""
 
             cursor.execute(query)
@@ -574,6 +585,18 @@ def profile_page(user2=None):
     with dbapi2.connect(app.config['dsn']) as connection:
         cursor = connection.cursor()
         if request.method =='POST':
+            if 'FOLLOW' in request.form:
+                query="""insert into follow (follower,following) values(%s,%s)"""
+                cursor.execute(query,(user_id,user2_id))
+
+
+                return redirect(url_for('profile_page',user=user))
+            if 'UNFOLLOW' in request.form:
+                query="""delete from follow where follower=%s and following=%s """
+                cursor.execute(query,(user_id,user2_id))
+
+
+                return redirect(url_for('profile_page',user=user))
             if 'EKLE' in request.form:
                 Image = request.form['ADD']
                 id=request.form['id']
@@ -594,7 +617,7 @@ def profile_page(user2=None):
                 userid = request.form['PROFILE']
                 username=request.form['USERNAME']
                 link = request.form['NEWLINK']
-                print (userid)
+
                 Newprofilepic = ProfilePic( picid=userid, link=link, connection=connection)
                 Newprofilepic.update_pic()
 
@@ -619,7 +642,7 @@ def profile_page(user2=None):
                 return redirect(url_for('profile_page',user=username))
         connection.commit()
 
-    return render_template('profile.html',user=user, user2=user2,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici,postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
+    return render_template('profile.html',status=status,user2_id=user2_id,user=user, user2=user2,allfollowerpic=allfollowerpic,allfollowingpic=allfollowingpic, current_time=now.strftime("%Y-%m-%d %H:%M:%S"),images=images,userr=userr,kullanici=kullanici,postsLikes=posts_likes,postsComments=posts_comments,user_interests=user_interests)
 
 @app.route('/add_pic', methods = ['GET','POST'])
 def add_pic():
