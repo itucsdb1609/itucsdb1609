@@ -486,6 +486,7 @@ def profile_page(user2=None):
     with dbapi2.connect(app.config['dsn']) as connection:
         post_like = PostLike(connection=connection)
         post_comment = PostComments(connection=connection)
+        posts_hashtag = PostHashtag(connection=connection)
         cursor = connection.cursor()
 
         query = """select id,username from users"""
