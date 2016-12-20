@@ -50,7 +50,8 @@ class PostComments:
     def save(self):
         if self.savable:
             self.__cursor.execute("""INSERT INTO postcomments (postid,userid,comment) VALUES (%s,%s,%s)""",[self.post_id,self.user_id,self.comment])
-
+            self.__connection.commit()
+            
     def delete(self):
         self.__cursor.execute("""DELETE FROM postcomments WHERE id=%s """,[self.pcid])
         self.__connection.commit()
