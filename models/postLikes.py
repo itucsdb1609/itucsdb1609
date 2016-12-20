@@ -50,13 +50,16 @@ class PostLike:
 
     def update_like_type(self):
         self.__cursor.execute("""UPDATE postlikes SET liketype =%s WHERE id=%s""",[self.like_type,self.plid])
+        self.__connection.commit()
 
     def save(self):
         if self.savable:
             self.__cursor.execute("""INSERT INTO postlikes (postid,userid,liketype) VALUES (%s,%s,%s)""",[self.post_id,self.user_id,self.like_type])
-
+            self.__connection.commit()
+            
     def delete(self):
         self.__cursor.execute("""DELETE FROM postlikes WHERE id=%s """,[self.plid])
+        self.__connection.commit()
 
 
 
