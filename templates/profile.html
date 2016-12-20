@@ -542,7 +542,7 @@
 											  <button type="button" class="btn btn-default" onclick="CommentsBar('{{ postid }}',this,'open')">Show Comments</button>
 											  <button type="button" class="btn btn-default" onclick="AddCommentBar('{{ postid }}',this,'open')">Add Comment</button>
 											</div>
-										  </form>
+										 
 										  <br>
 										  <div id="post-like{{ postid }}" >
 											  {% if postsLikes[postid] %}
@@ -576,6 +576,7 @@
 											  		<span class="text-center text-danger">No Comments</span>
 											  {% endif %}
 										  </div>
+											   </form>
 									  </div>
 			            		</div>
 					</div>
