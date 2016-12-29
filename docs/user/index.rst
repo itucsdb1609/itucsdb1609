@@ -26,7 +26,7 @@ with navbar in this picture, you can navigate to desired page
 
 .. toctree::
 
-   member1
+   Ali ERCAN
    member2
    member3
    member4
