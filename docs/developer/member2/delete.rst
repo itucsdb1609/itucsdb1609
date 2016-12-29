@@ -1,54 +1,29 @@
-Delete Cars,Engines and Creators
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Delete Brands and Founders
+^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-At car_delete.html page we take input from user for deleting cars,engines or creator based on their names.And we send this infos into deleting function that inside in server.py
-We have 3 deleting functions.All of them we take name of the items.Then in DELETE FROM table_name WHERE Name = input_variable format we execute cursor and delete this items in tables.
+Delete operation is done by entity IDs. The entities have their IDs integrated on the table id. The table ids are in the "table_<entity_id>" format.
+The id value is also placed inside the delete button in the value field.
 
 .. code-block:: python
 
-   @app.route('/car_delete',methods = ['GET','POST'])
-   def car_delete():
-       if request.method =='POST':
-           car_name = request.form['car_name']
-           with dbapi2.connect(app.config['dsn']) as connection:
-               cursor = connection.cursor()
-               query =  """DELETE FROM CARS WHERE Name=%s"""
-               cursor.execute(query,([car_name]))
-               connection.commit()
-           return redirect(url_for('home'))
-       else:
-            now = datetime.datetime.now()
-            return render_template('car_delete.html')
+   <form action="{{ url_for('brands_db', operation='delete_founder') }}" method="post">
+                   <button class="delete_button red" name="delete" value="{{id}}" type="submit">
+                     <span class="icon-minus "></span>
+                   </button>
+                 </form>
+
+As it can be seen in the snippet, pressing the delete button will sent the id value as an argument via POST method. This case applies for brands and founders tables. Both deletions are done in the same way.
+
+.. code-block:: python
+
+   if request.method == 'POST':
+      brand_id = request.form['delete']
+
+      with dbapi2.connect(app.config['dsn']) as connection:
+          cursor = connection.cursor()
+          cursor.execute("DELETE FROM BRANDS WHERE Id = %s ", ([brand_id]))
+          connection.commit()
+
+Deleting a brand will cause the deletion of the founder but deleting the founder will not cause the deletion of the brand.
 
 
-   @app.route('/engine_delete',methods = ['GET','POST'])
-   def engine_delete():
-       engine_list =[]
-       if request.method =='POST':
-           engine_name = request.form['engine_name']
-           with dbapi2.connect(app.config['dsn']) as connection:
-               cursor = connection.cursor()
-
-               query =  """DELETE FROM ENGINES WHERE Engine_Name=%s"""
-               cursor.execute(query,([engine_name]))
-               connection.commit()
-           return redirect(url_for('home'))
-       else:
-            now = datetime.datetime.now()
-            return render_template('car_delete.html')
-
-   @app.route('/creator_delete',methods = ['GET','POST'])
-   def creator_delete():
-
-       if request.method =='POST':
-           creator_name = request.form['creator_name']
-           with dbapi2.connect(app.config['dsn']) as connection:
-               cursor = connection.cursor()
-
-               query =  """DELETE FROM CREATORS WHERE Name=%s"""
-               cursor.execute(query,([creator_name]))
-               connection.commit()
-           return redirect(url_for('home'))
-       else:
-            now = datetime.datetime.now()
-            return render_template('car_delete.html')

@@ -1,16 +1,28 @@
 User Guide
 ==========
 
-**explain how your application works from the user perspective, use
-screenshots whereever appropriate**
+**SOCIALBUM WEB APPLICATION**
 
-**to add a picture, use the following example**::
+Our Website is social media platform like instagram.So Users can follow eachother and they share image as posts.
+with navbar in this picture, you can navigate to desired page
 
-   .. figure:: picture.png
-      :scale: 50 %
-      :alt: map to buried treasure
+.. figure:: Logo.png
+   :scale: 20 %
+   :alt: LOGO
+   :align: center
 
-      This is the caption of the figure (a simple paragraph).
+   This is our icon. This icon is created for this project.
+
+
+.. figure:: navbar.png
+   :scale: 80 %
+   :alt: NAVBAR
+   :align: center
+
+   This is our navbar for navigation on the website.You can easily understand routed page
+
+**Group Members**
+#################
 
 .. toctree::
 
@@ -19,4 +31,3 @@ screenshots whereever appropriate**
    member3
    member4
    member5
-   

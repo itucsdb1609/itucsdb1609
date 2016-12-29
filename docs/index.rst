@@ -1,17 +1,17 @@
-Welcome to itucsdb's documentation!
-===================================
+Welcome to itucsdb1609's documentation!
+=======================================
 
-:Team: Team Name
+:Team: SOCIALBUM
 
 :Members:
 
    * Member 1
-   * Member 2
+   * EKREM CIHAD CETIN 150110125
    * Member 3
    * Member 4
    * Member 5
 
-**project description goes here (a few paragraphs)**
+**Socialbum is a web application which is inspired by Instagram. Using Socialbum, you can share and manage your pictures, follow and followed by your friends, like your followings’ posts, make comments and so on.**
 
 Contents:
 
