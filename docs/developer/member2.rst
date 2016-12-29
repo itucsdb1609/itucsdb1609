@@ -7,63 +7,96 @@ The primary key is "id" and the foreign key is userid in this table. Posts own i
 The followers and followings is dependent to follow table. Each follow has to have a followerid and followingid from the users table. In the interface, following a user is made by clicking the FOLLOW button, however if they are already in the table, so UNFOLLOW button is seen in the interface
  And you can change profile picture which adding registered default. In register function, added new profile picture to user. Profile pictures table consist of userid and profilepiclink. So each user has got one profile pic. They can not delete profile picture, they just can delete them.
 
+
+
 Profile Picture add
 
-..  code-block:: python
-	cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (1,'http://laelith.fr/Cours/Illus/013-avatar-faceprofil.jpg')""")
+.. code-block:: python
+
+   cursor.execute("""INSERT INTO PROFILEPIC (USERID, LINK) VALUES (1,'http://laelith.fr/Cours/Illus/013-avatar-faceprofil.jpg')""")
 
 Post Add
 
-..  code-block:: python
-	cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-27 16:05:25','http://images.freeimages.com/images/previews/fcb/feeling-down-at-the-park-1432442.jpg','PARK' )""")
+.. code-block:: python
+
+   cursor.execute("""INSERT INTO POSTS (USERID, DATE,LINK,DESCRIPTION) VALUES (3,'2016-11-27 16:05:25','http://images.freeimages.com/images/previews/fcb/feeling-down-at-the-park-1432442.jpg','PARK' )""")
 
 Follow Add
-..  code-block:: python
-	cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (6,1)""")
+
+.. code-block:: python
+
+   cursor.execute("""INSERT INTO FOLLOW (FOLLOWER, FOLLOWING) VALUES (6,1)""")
 
 The database operations are done from the "initialize_db_func" function in the server.py file. It takes the argument as operation variable and makes the requested operation. The operation list is:
 
-============== =============
-OPERATION      SUB OPERATION
-============== =============
-listbrands     name,
-               industry,
-               year,
-               website,
-               image,
-               comment,
-               country
-listfounders   name,
-               surname
-listjoint      fname,
-               surname,
-               bname,
-               year,
-               industry,
-               website,
-               description
-add_brand
-add_founder
-delete_brand
-delete_founder
-edit_brand
-edit_founder
-============== =============
+=================== ===================
+OPERATION      		SUB OPERATION
+=================== ===================
+users				username,
+					name,
+					surname,
+					mail,
+					gender,
+               		school,
+               		city
+listposts      		id,userid,link,
+               		date,
+               		description
+listfollewer   		followerid,
+               		followingid
+listfollewing  		followerid,
+               		followingid
+add_post
+add_profilepic
+add_follower
+add_following
+delete_post
+delete_follower
+delete_following
+update_post
+update_profilepic
+=================== ===================
 
 The sub operations are not taken as a different variable, instead they are gatheren in the same "operation" variable. The sub operation string is splitted with a "-" from the main operation. In the pyton code, it there is a try catch mechanism to split the text.
 
 .. code-block:: python
-   splitted = operation.split('-', 1)
-   operation = splitted[0]
-   #print(splitted)
-   try:
-      sub_operation = splitted[1]
-      make_sub_operation = True
-   except:
-      #print("Single String, not splitted")
-      make_sub_operation = False
 
-The main and sub operation is gathered by this piece of code and the flag is set whether if there will be a sub operation or not. The only sub operations are on the listing phase. After this part, the corresponding operation is done by if-elif-else statements.
+   <form class="form-horizontal" method="post" >
+
+		<div class="form-group" style="margin-top:50px ">
+		 	<input type = "hidden" name="id" value={{id}}>
+		 	<input type = "hidden" name="username" value={{username}}>
+			<label class="control-label col-sm-2 col-xs-2 col-md-2 col-lg-2" for="pwd">Image Url:</label>
+			<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
+				<input type="text" name="ADD"   class="form-control" id="pwd" placeholder="Enter Image Url" required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')">
+
+			</div>
+			<hr>
+			<div class="col-xs-offset-2 col-xs-10 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
+				<a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:231px;">
+					<span class="glyphicon glyphicon-download"></span> Take link from "Hızlı Resim"
+				</a>
+				<a href="http://resimyukle.xyz/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:231px;">
+					<span class="glyphicon glyphicon-download"></span> Take link from "Resim Yukle"
+				</a>
+				<a href="https://postimage.org/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:231px;">
+					<span class="glyphicon glyphicon-download"></span> Take link from "PostImage"
+				</a>
+			</div>
+			<hr><br>
+			<div>
+				<label class="control-label col-xs-2 col-sm-2 col-md-2 col-lg-2" for="pwd">Description:</label>
+				<div class="col-xs-10 col-sm-10 col-md-10 col-lg-10" >
+					<input type="text" name="DESC"   class="form-control" id="pwd" placeholder="Enter Description" >
+				</div>
+			</div>
+			<hr><br>
+			<div class="col-xs-offset-2 col-xs-10 col-sm-offset-2 col-sm-10 col-md-offset-2 col-md-10 col-lg-offset-2 col-lg-10">
+				<button type="submit" class="btn btn-default" name="EKLE">Add</button>
+			</div>
+	 	</div>
+
+	</form>
 
 .. toctree::
    member2/list

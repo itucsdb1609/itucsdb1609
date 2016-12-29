@@ -37,7 +37,7 @@ After that tables are created and some default values are inserted. For example:
 **Code**
 ########
 
-The code is written in Python 3.4.3. It is used in html documents to create the dynamic tables. Javascript also used for creating a responsive interface along with css. jQuery is used as a framework.
+The code is written in Python 3.5.2. It is used in html documents to create the dynamic tables. Javascript also used for creating a responsive interface along with css. jQuery is used as a framework.
 
 **Group Members**
 #################

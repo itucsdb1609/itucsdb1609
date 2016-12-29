@@ -1,42 +1,34 @@
-Add Brands and Founders
-^^^^^^^^^^^^^^^^^^^^^^^
+Add POSTS,FOLLOW,PROFILEPICTURE
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-The adding operation is done according to the main operation. There are two adding functions: one for brandsa and one for founders.
-On the html page, when the fields are filled and add button is pressed, the server receives a POST method and the filled fields are taken as arguments.
-With this information, the adding operation is done easily.
+I create a post object and I fill this with HTML tags
 
 .. code-block:: python
 
-   if request.method =='POST':
-      brand_name = request.form['brand-name']
-      description = request.form['description']
-      foundation = request.form['foundation']
-      imagelink = request.form['imagelink']
-      website = request.form['website']
-      industry = request.form['industry']
-      country = request.form['country']
-
-So far, the filled informations are taken as variables. For the brands, the country variable is a string and it needs to be changed to a integer which correspnds to the entered string.
+   def save(self):
+        self.__cursor.execute("""INSERT INTO POSTS (USERID,DATE,LINK,DESCRIPTION ) VALUES (%s,%s,%s,%s)""",[self.user_id, self.date, self.link, self.description])
 
 .. code-block:: python
 
-   with dbapi2.connect(app.config['dsn']) as connection:
-       cursor = connection.cursor()
+   if 'EKLE' in request.form:
+                Image = request.form['ADD']
+                id=request.form['id']
+                desc=request.form['DESC']
+                username=request.form['username']
 
-       query = """SELECT Id FROM COUNTRIES WHERE COUNTRIES.countries = '""" + country + """'"""
-       cursor.execute(query)
+                Newpost = posts( user_id=id, description=desc, date=now.strftime("%Y-%m-%d %H:%M:%S"), link=Image, connection=connection)
+                Newpost.save()
 
-       countryid = None
-       for record in cursor:
-           countryid = record
+                return redirect(url_for('profile_page',user=username))
 
-Now the id for the requested country is taken and it is ready to be add.
+So far, the filled informations are taken as variables. For the Posts, the description variable is a string and it needs to be changed to a text which corresponds to the entered string.
+
+
 
 .. code-block:: python
 
-    query = """INSERT INTO BRANDS (Name, Comment, Foundation, Image, Industry, Website, CountryId) VALUES (%s, %s, %s, %s, %s, %s, %s);"""
-    cursor.execute(query, (brand_name,description,foundation,imagelink,industry,website, countryid[0]))
-    connection.commit()
+   profilpic=ProfilePic(connection=connection,picid=registeruser.search_id_for_username(),link='http://www.maxibayan.com/wp-content/uploads/2014/10/instagram-avatar-5.png')
+   		profilpic.save()
 
-The brand is added succesfully. Adding the founder is pretty much the same.
+The profilepic is added succesfully with register
 

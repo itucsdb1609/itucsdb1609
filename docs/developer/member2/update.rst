@@ -1,58 +1,62 @@
-Update Brands and Founders
+Update POST,PROFILEPICTURE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-Update is the most complex part of the application. It is implemented as "edit". The brands and founders edit is again pretty much the same. Whenever the edit button is pressed on the one of the tables,
-the field is replaced with an input box, filled with previous information. This is done by javascript. The edit button also contains the id as a value to pass to the edit function via javascript call.
-
-.. code-block:: java
-
-    table = document.getElementById("table_" + id);
-
-    table.cells[0].innerHTML = "<input form='edit_" + id + "' type='text' name='brand-name' placeholder='Name' maxlength='25' value='" + table.cells[0].innerHTML.trim() + "'>";
-    table.cells[1].innerHTML = "<input form='edit_" + id + "' type='text' name='industry' placeholder='Industry' maxlength='20' value='" + table.cells[1].innerHTML.trim() + "'>";
-    table.cells[2].innerHTML = "<input form='edit_" + id + "' type='number' name='foundation' placeholder='Year' min='1800' max='2015' value='" + parseInt(table.cells[2].innerHTML) + "'>";
-    table.cells[3].innerHTML = "<input form='edit_" + id + "' type='text' name='website' placeholder='Website' maxlength='25' value='" + table.cells[3].innerHTML.trim() + "'>";
-    table.cells[4].innerHTML = "<input form='edit_" + id + "' type='text' name='imagelink' placeholder='Image Link' maxlength='50' value='" + table.cells[4].innerHTML.trim() + "'>";
-    table.cells[5].innerHTML = "<input form='edit_" + id + "' type='text' name='description' placeholder='Description' maxlength='75' value='" + table.cells[5].innerHTML.trim() + "'>";
-    table.cells[6].innerHTML = "<input form='edit_" + id + "' type='text' name='country' placeholder='Country' maxlength='15' value='" + table.cells[6].innerHTML.trim() + "'>";
-
-    $(document.getElementsByClassName("edit_delete_forms_" + id)).html("<button form='edit_" + id + "' class='edit_finalize_button green' name='edit' value='" +id+"' type='submit'>" +
-       "<span class='icon-checkmark'>Update</span>" +
-   "</button>" +
-    "</form>");
-
-The table is selected by the table id which is created using the entity id. This id is given as a parameter to this function. After the table selection, each cell of the table is replaced with an input field and the value field is filled with the current values on the cells.
-After that, the current buttons on the operation section is replaced with an "Update" button. When this button is pressed, the entered arguments are sent by POST method.
-Python handles the remaining job by updating the table values. First, the attributes are taken as variables:
+You can Update Profile Picture as Default with registration.
 
 .. code-block:: python
 
-   new_name = request.form['brand-name']
-   new_description = request.form['description']
-   new_foundation = request.form['foundation']
-   new_imagelink = request.form['imagelink']
-   new_website = request.form['website']
-   new_industry = request.form['industry']
-   new_country = request.form['country']
-   edit = request.form['edit']
+   def update_pic(self):
+        self.__cursor.execute("""UPDATE profilepic SET link=%s WHERE userid =%s""",[self.link,self.picid])
+        self.__connection.commit()
 
-
-Again, the country should be converted to an ID value. This is done by a simple search as in the add operation. Finally, the update query is executed.
+Server Side profile Picture Update
 
 .. code-block:: python
 
-   with dbapi2.connect(app.config['dsn']) as connection:
-       cursor = connection.cursor()
+   if 'UPDATE' in request.form:
+                userid = request.form['PROFILE']
+                username=request.form['USERNAME']
+                link = request.form['NEWLINK']
 
-       query = """SELECT Id FROM COUNTRIES WHERE COUNTRIES.countries = '""" + new_country + """'"""
-       cursor.execute(query)
+                Newprofilepic = ProfilePic( picid=userid, link=link, connection=connection)
+                Newprofilepic.update_pic()
 
-       countryid = None
-       for record in cursor:
-           countryid = record
+HTML side of cHange Profile Picture. You can see Routed link for Local image like HizliResim
 
-       query = """UPDATE BRANDS SET (Name, Comment, Foundation,  Image, Industry, Website, CountryId) = (%s, %s,%s,%s,%s,%s,%s) WHERE ID = %s;"""
-       cursor.execute(query, (new_name, new_description, new_foundation, new_imagelink, new_industry, new_website, countryid[0], edit))
-       connection.commit()
+.. code-block:: python
 
+   <form method="POST" role="form">
+		<input type="hidden" name="PROFILE" value={{ id }} >
+		<input type="hidden" name="USERNAME" value={{ username }} >
+		<input type="text" name="NEWLINK" id="NEWLINK" placeholder="New Picture Url " style="width: 100%; " required oninvalid="setCustomValidity('Please fill out this field')" oninput="setCustomValidity('')"  ><br><hr>
+	<div >
+		<a href="https://hizliresim.com/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
+			<span class="glyphicon glyphicon-download"></span>Link from "Hızlı Resim"
+		</a>
+		<a href="http://resimyukle.xyz/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
+			<span class="glyphicon glyphicon-download"></span>Link from "Resim Yukle"
+		</a>
+		<a href="https://postimage.org/" target="_blank" id="code" type="submit" class="btn btn-success" style="width:180px;">
+			<span class="glyphicon glyphicon-download"></span>Link from "PostImage"
+		</a>
+	</div>
+	<hr>
+		<button type="button" class="btn btn-default" data-dismiss="modal" style="position: relative; top: 10px; left: 390px;">Close</button>
+		<button class="btn btn-default" type="submit" name="UPDATE" style="position: relative; top: 10px; left: 400px; background-color: #03C9A9; color: white;">Change</button>
+	</form>
 
+Update Post Server side
+
+.. code-block:: python
+
+   if 'POSTUPDATE' in request.form:
+        postid = request.form['postid']
+        username=request.form['username']
+        desc=request.form['DESC']
+        link=request.form['ImageUrl']
+
+        Newpost = posts( postid=postid, description=desc, date=now.strftime("%Y-%m-%d %H:%M:%S"), link=link, connection=connection)
+        Newpost.update_post()
+
+        return redirect(url_for('profile_page',user=username))
+
+So HTML Side and model update is same profile picture. FOr Follow Table, no need Update Functions.
