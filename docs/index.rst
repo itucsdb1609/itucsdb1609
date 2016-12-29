@@ -5,7 +5,7 @@ Welcome to itucsdb1609's documentation!
 
 :Members:
 
-   * Member 1
+   * Ali ERCAN - 040090506
    * EKREM CIHAD CETIN 150110125
    * Member 3
    * Member 4
