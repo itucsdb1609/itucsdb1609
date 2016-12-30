@@ -32,7 +32,7 @@ You can easily update your hashtag by pressing the green button.
    :alt: Update
    :align: center
    
- .. figure:: member5_update2.png
+.. figure:: member5_update2.png
    :scale: 80 %
    :alt: Update
    :align: center  
