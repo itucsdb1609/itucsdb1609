@@ -22,6 +22,8 @@ If you already added a hashtag to your post but if after you decided not to use 
    :scale: 80 %
    :alt: Delete a hashtag
    :align: center
+   
+   You can delete a hashtag easily.
 
 Update a Hashtag
 ^^^^^^^^^^^^^^^^^
@@ -32,10 +34,14 @@ You can easily update your hashtag by pressing the green button.
    :alt: Update
    :align: center
    
+   Update a hashtag
+   
 .. figure:: member5_update2.png
    :scale: 80 %
    :alt: Update
    :align: center  
+   
+   Update a hashtag
 
 
 Explore page 
@@ -47,19 +53,21 @@ You can see the all hashtags in the explore page ordered by adding date. And the
    :alt: Explore page 
    :align: center
 
-   You can see the hashtags left side of the page.
+   Explore page.
 
 .. figure:: member5_hashtags.png
    :scale: 80 %
    :alt: Hashtags ordered by date
    :align: center
 
-   When you click on a hashtag, you will see the all photos which has that hashtag. 
+   You can see the hashtags left side of the page.
 
 .. figure:: member5_hashtagsphotos.png
    :scale: 80 %
    :alt: See all photos with a hashtag
    :align: center
+   
+   When you click on a hashtag, you will see the all photos which has that hashtag.
 
 Editing Favourite Books in Your Profile Page
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -71,9 +79,12 @@ You can easily add your favourite books in your profile. You can see the favouri
    :alt: Add a book 
    :align: center
    
+   Add a book
+   
 .. figure:: member5_addbook.png
    :scale: 80 %
    :alt: Book added
    :align: center   
    
+   Book addedee
    
