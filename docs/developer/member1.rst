@@ -7,7 +7,6 @@ Developer Guide
 .. toctree::
    member5/login
    member5/register
-   member5/authentication
    member5/admin
    member5/logout
 
