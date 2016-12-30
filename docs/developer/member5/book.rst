@@ -1,5 +1,5 @@
-Add POSTS,FOLLOW,PROFILEPICTURE
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Books
+^^^^^
 
 I create a post object and I fill this with HTML tags
 
