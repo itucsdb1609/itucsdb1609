@@ -2,8 +2,8 @@ Parts Implemented by Mehmet Dinçer Bozdoğan 040080222
 ================================================
 
 
-Explore Page and Favourites
-^^^^^^^^^^^^^^^^^^^^^^^^^^^
+Adding a New Hashtag
+^^^^^^^^^^^^^^^^^^^^^
 In the Explore page, you can see to hashtags, and if you click on a hashtags, you will see the all photos with that hashtag ordered by the added date. 
 In your own profile page, you can add a new hashtag, delete and hashtag or update an hashtag under your post. 
 
@@ -12,87 +12,68 @@ In your own profile page, you can add a new hashtag, delete and hashtag or updat
    :alt: Add an hashtag for your post 
    :align: center
 
-   This page and this default avatar profile picture are for registered new user. Posts and follow sections are blank
+   This button can provide owner of post to add a hashtag. 
 
-Profile Picture Processes
-^^^^^^^^^^^^^^^^^^^^^^^^^^
-The profile of the newly registered user on the site can be changed with the "Change Profile Pic" button on the upper left.
+Delete a Hashtag
+^^^^^^^^^^^^^^^^^
+If you already added a hashtag to your post but if after you decided not to use that hashtag for that post, you can easily delete a hashtag to press "X" button
 
-.. figure:: member2_2changeprofilepic.png
+.. figure:: member5_deletehashtag.png
    :scale: 80 %
-   :alt: Profile page-change profile picture
+   :alt: Delete a hashtag
    :align: center
 
-With the modal that comes after the button click, you can set the URL of the image you want and change the profile picture.
+Update a Hashtag
+^^^^^^^^^^^^^^^^^
+You can easily update your hashtag by pressing the green button. 
 
-.. figure:: member2_3changeprofilepicmodal.png
+.. figure:: member5_update1.png
    :scale: 80 %
-   :alt: Profile page-profile picture modal
+   :alt: Update
    :align: center
+   
+ .. figure:: member5_update2.png
+   :scale: 80 %
+   :alt: Update
+   :align: center  
 
-   You can get the image URL you want to use with the help of routed links below.
 
-Image Processes
+Explore page 
 ^^^^^^^^^^^^^^^
-You can add photos, add descriptions, add hashtags as posts.
+You can see the all hashtags in the explore page ordered by adding date. And the most popular hashtag will be seen with a photo in the page. 
 
-.. figure:: member2_4addimage.png
+.. figure:: member5_explore.png
    :scale: 80 %
-   :alt: Profile page-add image
+   :alt: Explore page 
    :align: center
 
-   The new image created by adding the URL and Description will appear with the users following you.
+   You can see the hashtags left side of the page.
 
-.. figure:: member2_5galleryimageslider.png
+.. figure:: member5_hashtags.png
    :scale: 80 %
-   :alt: Profile page-Gallery image slider
+   :alt: Hashtags ordered by date
    :align: center
 
-   On the "Gallery" tab you can see all the images added. You can also open the image slider by clicking on the image, you can see all the images with the help of the arrows.
+   When you click on a hashtag, you will see the all photos which has that hashtag. 
 
-.. figure:: member2_6posts.png
+.. figure:: member5_hashtagsphotos.png
    :scale: 80 %
-   :alt: Profile page-POSTS
+   :alt: See all photos with a hashtag
    :align: center
 
-   All photos uploaded to the site will appear as post like Instagram. Posts have got Description, comments, likes, hashtag and  date.
-
-.. figure:: member2_7updatedelete.png
+Editing Favourite Books in Your Profile Page
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+You can easily add your favourite books in your profile. You can see the favourite books of your following people in their profiles.     
+    
+    
+.. figure:: member5_addbook.png
    :scale: 80 %
-   :alt: Profile page-Post update Delete
+   :alt: Add a book 
    :align: center
-
-   You can also change the properties of your posts and delete your posts.
-
-
-.. figure:: member2_8updatemodal.png
+   
+.. figure:: member5_addbook.png
    :scale: 80 %
-   :alt: Profile page-Update Post
-   :align: center
-
-   You can see update post modal process above picture with new Description.
-
-Follow Processes
-^^^^^^^^^^^^^^^^
-
-You have to follow this place to see what others share. You can look at the profile of the person with the "suggestion for you" tab on the main page.
-
-.. figure:: member2_9followstatus.png
-   :scale: 80 %
-   :alt: Profile page-Follow Status
-   :align: center
-
-   When you enter someone else's page, you will see "Follow Status" on the profile picture. If you do not follow the person, "FOLLOW" will appear. If you are following, you can unfollow with the "UNFOLLOW" button.
-
-
-.. figure:: member2_9nofollowingnofollower.png
-   :scale: 80 %
-   :alt: Profile page-Follow Status UNfollow
-   :align: center
-
-   You can see unfollow status.
-
-
-
-
-Thanks for visiting all the parts of my page, you should start by creating an account to better understand the site :)
+   :alt: Book added
+   :align: center   
+   
+   
