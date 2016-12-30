@@ -7,7 +7,7 @@ Welcome to itucsdb1609's documentation!
 
    * Ali ERCAN - 040090506
    * EKREM CIHAD CETIN 150110125
-   * Member 3
+   * Ahmet Çağlar BAYATLI - 040100031
    * Member 4
    * Mehmet Dinçer Bozdoğan 040080222
 

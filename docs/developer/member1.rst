@@ -56,8 +56,8 @@ Create Table Queries for GENDER
     cursor.execute("""CREATE TABLE GENDER (ID  SERIAL PRIMARY KEY,TYPE character varying(10) NOT NULL )""")
 
 .. toctree::
-   member5/login
-   member5/register
-   member5/admin
-   member5/logout
+   member1/login
+   member1/register
+   member1/admin
+   member1/logout
 
