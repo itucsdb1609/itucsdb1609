@@ -39,7 +39,7 @@ You can easily update your hashtag by pressing the green button.
 
 
 Explore page 
-^^^^^^^^^^^^^^
+^^^^^^^^^^^^^
 You can see the all hashtags in the explore page ordered by adding date. And the most popular hashtag will be seen with a photo in the page. 
 
 .. figure:: member5_explore.png
