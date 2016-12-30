@@ -22,9 +22,9 @@ After you added interests on this field, they are shown as in below.
    :alt: Home page - added interest
    :align: center
    
-   Also you can see the little buttons top-right side of the each interest and these are used for update and delete operations.
+Also you can see the little buttons top-right side of the each interest and these are used for update and delete operations.
    
-   UPDATE INTERESTS
+UPDATE INTERESTS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can update your interests using update button and it is shown as in below. 
@@ -34,10 +34,10 @@ You can update your interests using update button and it is shown as in below.
    :alt: Home page - update interest
    :align: center
    
-   After you update your interest you can cancel this operation using cross button or you can save it using green tick sign.
+After you update your interest you can cancel this operation using cross button or you can save it using green tick sign.
    
    
-     DELETE INTERESTS
+DELETE INTERESTS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can delete your interests using delete button and it will not appear anymore on your interests. 
@@ -47,9 +47,9 @@ You can delete your interests using delete button and it will not appear anymore
    :alt: Home page - delete interest
    :align: center
    
-  As an example "football" interest is deleted.
+As an example "football" interest is deleted.
   
-     INTERESTS ON PROFILE PAGE
+INTERESTS ON PROFILE PAGE
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Interest field takes place also at your profile page.
@@ -59,9 +59,9 @@ Interest field takes place also at your profile page.
    :alt: Profile page - interest field
    :align: center
    
-  Here, you can just view the interests; but you can't make any changes.
+Here, you can just view the interests; but you can't make any changes.
   
-    LIKE BUTTONS
+LIKE BUTTONS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 At homepage, you can like your followings' post using like buttons.
@@ -71,9 +71,9 @@ At homepage, you can like your followings' post using like buttons.
    :alt: Home page - Likes
    :align: center
    
-  You can also view who likes that post using "Likes" button.
+You can also view who likes that post using "Likes" button.
   
-    ADDING A COMMENT
+ADDING A COMMENT
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can make a comment on a post that you can view on your homepage. 
@@ -83,9 +83,9 @@ You can make a comment on a post that you can view on your homepage.
    :alt: Home page - Add Comment
    :align: center
    
-  After you made your comment you can send it using "Save" button that exists in below.
+After you made your comment you can send it using "Save" button that exists in below.
   
-    SHOW COMMENTS
+SHOW COMMENTS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 You can view the comments using "Show Comments" button.  
@@ -95,10 +95,10 @@ You can view the comments using "Show Comments" button.
    :alt: Home page - Show Comment
    :align: center
    
-  If you are owner a comment, you can also delete it using red cross sign.
+If you are owner a comment, you can also delete it using red cross sign.
   
   
-      NOTIFICATIONS PAGE WITH NO ACTION
+NOTIFICATIONS PAGE WITH NO ACTION
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 After you get any like or comment these actions are listed on your notifications page. Here is a view when not any likes or comments exist for the user. 
@@ -109,7 +109,7 @@ After you get any like or comment these actions are listed on your notifications
    :align: center
    
   
-        NOTIFICATIONS PAGE WITH LIKES AND COMMENTS
+NOTIFICATIONS PAGE WITH LIKES AND COMMENTS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 After you get any like or comment these actions are listed on your notifications page. Here there are two comments and one like and this site is shown as below.
