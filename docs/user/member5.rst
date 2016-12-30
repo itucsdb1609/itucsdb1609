@@ -66,23 +66,23 @@ You can easily add your favourite books in your profile. You can see the favouri
    
    Add a book
    
-.. figure:: member5_addbook.png
+.. figure:: member5_addbook2.png
    :scale: 80 %
    :alt: Artists
    :align: center   
    
    Book added
    
-.. figure:: member5_artist.png
+.. figure:: member5_artists.png
    :scale: 80 %
    :alt: Book added
    :align: center 
    
    Favourite Artist
    
-.. figure:: member5_artists.png
+.. figure:: member5_artist.png
    :scale: 80 %
    :alt: Artist added 
    :align: center       
    
-   Favourite Artist 
+   Favourite Artist added 
