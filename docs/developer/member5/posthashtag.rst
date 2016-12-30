@@ -1,8 +1,6 @@
 Posthashtags
 ^^^^^^^^^^^^
 
-
-
 .. code-block:: python
 
 

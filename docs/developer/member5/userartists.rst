@@ -1,8 +1,6 @@
 userartist
 ^^^^^^^^^^
 
-
-
 .. code-block:: python
 
 class UserArtist:

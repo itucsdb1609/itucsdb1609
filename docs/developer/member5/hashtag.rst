@@ -1,9 +1,6 @@
 Hashtags
 ^^^^^^^^
 
-
-
-
 .. code-block:: python
 
 class Hashtag:

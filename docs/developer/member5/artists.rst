@@ -1,8 +1,6 @@
 Favourite artist
 ^^^^^^^^^^^^^^^^
 
-
-
 .. code-block:: python
 
 

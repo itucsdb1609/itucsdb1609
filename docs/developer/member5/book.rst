@@ -1,8 +1,6 @@
 Books
 ^^^^^
 
-
-
 .. code-block:: python
 
 

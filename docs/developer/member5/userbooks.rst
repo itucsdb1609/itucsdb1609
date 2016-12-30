@@ -1,8 +1,6 @@
 userbooks
 ^^^^^^^^^
 
-
-
 .. code-block:: python
 
 
