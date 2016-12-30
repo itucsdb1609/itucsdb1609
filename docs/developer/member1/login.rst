@@ -29,7 +29,7 @@ Moreover, our server.py class includes login method. This method calls authentic
 .. code-block:: python
 
    @app.route('/login',methods = ['GET','POST'])
-def login():
+   def login():
     if request.method == 'POST':
         with dbapi2.connect(app.config['dsn']) as connection:
             auth=Login(request.form['username'],request.form['password'],connection)
