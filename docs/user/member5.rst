@@ -86,3 +86,6 @@ You can easily add your favourite books in your profile. You can see the favouri
    :align: center       
    
    Favourite Artist added 
+   
+   
+And you can register to our site and explore the Socialbum.       
