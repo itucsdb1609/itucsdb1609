@@ -3,7 +3,7 @@ Parts Implemented by Ali ERCAN - 040090506
 
 Developer Guide
 
-Our database create users, userlogin, school, city, gender tables.
+Initialization of database objects which users, userlogin, school, city and gender tables actualize in the initialize_db.py.
 
 Create Table Queries for USERS
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
