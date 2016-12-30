@@ -82,6 +82,20 @@ Delete interest is implemented here, if you use delete button on your interest, 
         self.__cursor.execute("""DELETE FROM interests WHERE id=%s """,[self.iid])
         self.__connection.commit()
 
+Interest operations on "server.py" is shown below: New interest, delete interest, update interest
+
+.. code-block:: python
+
+      elif 'newInterest' in request.form:
+          new_interest=Interest(interest_name=request.form['interestName'],user_id=user_id,connection=connection)
+          new_interest.save()
+      elif 'deleteInterest' in request.form:
+          new_interest = Interest(iid=request.form['deleteInterest'], connection=connection)
+          new_interest.delete()
+      elif 'updateInterest' in request.form:
+          interest = Interest(iid=request.form['updateInterest'],connection=connection)
+          interest.update_interest(request.form['updatedName'])
+           
 End of Interests
 
 LIKE OPERATIONS
@@ -161,6 +175,25 @@ Unlike operation is implemented here, if a user press the delete button, plid is
     def delete(self):
         self.__cursor.execute("""DELETE FROM postlikes WHERE id=%s """,[self.plid])
         self.__connection.commit()
+        
+Like and unlike operations on "server.py" is shown below:
+
+.. code-block:: python
+
+      elif 'like' in request.form:
+          post_id = request.form['postId']
+          like_type = request.form['like']
+          new_like = PostLike(post_id=post_id, user_id=user_id, like_type=like_type, connection=connection)
+          if not new_like.search_like_by_user_id_and_post_id():
+              new_like.save()
+       else:
+           new_like.update_like_type()
+           
+ .. code-block:: python
+   
+         elif 'unlike' in request.form:
+          like = PostLike(plid=request.form['unlike'], connection=connection)
+          like.delete()
 
 End of Like Operations
 
@@ -228,6 +261,24 @@ Here delete comment operation is implemented. This can be done by deleting id of
         self.__cursor.execute("""DELETE FROM postcomments WHERE id=%s """,[self.pcid])
         self.__connection.commit()
 
+Comment operations on "server.py" is shown below:
+
+.. code-block:: python
+
+      elif 'saveComment' in request.form:
+          post_id = request.form['postId']
+          comment =request.form['comment']
+          new_comment = PostComments(post_id=post_id, user_id=user_id, comment=comment, connection=connection)
+          saved_comment=new_comment.get_comment_by_user_id_and_post_id()
+          if saved_comment!=comment:
+              new_comment.save()
+           
+ .. code-block:: python
+   
+         elif 'uncomment' in request.form:
+             comment = PostComments(pcid=request.form['uncomment'], connection=connection)
+             comment.delete()
+
 End of Comment Operations
 
 NOTIFICATIONS
@@ -281,8 +332,27 @@ User can also go to the profile page of the user who likes or comments and for t
         if uid:
             self.user_id=uid
             
-  
+In "server.py" , notification is defined as follow. Session is used and if a logged-in user can see their notifications on the notification page. First, the list of comments and likes are empty. After getting likes and comments using the functions get_all_comments() and get_all_likes() the list is filled and those likes and comments can be listed.            
+ 
+.. code-block:: python
 
+   @app.route('/notification', methods = ['GET','POST'])
+   def notification_page():
+    if 'username' in session:
+        user = session['username']
+    else:
+        return redirect(url_for('login'))
+    comments=[]
+    likes=[]
+    if user:
+        with dbapi2.connect(app.config['dsn']) as connection:
+            notification=Notifications(username=user,connection=connection)
+            comments=notification.get_all_comments()
+            likes =notification.get_all_likes()
+
+    return render_template('notification.html',user=user, comments=comments,likes=likes)  
+
+End of Notifications
 
 
 
