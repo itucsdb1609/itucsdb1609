@@ -6,7 +6,7 @@ Login Page of Socialbum
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 There is two textbox for username and password at Login page. You have to input username and password correctly at this textboxes. Since, you can only login to web site by user authentication. If you have not an account, you have to register a new membership. You can use "Register a new membership" link for create a new account.
 
-.. figure:: mmember1_login1.png
+.. figure:: member1_login1.png
    :scale: 80 %
    :alt: Login to site 
    :align: center
