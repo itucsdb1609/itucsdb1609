@@ -1,8 +1,7 @@
 Parts Implemented by Mehmet Dinçer Bozdoğan 040080222
 ================================================
 
-
-=================== ===================
+Developer Guide
 
 
 .. toctree::
