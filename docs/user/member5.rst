@@ -39,7 +39,7 @@ You can easily update your hashtag by pressing the green button.
 
 
 Explore page 
-^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^
 You can see the all hashtags in the explore page ordered by adding date. And the most popular hashtag will be seen with a photo in the page. 
 
 .. figure:: member5_explore.png
@@ -62,7 +62,7 @@ You can see the all hashtags in the explore page ordered by adding date. And the
    :align: center
 
 Editing Favourite Books in Your Profile Page
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 You can easily add your favourite books in your profile. You can see the favourite books of your following people in their profiles.     
     
     
