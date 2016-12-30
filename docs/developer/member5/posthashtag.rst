@@ -1,7 +1,7 @@
 Posthashtags
 ^^^^^^^^^^^^
 
-I create a post object and I fill this with HTML tags
+
 
 .. code-block:: python
 
