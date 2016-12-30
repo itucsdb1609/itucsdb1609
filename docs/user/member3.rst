@@ -14,7 +14,7 @@ In the home page you can see posts that shared by users who you follow.
 
    For a new registered user, home page will meet you with an default profile picture. But no post to view and lots of suggested users.
    
-.. figure:: member3_generalviewofhomepage.png
+.. figure:: member3_generalviewofuserhome.png
    :scale: 80 %
    :alt: Home Page-General view
    :align: center
