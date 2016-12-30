@@ -29,7 +29,7 @@ After you added interests on this field, they are shown as in below.
 
 You can update your interests using update button and it is shown as in below. 
 
-.. figure:: member4_3_added_interest.JPG
+.. figure:: member4_3_update_interest.JPG
    :scale: 80 %
    :alt: Home page - update interest
    :align: center
@@ -42,7 +42,7 @@ You can update your interests using update button and it is shown as in below.
 
 You can delete your interests using delete button and it will not appear anymore on your interests. 
 
-.. figure:: member4_3_updated_deleted_interest.JPG
+.. figure:: member_4_4_updated_deleted_interests.JPG
    :scale: 80 %
    :alt: Home page - delete interest
    :align: center
@@ -54,7 +54,7 @@ You can delete your interests using delete button and it will not appear anymore
 
 Interest field takes place also at your profile page.
 
-.. figure:: member4_5_interest_profile_page.JPG
+.. figure:: member_4_5_interest_profile_page.JPG
    :scale: 80 %
    :alt: Profile page - interest field
    :align: center
